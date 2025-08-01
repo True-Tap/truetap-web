@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueTap - Pitch Deck</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #f5f1eb;
+            color: #2d1810;
+            overflow: hidden;
+        }
+        
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            position: relative;
+            overflow: hidden;
+            padding: 60px 40px;
+            box-sizing: border-box;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 20px;
+            }
+            
+            .logo-mark {
+                margin-top: 60px;
+                margin-bottom: 24px;
+            }
+            
+            .brand-name {
+                font-size: 58px;
+                margin-bottom: 26px;
+                letter-spacing: -1px;
+            }
+            
+            .tagline {
+                font-size: 30px;
+                margin-bottom: 20px;
+            }
+            
+            .sub-tagline {
+                font-size: 20px;
+                margin-bottom: 30px;
+                max-width: 480px;
+            }
+            
+            .hackathon-badge {
+                font-size: 14px;
+                padding: 12px 24px;
+            }
+            
+            .logo-mark img {
+                width: 120px;
+            }
+            
+            .nav {
+                bottom: 20px;
+                gap: 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-mark {
+                margin-top: 40px;
+                margin-bottom: 20px;
+            }
+            
+            .brand-name {
+                font-size: 42px;
+                margin-bottom: 18px;
+            }
+            
+            .tagline {
+                font-size: 22px;
+                margin-bottom: 16px;
+            }
+            
+            .sub-tagline {
+                font-size: 16px;
+                margin-bottom: 24px;
+                max-width: 350px;
+            }
+            
+            .hackathon-badge {
+                font-size: 12px;
+                padding: 10px 20px;
+            }
+            
+            .logo-mark img {
+                width: 100px;
+            }
+        }
+        
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 120px);
+        }
+        
+        /* Navigation */
+        .nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            border-radius: 50%;
+            background: rgba(45, 24, 16, 0.3);
+            position: relative;
+        }
+        
+        
+        .nav-dot.active {
+            background: transparent;
+            transform: scale(2);
+            width: 24px;
+            height: 24px;
+        }
+        
+        .nav-dot img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .nav-dot.active img {
+            display: block;
+        }
+        
+        
+        /* Navigation arrows */
+        .nav-arrow {
+            position: fixed;
+            bottom: 36px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 18px;
+            color: #2d1810;
+            z-index: 1000;
+        }
+        
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+        
+        .nav-arrow.left {
+            left: calc(50% - 140px);
+        }
+        
+        .nav-arrow.right {
+            right: calc(50% - 140px);
+        }
+        
+        .nav-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        /* Special Flappy Bird dot */
+        .flappy-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(45, 24, 16, 0.3);
+            border-radius: 50%;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .flappy-dot-text {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            color: rgba(45, 24, 16, 0.6);
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-dot:nth-child(4) {
+            position: relative;
+        }
+        
+        .nav-dot:nth-child(4).active .flappy-dot {
+            opacity: 1;
+            display: block;
+        }
+        
+        .nav-dot:nth-child(4).active .flappy-dot-text {
+            opacity: 1;
+        }
+        
+        /* Make sure the flappy dot is always visible when on slide 4 for debugging */
+        
+        .flappy-dot:hover {
+            transform: translateX(-50%) scale(1.1);
+            background: rgba(45, 24, 16, 0.5);
+        }
+        
+        
+
+        /* Flappy Bird Game */
+        .flappy-game {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
+            z-index: 9999;
+            display: none;
+            overflow: hidden;
+        }
+        
+        
+        .flappy-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: pointer;
+        }
+        
+        .flappy-ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 24px;
+            font-weight: bold;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+        }
+        
+        .flappy-intro {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            z-index: 10;
+            animation: introFadeIn 1s ease-out;
+        }
+        
+        .flappy-title {
+            font-size: 64px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.7);
+            color: #FFD700;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+        
+        .flappy-subtitle {
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            color: white;
+        }
+        
+        .flappy-start-hint {
+            font-size: 20px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            color: #87CEEB;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .flappy-esc-hint {
+            font-size: 16px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            color: #B0C4DE;
+            opacity: 0.8;
+        }
+        
+        .flappy-instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+        
+        @keyframes introFadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 4px 4px 8px rgba(0,0,0,0.7), 0 0 20px rgba(255,215,0,0.5); }
+            to { text-shadow: 4px 4px 8px rgba(0,0,0,0.7), 0 0 30px rgba(255,215,0,0.8); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        .flappy-game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .flappy-restart {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        .flappy-restart:hover {
+            background: #e55a2b;
+        }
+        
+        /* Slide 1 - Title */
+        .slide1 {
+            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
+        }
+        
+        /* VO Sync Support */
+        [data-vo-sync="intro"] {
+            animation-delay: var(--vo-delay, 0.8s);
+        }
+        
+        .vo-ready .tagline {
+            animation-delay: var(--vo-tagline-delay, 0.8s);
+        }
+        
+        .vo-ready .sub-tagline {
+            animation-delay: var(--vo-subtitle-delay, 1.2s);
+        }
+        
+        .vo-ready .hackathon-badge {
+            animation-delay: var(--vo-badge-delay, 1.6s);
+        }
+        
+        .logo-mark {
+            margin-top: 60px;
+            margin-bottom: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeUp 1s ease-out 0.2s forwards;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .logo-mark::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 166, 92, 0.1) 0%, rgba(245, 241, 235, 0.05) 40%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            transition: all 0.4s ease;
+        }
+        
+        
+        .logo-mark img {
+            width: 140px;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        
+        
+        
+        @keyframes glowPulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 166, 92, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255, 166, 92, 0.5), 0 0 40px rgba(255, 107, 53, 0.3);
+            }
+        }
+        
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        h1 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 72px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #8B5A3C 0%, #A0522D 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .brand-name {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 84px;
+            font-weight: 900;
+            margin: 0 0 36px 0;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1.5px;
+            line-height: 1.0;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 0.4s forwards;
+        }
+        
+        .tagline {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 42px;
+            font-weight: 600;
+            opacity: 0;
+            margin-bottom: 28px;
+            color: #2C2C2C;
+            line-height: 1.2;
+            animation: fadeUp 1s ease-out 0.6s forwards;
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+            to {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+        }
+        
+        .sub-tagline {
+            font-size: 28px;
+            font-weight: 400;
+            opacity: 0;
+            margin-bottom: 42px;
+            line-height: 1.4;
+            color: #4C4C4C;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeUp 1s ease-out 0.8s forwards;
+        }
+        
+        @keyframes fadeUpDelay {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 0.7;
+                transform: translateY(0);
+            }
+        }
+        
+        .hackathon-badge {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            padding: 14px 28px;
+            border-radius: 9999px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 1.0s forwards;
+            display: inline-block;
+            color: white;
+        }
+        
+        
+        /* Slide 2 - Problem */
+        .slide2 {
+            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
+            position: relative;
+        }
+        
+        .slide2 .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        
+        .problem-title {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+        
+        .problem-grid {
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        @media (max-width: 768px) {
+            .problem-grid {
+                flex-direction: column;
+                gap: 24px;
+                align-items: center;
+            }
+            
+            .problem-card {
+                width: 320px;
+                height: 380px;
+            }
+            
+            .problem-stat {
+                font-size: 40px;
+            }
+            
+            .problem-icon {
+                font-size: 56px;
+            }
+            
+            .problem-title {
+                font-size: 36px;
+                margin-bottom: 32px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .slide2 .slide-content {
+                padding: 0 16px;
+            }
+            
+            .problem-card {
+                padding: 24px 20px;
+                width: 300px;
+                height: 360px;
+            }
+            
+            .problem-stat {
+                font-size: 36px;
+            }
+            
+            .problem-title {
+                font-size: 32px;
+            }
+        }
+        
+        .problem-card {
+            background: #FEFEFE;
+            padding: 32px 24px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+            transform: translateY(40px);
+            width: 320px;
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-2px) scale(1.05);
+            background: #F5F5F5;
+            box-shadow: 0 8px 25px rgba(45, 24, 16, 0.15);
+        }
+        
+        .problem-card.animate {
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .problem-card:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .problem-card:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+        
+        .problem-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .problem-icon {
+            font-size: 64px;
+            line-height: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            height: 80px;
+            margin-bottom: 0;
+            flex-shrink: 0;
+            padding-top: 8px;
+        }
+        
+        .problem-stat {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: #FA652E;
+            margin: 12px 0;
+            line-height: 1.1;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60px;
+        }
+        
+        .problem-card:nth-child(3) .problem-stat {
+            font-size: 48px;
+            line-height: 1.2;
+        }
+        
+        .problem-desc {
+            font-size: 14px;
+            color: #4C4C4C;
+            line-height: 1.5;
+            margin: 12px 0;
+            flex-grow: 1;
+            display: flex;
+            align-items: flex-start;
+            text-align: center;
+        }
+        
+        .problem-footnote {
+            font-size: 12px;
+            color: #888;
+            margin-top: 12px;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+        
+        
+        /* Slide 3 - Solution */
+        .slide3 {
+            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
+            position: relative;
+        }
+        
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: #2d1810;
+            border-radius: 40px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(45, 24, 16, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            opacity: 0;
+            transform: rotateZ(-2deg);
+            animation: phoneEntrance 0.8s ease-out 0.6s forwards;
+        }
+        
+        @keyframes phoneEntrance {
+            to {
+                opacity: 1;
+                transform: rotateZ(0deg);
+            }
+        }
+        
+        .phone-screen {
+            width: 280px;
+            height: 580px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e, #ff8a65 100%);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tap-animation {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+        
+        .tap-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            animation: sparkleFloat 3s ease-in-out infinite;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .tap-tappy {
+            margin-bottom: 16px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .tap-text {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .crypto-icons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            opacity: 0.9;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .crypto-icon {
+            color: #fff;
+            font-size: 12px;
+        }
+        
+        .crypto-label {
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        @keyframes glowPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(255, 166, 92, 0.6);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 40px rgba(255, 166, 92, 0.8);
+            }
+        }
+        
+        @keyframes sparkleFloat {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-8px) scale(1.05);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+        
+        .solution-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 48px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 64px 48px;
+        }
+        
+        @media (max-width: 768px) {
+            .solution-content {
+                flex-direction: column;
+                gap: 40px;
+                text-align: center;
+                padding: 40px 24px;
+            }
+            
+            .solution-title {
+                font-size: 48px;
+            }
+            
+            .phone-mockup {
+                width: 250px;
+                height: 500px;
+            }
+            
+            .phone-screen {
+                width: 230px;
+                height: 480px;
+            }
+            
+            .tap-icon {
+                font-size: 48px;
+            }
+            
+            .tap-text {
+                font-size: 24px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .solution-title {
+                font-size: 42px;
+            }
+            
+            .solution-subtitle {
+                font-size: 16px;
+            }
+            
+            .features-container {
+                padding: 24px;
+                margin-top: 20px;
+            }
+            
+            .phone-mockup {
+                width: 220px;
+                height: 440px;
+            }
+            
+            .phone-screen {
+                width: 200px;
+                height: 420px;
+            }
+        }
+        
+        .solution-text {
+            flex: 1;
+            max-width: 500px;
+        }
+        
+        .solution-title {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 60px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: -30px 0 8px 0;
+            line-height: 1.1;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        }
+        
+        .solution-subtitle {
+            font-size: 18px;
+            color: #4C4C4C;
+            margin-bottom: 32px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        }
+        
+        .features-container {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(45, 24, 16, 0.1);
+            border: 1px solid rgba(250, 101, 46, 0.1);
+            margin-top: 24px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease-out 0.5s forwards;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:nth-child(1) { animation: fadeInUp 0.4s ease-out 0.8s forwards; }
+        .feature-item:nth-child(2) { animation: fadeInUp 0.4s ease-out 1.0s forwards; }
+        .feature-item:nth-child(3) { animation: fadeInUp 0.4s ease-out 1.2s forwards; }
+        .feature-item:nth-child(4) { animation: fadeInUp 0.4s ease-out 1.4s forwards; }
+        
+        .feature-item:hover {
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .feature-icon {
+            font-size: 20px;
+            background: rgba(250, 101, 46, 0.1);
+            color: #FA652E;
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+        }
+        
+        .feature-text {
+            flex: 1;
+        }
+        
+        .feature-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2C2C2C;
+            margin-bottom: 4px;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            color: #4C4C4C;
+            font-style: italic;
+        }
+        
+        /* Slide 4 - Innovation */
+        .slide4 {
+            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
+        }
+        
+        .slide4 .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        
+        .innovation-title {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 48px;
+            text-align: center;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        }
+        
+        @media (max-width: 640px) {
+            .innovation-title {
+                font-size: 60px;
+            }
+        }
+        
+        .innovation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .innovation-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+        
+        .innovation-card {
+            background: #FEFEFE;
+            border-radius: 16px;
+            border-top: 3px solid #ff6b35;
+            padding: 32px 24px;
+            box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(40px);
+            position: relative;
+        }
+        
+        .innovation-card:hover {
+            background: #F5F5F5;
+            box-shadow: 0 8px 25px rgba(45, 24, 16, 0.15);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .innovation-card:nth-child(1) {
+            animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        }
+        
+        .innovation-card:nth-child(2) {
+            animation: fadeInUp 0.6s ease-out 0.6s forwards;
+        }
+        
+        .innovation-card:nth-child(3) {
+            animation: fadeInUp 0.6s ease-out 0.8s forwards;
+        }
+        
+        .innovation-card:nth-child(4) {
+            animation: fadeInUp 0.6s ease-out 1.0s forwards;
+        }
+        
+        
+        .innovation-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #888;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .innovation-value {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: #FA652E;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+        
+        @media (max-width: 640px) {
+            .innovation-value {
+                font-size: 48px;
+            }
+        }
+        
+        .innovation-desc {
+            font-size: 14px;
+            color: #4C4C4C;
+            line-height: 1.6;
+        }
+        
+        /* Slide 5 - Traction */
+        .slide5 {
+            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
+        }
+        
+        .slide5 .slide-content {
+            max-width: 1152px;
+            margin: 0 auto;
+            padding: 80px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .traction-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .traction-title {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        }
+        
+        @media (max-width: 640px) {
+            .traction-title {
+                font-size: 60px;
+            }
+        }
+        
+        .traction-subtitle {
+            font-size: 16px;
+            color: #4C4C4C;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        }
+        
+        .demo-layout {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 600px;
+        }
+        
+        .demo-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 320px;
+        }
+        
+        
+        @media (max-width: 768px) {
+            .demo-layout {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                min-height: auto;
+            }
+            
+            .demo-phone {
+                width: 240px;
+                height: 480px;
+                margin: 0 auto;
+            }
+            
+            .demo-phone-screen {
+                width: 220px;
+                height: 460px;
+            }
+            
+        }
+        
+        @media (max-width: 480px) {
+            .demo-phone {
+                width: 200px;
+                height: 400px;
+            }
+            
+            .demo-phone-screen {
+                width: 180px;
+                height: 380px;
+            }
+            
+            .demo-icon {
+                font-size: 48px;
+            }
+            
+            .demo-title {
+                font-size: 20px;
+            }
+            
+            .demo-subtitle {
+                font-size: 14px;
+            }
+        }
+        
+        .demo-card {
+            background: #FEFEFE;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
+            padding: 48px 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 320px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .demo-card:nth-child(1) {
+            animation: fadeInUp 0.6s ease-out 0.6s forwards;
+        }
+        
+        .demo-card:nth-child(3) {
+            animation: fadeInUp 0.6s ease-out 0.8s forwards;
+        }
+        
+        .demo-card-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .demo-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FA652E;
+            margin-bottom: 8px;
+        }
+        
+        .demo-card-desc {
+            font-size: 14px;
+            color: #4C4C4C;
+        }
+        
+        .plus-icon {
+            font-size: 32px;
+            color: #FA652E;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.7s forwards;
+        }
+        
+        /* Demo phone mockups similar to magic screen */
+        .demo-phone {
+            width: 280px;
+            height: 560px;
+            background: #2d1810;
+            border-radius: 35px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(45, 24, 16, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .demo-phone:nth-child(1) {
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+        }
+        
+        .demo-phone:nth-child(3) {
+            animation: fadeInUp 0.8s ease-out 0.8s forwards;
+        }
+        
+        .demo-phone-screen {
+            width: 260px;
+            height: 540px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e, #ff8a65 100%);
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-phone-content {
+            text-align: center;
+            padding: 40px 24px;
+        }
+        
+        .demo-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+        
+        .demo-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .demo-subtitle {
+            font-size: 16px;
+            opacity: 0.8;
+            margin-bottom: 32px;
+        }
+        
+        .demo-features {
+            text-align: left;
+        }
+        
+        .demo-feature {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            padding-left: 8px;
+        }
+        
+        
+        .code-snippet {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            box-shadow: 0 4px 20px rgba(45, 24, 16, 0.1);
+            width: 100%;
+            text-align: left;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.8s forwards;
+        }
+        
+        .code-comment {
+            color: #6a737d;
+        }
+        
+        .code-keyword {
+            color: #ff6b35;
+        }
+        
+        .code-string {
+            color: #f7931e;
+        }
+        
+        /* Slide 6 - The future is one tap away */
+        .slide6 {
+            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
+            color: #2C2C2C;
+            padding: 96px 24px;
+        }
+        
+        .future-container {
+            max-width: 1024px;
+            margin: 0 auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .future-title {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 900;
+            font-size: 80px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .future-title.animate {
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .future-statement {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 400;
+            font-size: 28px;
+            line-height: 1.5;
+            color: #4C4C4C;
+            margin: 16px 0 48px 0;
+            max-width: 800px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .future-statement.animate {
+            animation: fadeInUp 0.8s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .vision-stats {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 32px;
+            margin-bottom: 48px;
+            width: 100%;
+        }
+        
+        .vision-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .vision-stat.animate:nth-child(1) {
+            animation: fadeInUp 0.8s 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .vision-stat.animate:nth-child(2) {
+            animation: fadeInUp 0.8s 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .vision-stat.animate:nth-child(3) {
+            animation: fadeInUp 0.8s 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .vision-stat-number {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 900;
+            font-size: 48px;
+            color: #FA652E;
+            margin-bottom: 8px;
+        }
+        
+        .vision-stat-label {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            color: #4C4C4C;
+            text-align: center;
+        }
+        
+        .demo-cta {
+            background: #FA652E;
+            color: white;
+            border-radius: 100px;
+            padding: 16px 24px;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(250, 101, 46, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(40px);
+            margin-bottom: 40px;
+        }
+        
+        .demo-cta.animate {
+            animation: fadeInUp 0.8s 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .demo-cta:hover {
+            background: #e95b25;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 48px rgba(250, 101, 46, 0.4);
+        }
+        
+        
+        @media (min-width: 640px) {
+            .future-title {
+                font-size: 96px;
+            }
+            
+            .vision-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 64px;
+            }
+            
+            .vision-stat-number {
+                font-size: 56px;
+            }
+        }
+        
+        /* Back to Home Button */
+        .back-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            color: var(--primary-orange);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .back-home:hover {
+            background: var(--primary-orange);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Home Button -->
+    <a href="index.html" class="back-home">
+        <i class="ph ph-arrow-left"></i>
+        Back to Home
+    </a>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <div class="nav-dot active" onclick="goToSlide(0)">
+            <img src="Images/Tappy.png" alt="Slide 1">
+        </div>
+        <div class="nav-dot" onclick="goToSlide(1)">
+            <img src="Images/Tappy.png" alt="Slide 2">
+        </div>
+        <div class="nav-dot" onclick="goToSlide(2)">
+            <img src="Images/Tappy.png" alt="Slide 3">
+        </div>
+        <div class="nav-dot" onclick="goToSlide(3)">
+            <img src="Images/Tappy.png" alt="Slide 4">
+            <div class="flappy-dot-text">Need a break?</div>
+            <div class="flappy-dot" onclick="startFlappyBird(event)"></div>
+        </div>
+        <div class="nav-dot" onclick="goToSlide(4)">
+            <img src="Images/Tappy.png" alt="Slide 5">
+        </div>
+        <div class="nav-dot" onclick="goToSlide(5)">
+            <img src="Images/Tappy.png" alt="Slide 6">
+        </div>
+    </div>
+    
+    <!-- Navigation arrows -->
+    <div class="nav-arrow left" id="nav-arrow-left" onclick="previousSlide()">←</div>
+    <div class="nav-arrow right" id="nav-arrow-right" onclick="nextSlide()">→</div>
+
+
+    <!-- Flappy Bird Game -->
+    <div class="flappy-game" id="flappy-game">
+        <canvas class="flappy-canvas" id="flappy-canvas"></canvas>
+        <div class="flappy-ui">
+            <div>Score: <span id="flappy-score">0</span></div>
+            <div>High Score: <span id="flappy-high-score">0</span></div>
+        </div>
+        <div class="flappy-instructions" id="flappy-instructions" style="display: none;">
+            Click or Press Space to Flap!<br>
+            <small>ESC to return to presentation</small>
+        </div>
+        <div class="flappy-game-over" id="flappy-game-over">
+            <h2>Game Over!</h2>
+            <p>Score: <span id="final-score">0</span></p>
+            <p>High Score: <span id="final-high-score">0</span></p>
+            <button class="flappy-restart" onclick="restartFlappyBird()">Play Again</button>
+            <button class="flappy-restart" onclick="exitFlappyBird()">Return to Presentation</button>
+        </div>
+    </div>
+
+
+    <!-- Slide 1: Title -->
+    <div class="slide slide1 active">
+        <div class="logo-mark">
+            <img src="Images/Tappy.png" alt="Tappy Logo" />
+        </div>
+        <h1 class="brand-name">TrueTap</h1>
+        <p class="tagline" data-vo-sync="tagline">Payments. Reimagined.</p>
+        <p class="sub-tagline" data-vo-sync="subtitle">The next evolution of Solana payments.</p>
+    </div>
+
+    <!-- Slide 2: Problem -->
+    <div class="slide slide2">
+        <div class="slide-content">
+            <h2 class="problem-title">Crypto payments are broken</h2>
+            <div class="problem-grid">
+            <div class="problem-card animate">
+                <div class="problem-icon"><i class="ph ph-puzzle-piece"></i></div>
+                <div class="problem-stat">89%</div>
+                <div class="problem-desc">of merchants say integration complexity is the #1 reason they avoid crypto payments.</div>
+                <div class="problem-footnote">Source: PYMNTS 2023</div>
+            </div>
+            <div class="problem-card animate">
+                <div class="problem-icon"><i class="ph ph-timer"></i></div>
+                <div class="problem-stat">30+ Seconds</div>
+                <div class="problem-desc">Crypto payments take too long in a world that wants everything yesterday. Friction breaks trust.</div>
+                <div class="problem-footnote">Source: Chainalysis, Solana Docs</div>
+            </div>
+            <div class="problem-card animate">
+                <div class="problem-icon"><i class="ph ph-robot"></i></div>
+                <div class="problem-stat">TrueTap is Different</div>
+                <div class="problem-desc">We lead with user experience, not engineering complexity. That's why people use us — and stick with us.</div>
+                <div class="problem-footnote">UX-first. Built for Solana. Designed for humans.</div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Solution -->
+    <div class="slide slide3">
+        <div class="solution-content">
+            <div class="solution-text">
+                <h1 class="solution-title">Magic in a tap</h1>
+                <p class="solution-subtitle">Payments this fast feel like magic.</p>
+                <div class="features-container">
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <div class="feature-icon"><i class="ph ph-lightning"></i></div>
+                            <div class="feature-text">
+                                <div class="feature-title">Instant NFC</div>
+                                <div class="feature-desc">Tap-to-pay in under 1 second</div>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-icon"><i class="ph ph-broadcast"></i></div>
+                            <div class="feature-text">
+                                <div class="feature-title">BLE Discovery</div>
+                                <div class="feature-desc">Seamless connection up to 30 feet</div>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-icon"><i class="ph ph-confetti"></i></div>
+                            <div class="feature-text">
+                                <div class="feature-title">BONK Rain</div>
+                                <div class="feature-desc">Group payments that feel like a party</div>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-icon"><i class="ph ph-wrench"></i></div>
+                            <div class="feature-text">
+                                <div class="feature-title">3-line SDK</div>
+                                <div class="feature-desc">Integrate faster than any other crypto stack</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="tap-animation"></div>
+                    <div class="tap-tappy">
+                        <img src="Images/Tappy.png" alt="Tappy" style="width: 80px; height: 80px;">
+                    </div>
+                    <div class="tap-text">Tap to Pay</div>
+                    <div class="crypto-icons">
+                        <span class="crypto-icon"><i class="ph ph-circle-fill"></i></span>
+                        <span class="crypto-label">SOL</span>
+                        <span class="crypto-icon"><i class="ph ph-circle-fill"></i></span>
+                        <span class="crypto-label">USDC</span>
+                        <span class="crypto-icon"><i class="ph ph-circle-fill"></i></span>
+                        <span class="crypto-label">BONK</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Innovation -->
+    <div class="slide slide4">
+        <div class="slide-content">
+            <h2 class="innovation-title">Built different. Built fast.</h2>
+            <div class="innovation-grid">
+                <div class="innovation-card">
+                    <div class="innovation-label">SPEED</div>
+                    <div class="innovation-value">&lt;100ms</div>
+                    <div class="innovation-desc">NFC detection time. Faster than Apple Pay.</div>
+                </div>
+                <div class="innovation-card">
+                    <div class="innovation-label">SCALE</div>
+                    <div class="innovation-value">438 tests</div>
+                    <div class="innovation-desc">Production-ready with CI/CD in under 4 minutes.</div>
+                </div>
+                <div class="innovation-card">
+                    <div class="innovation-label">SECURITY</div>
+                    <div class="innovation-value">Seed Vault</div>
+                    <div class="innovation-desc">Hardware wallet + biometric support built-in.</div>
+                </div>
+                <div class="innovation-card">
+                    <div class="innovation-label">DEVELOPER LOVE</div>
+                    <div class="innovation-value">3 lines</div>
+                    <div class="innovation-desc">From zero to payments. Mock mode included.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Traction -->
+    <div class="slide slide5">
+        <div class="traction-header">
+            <h2 class="traction-title">From idea to impact in weeks</h2>
+            <p class="traction-subtitle">Ready to demo. Ready to scale.</p>
+        </div>
+        
+        <div class="demo-layout">
+            <div class="demo-phone">
+                <div class="demo-phone-screen">
+                    <div class="demo-phone-content">
+                        <div class="demo-icon"><i class="ph ph-device-mobile"></i></div>
+                        <div class="demo-title">App MVP</div>
+                        <div class="demo-subtitle">Live on Seeker</div>
+                        <div class="demo-features">
+                            <div class="demo-feature">• NFC Payments</div>
+                            <div class="demo-feature">• Wallet Integration</div>
+                            <div class="demo-feature">• QR Code Support</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-center">
+                <div class="code-snippet">
+                    <span class="code-comment">// Your app, powered by TrueTap</span><br>
+                    <span class="code-keyword">import</span> { TrueTap } <span class="code-keyword">from</span> <span class="code-string">'@truetap/react-native'</span>;<br><br>
+                    <span class="code-keyword">const</span> payment = <span class="code-keyword">await</span> TrueTap.tap();<br>
+                    <span class="code-comment">// That's it. You're accepting crypto.</span>
+                </div>
+            </div>
+            
+            <div class="demo-phone">
+                <div class="demo-phone-screen">
+                    <div class="demo-phone-content">
+                        <div class="demo-icon"><i class="ph ph-hammer"></i></div>
+                        <div class="demo-title">SDK Core</div>
+                        <div class="demo-subtitle">React Native ready</div>
+                        <div class="demo-features">
+                            <div class="demo-feature">• 3-line Integration</div>
+                            <div class="demo-feature">• Mock Mode</div>
+                            <div class="demo-feature">• TypeScript Ready</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: The future is one tap away -->
+    <div class="slide slide6">
+        <div class="future-container">
+            <h1 class="future-title">The future is one tap away</h1>
+            
+            <p class="future-statement">
+                We're not just building payments.<br>
+                We're crafting moments where crypto feels human.
+            </p>
+            
+            <div class="vision-stats">
+                <div class="vision-stat">
+                    <div class="vision-stat-number">659M</div>
+                    <div class="vision-stat-label">Crypto users ready to tap</div>
+                </div>
+                <div class="vision-stat">
+                    <div class="vision-stat-number">140K+</div>
+                    <div class="vision-stat-label">Seeker pre-orders</div>
+                </div>
+                <div class="vision-stat">
+                    <div class="vision-stat-number">$26T</div>
+                    <div class="vision-stat-label">Mobile payments by 2032</div>
+                </div>
+            </div>
+            
+            <button class="demo-cta">Demo TrueTap</button>
+            
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        let lastDirection = 'front'; // Track last direction used
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.nav-dot');
+
+        function goToSlide(index) {
+            const oldSlide = currentSlide;
+            
+            if (oldSlide === index) return; // No movement needed
+            
+            // Remove active from old slide
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = index;
+            
+            // Activate new slide
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+            
+            // Update Tappy direction and arrows based on slide position
+            setTimeout(() => {
+                updateTappyDirection();
+                updateNavigationArrows();
+            }, 50);
+            
+            // Trigger slide-specific animations
+            triggerSlideAnimations(index);
+        }
+        
+        
+        
+        function triggerSlideAnimations(index) {
+            
+            
+            // Trigger animations for slide 6
+            if (index === 5) {
+                setTimeout(() => {
+                    const futureTitle = document.querySelector('.future-title');
+                    const futureStatement = document.querySelector('.future-statement');
+                    const visionStats = document.querySelectorAll('.vision-stat');
+                    const demoCta = document.querySelector('.demo-cta');
+                    
+                    if (futureTitle) futureTitle.classList.add('animate');
+                    if (futureStatement) futureStatement.classList.add('animate');
+                    if (demoCta) demoCta.classList.add('animate');
+                    
+                    visionStats.forEach(stat => {
+                        stat.classList.add('animate');
+                    });
+                }, 100);
+            }
+        }
+        
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                lastDirection = 'right';
+                goToSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                lastDirection = 'left';
+                goToSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.toLowerCase();
+            
+            if (e.key === 'ArrowRight' || key === 'd') {
+                nextSlide();
+            }
+            if (e.key === 'ArrowLeft' || key === 'a') {
+                previousSlide();
+            }
+            if (key === 'w' || e.key === 'ArrowUp') {
+                if (currentSlide === 3) {
+                    // Special case: start FlappyTappy from slide 4
+                    startFlappyBird(e);
+                } else if (currentSlide > 0) {
+                    lastDirection = 'left';
+                    goToSlide(currentSlide - 1);
+                }
+            }
+            if (key === 's' || e.key === 'ArrowDown') {
+                if (currentSlide < slides.length - 1) {
+                    lastDirection = 'right';
+                    goToSlide(currentSlide + 1);
+                }
+            }
+        });
+
+        
+        // Update Tappy direction based on current slide position
+        function updateTappyDirection() {
+            const activeDot = document.querySelector('.nav-dot.active');
+            if (!activeDot) return;
+            
+            const img = activeDot.querySelector('img');
+            if (!img) return;
+            
+            // At beginning (slide 0) or end (last slide), use front-facing Tappy
+            if (currentSlide === 0 || currentSlide === slides.length - 1) {
+                img.src = 'Images/Tappy.png';
+                lastDirection = 'front';
+            } else {
+                // Use last direction
+                switch(lastDirection) {
+                    case 'right':
+                        img.src = 'Images/TappyLookingRight.png';
+                        break;
+                    case 'left':
+                        img.src = 'Images/TappyLookingLeft.png';
+                        break;
+                    default:
+                        img.src = 'Images/Tappy.png';
+                }
+            }
+        }
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) previousSlide();
+        }
+
+        // Navigation arrow visibility
+        function updateNavigationArrows() {
+            const leftArrow = document.getElementById('nav-arrow-left');
+            const rightArrow = document.getElementById('nav-arrow-right');
+            
+            // Hide left arrow on first slide
+            if (currentSlide === 0) {
+                leftArrow.classList.add('disabled');
+            } else {
+                leftArrow.classList.remove('disabled');
+            }
+            
+            // Hide right arrow on last slide
+            if (currentSlide === slides.length - 1) {
+                rightArrow.classList.add('disabled');
+            } else {
+                rightArrow.classList.remove('disabled');
+            }
+        }
+
+        // Flappy Bird Game
+        let flappyGame = null;
+        
+        function startFlappyBird(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            const gameElement = document.getElementById('flappy-game');
+            gameElement.style.display = 'block';
+            initFlappyBird();
+        }
+        
+        function exitFlappyBird() {
+            const gameElement = document.getElementById('flappy-game');
+            const gameOverElement = document.getElementById('flappy-game-over');
+            
+            gameElement.style.display = 'none';
+            gameOverElement.style.display = 'none'; // Hide game over screen
+            
+            if (flappyGame) {
+                flappyGame.stop();
+                flappyGame = null;
+            }
+        }
+        
+        
+        function restartFlappyBird() {
+            document.getElementById('flappy-game-over').style.display = 'none';
+            if (flappyGame) {
+                flappyGame.restart();
+            }
+        }
+        
+        function initFlappyBird() {
+            const canvas = document.getElementById('flappy-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            // Load FlappyTappy pixel image and SOL coin
+            const tappyImage = new Image();
+            tappyImage.src = 'Images/FlappyTappy.png';
+            
+            const solImage = new Image();
+            solImage.src = 'Images/SOL.png';
+            
+            let gameState = 'waiting'; // waiting, playing, gameOver
+            let score = 0;
+            let highScore = localStorage.getItem('flappyTappyHighScore') || 0;
+            
+            // Update high score display
+            document.getElementById('flappy-high-score').textContent = highScore;
+            let bird = {
+                x: canvas.width / 4,
+                y: canvas.height / 2,
+                width: 48,
+                height: 48,
+                velocity: 0,
+                gravity: 0.08,
+                jumpPower: -5
+            };
+            
+            let pipes = [];
+            let pipeWidth = 60;
+            let pipeGap = 300; // Increased gap between top and bottom pipes
+            let pipeSpeed = 3;
+            let pipeCount = 0; // Track number of pipes created
+            
+            let coins = [];
+            let coinSize = 72; // 1.5x the size of Tappy (48px * 1.5 = 72px)
+            
+            function createPipe() {
+                pipeCount++;
+                let currentGap = pipeGap;
+                
+                // Make first 3 pipes much easier
+                if (pipeCount <= 3) {
+                    currentGap = 350; // Much bigger gap for first 3 pipes
+                } else if (pipeCount <= 6) {
+                    currentGap = 325; // Slightly bigger gap for next 3
+                }
+                
+                let pipeHeight = Math.random() * (canvas.height - currentGap - 200) + 100;
+                
+                pipes.push({
+                    x: canvas.width,
+                    topHeight: pipeHeight,
+                    bottomY: pipeHeight + currentGap,
+                    bottomHeight: canvas.height - (pipeHeight + currentGap),
+                    passed: false,
+                    gap: currentGap
+                });
+                
+                // Occasionally create a coin (40% chance, positioned in the gap between pipes)
+                if (Math.random() < 0.4) {
+                    coins.push({
+                        x: canvas.width + pipeWidth/2 - coinSize/2, // Center horizontally on the pipe gap
+                        y: pipeHeight + currentGap/2 - coinSize/2, // Center vertically in the gap between top and bottom pipes
+                        collected: false
+                    });
+                }
+            }
+            
+            function jump() {
+                if (gameState === 'waiting') {
+                    gameState = 'playing';
+                }
+                if (gameState === 'playing') {
+                    bird.velocity = bird.jumpPower;
+                }
+            }
+            
+            function gameOver() {
+                gameState = 'gameOver';
+                
+                // Check and update high score
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem('flappyTappyHighScore', highScore);
+                    document.getElementById('flappy-high-score').textContent = highScore;
+                }
+                
+                document.getElementById('final-score').textContent = score;
+                document.getElementById('final-high-score').textContent = highScore;
+                document.getElementById('flappy-game-over').style.display = 'block';
+            }
+            
+            function update() {
+                if (gameState !== 'playing') return;
+                
+                // Update bird
+                bird.velocity += bird.gravity;
+                bird.y += bird.velocity;
+                
+                // Check boundaries
+                if (bird.y < 0 || bird.y + bird.height > canvas.height) {
+                    gameOver();
+                    return;
+                }
+                
+                // Update pipes
+                for (let i = pipes.length - 1; i >= 0; i--) {
+                    let pipe = pipes[i];
+                    pipe.x -= pipeSpeed;
+                    
+                    // Remove off-screen pipes
+                    if (pipe.x + pipeWidth < 0) {
+                        pipes.splice(i, 1);
+                        continue;
+                    }
+                    
+                    // Check collision
+                    if (bird.x < pipe.x + pipeWidth && bird.x + bird.width > pipe.x) {
+                        if (bird.y < pipe.topHeight || bird.y + bird.height > pipe.bottomY) {
+                            gameOver();
+                            return;
+                        }
+                    }
+                    
+                    // Score
+                    if (!pipe.passed && bird.x > pipe.x + pipeWidth) {
+                        pipe.passed = true;
+                        score++;
+                        document.getElementById('flappy-score').textContent = score;
+                    }
+                }
+                
+                // Update coins
+                for (let i = coins.length - 1; i >= 0; i--) {
+                    let coin = coins[i];
+                    coin.x -= pipeSpeed;
+                    
+                    // Remove off-screen coins
+                    if (coin.x + coinSize < 0) {
+                        coins.splice(i, 1);
+                        continue;
+                    }
+                    
+                    // Check coin collection
+                    if (!coin.collected && 
+                        bird.x < coin.x + coinSize && 
+                        bird.x + bird.width > coin.x &&
+                        bird.y < coin.y + coinSize && 
+                        bird.y + bird.height > coin.y) {
+                        coin.collected = true;
+                        score += 5; // Bonus points for coins
+                        document.getElementById('flappy-score').textContent = score;
+                    }
+                }
+                
+                // Create new pipes
+                if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 300) {
+                    createPipe();
+                }
+            }
+            
+            function drawPixelatedPipe(ctx, x, y, width, height, isTopPipe) {
+                // Disable smoothing for pixelated effect
+                ctx.imageSmoothingEnabled = false;
+                
+                const pixelSize = 4;
+                const segments = Math.floor(width / pixelSize);
+                const heightSegments = Math.floor(height / pixelSize);
+                
+                // Main pipe body - dark green
+                ctx.fillStyle = '#228B22';
+                ctx.fillRect(x, y, width, height);
+                
+                // Add pipe cap (wider section at the end)
+                const capHeight = 20;
+                const capWidth = width + 8;
+                const capX = x - 4;
+                
+                if (isTopPipe) {
+                    // Top pipe cap at bottom of pipe
+                    ctx.fillStyle = '#2E8B57';
+                    ctx.fillRect(capX, y + height - capHeight, capWidth, capHeight);
+                    
+                    // Cap highlights
+                    ctx.fillStyle = '#32CD32';
+                    ctx.fillRect(capX, y + height - capHeight, capWidth, 4);
+                    ctx.fillRect(capX, y + height - capHeight, 4, capHeight);
+                    
+                    // Cap shadows
+                    ctx.fillStyle = '#1F5F1F';
+                    ctx.fillRect(capX + capWidth - 4, y + height - capHeight, 4, capHeight);
+                    ctx.fillRect(capX, y + height - 4, capWidth, 4);
+                } else {
+                    // Bottom pipe cap at top of pipe
+                    ctx.fillStyle = '#2E8B57';
+                    ctx.fillRect(capX, y, capWidth, capHeight);
+                    
+                    // Cap highlights
+                    ctx.fillStyle = '#32CD32';
+                    ctx.fillRect(capX, y, capWidth, 4);
+                    ctx.fillRect(capX, y, 4, capHeight);
+                    
+                    // Cap shadows
+                    ctx.fillStyle = '#1F5F1F';
+                    ctx.fillRect(capX + capWidth - 4, y, 4, capHeight);
+                    ctx.fillRect(capX, y + capHeight - 4, capWidth, 4);
+                }
+                
+                // Add proper shading gradient from left to right
+                const gradient = ctx.createLinearGradient(x, 0, x + width, 0);
+                gradient.addColorStop(0, '#32CD32');    // Light green highlight on left
+                gradient.addColorStop(0.3, '#228B22');  // Main green
+                gradient.addColorStop(0.7, '#228B22');  // Main green
+                gradient.addColorStop(1, '#1F5F1F');    // Dark shadow on right
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, width, height);
+                
+                // Add black outline to main pipe body
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x, y, width, height);
+                
+                // Add black outline to pipe caps (avoiding overlaps)
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 2;
+                
+                if (isTopPipe) {
+                    // Top pipe cap - draw only the parts that don't overlap with main pipe
+                    const capY = y + height - capHeight;
+                    
+                    // Top edge of cap
+                    ctx.beginPath();
+                    ctx.moveTo(capX, capY);
+                    ctx.lineTo(capX + capWidth, capY);
+                    ctx.stroke();
+                    
+                    // Left edge of cap (only the extended part)
+                    ctx.beginPath();
+                    ctx.moveTo(capX, capY);
+                    ctx.lineTo(capX, capY + capHeight);
+                    ctx.stroke();
+                    
+                    // Right edge of cap (only the extended part)
+                    ctx.beginPath();
+                    ctx.moveTo(capX + capWidth, capY);
+                    ctx.lineTo(capX + capWidth, capY + capHeight);
+                    ctx.stroke();
+                    
+                    // Bottom edge of cap
+                    ctx.beginPath();
+                    ctx.moveTo(capX, capY + capHeight);
+                    ctx.lineTo(capX + capWidth, capY + capHeight);
+                    ctx.stroke();
+                } else {
+                    // Bottom pipe cap - draw only the parts that don't overlap with main pipe
+                    
+                    // Top edge of cap
+                    ctx.beginPath();
+                    ctx.moveTo(capX, y);
+                    ctx.lineTo(capX + capWidth, y);
+                    ctx.stroke();
+                    
+                    // Left edge of cap (only the extended part)
+                    ctx.beginPath();
+                    ctx.moveTo(capX, y);
+                    ctx.lineTo(capX, y + capHeight);
+                    ctx.stroke();
+                    
+                    // Right edge of cap (only the extended part)  
+                    ctx.beginPath();
+                    ctx.moveTo(capX + capWidth, y);
+                    ctx.lineTo(capX + capWidth, y + capHeight);
+                    ctx.stroke();
+                    
+                    // Bottom edge of cap
+                    ctx.beginPath();
+                    ctx.moveTo(capX, y + capHeight);
+                    ctx.lineTo(capX + capWidth, y + capHeight);
+                    ctx.stroke();
+                }
+                
+                // Re-enable smoothing
+                ctx.imageSmoothingEnabled = true;
+            }
+            
+            function draw() {
+                // Clear canvas with pitch deck background
+                ctx.fillStyle = '#FFF4E6';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw FlappyTappy
+                if (tappyImage.complete) {
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(tappyImage, bird.x, bird.y, bird.width, bird.height);
+                    ctx.imageSmoothingEnabled = true;
+                } else {
+                    ctx.fillStyle = '#FF6B35';
+                    ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+                }
+                
+                // Draw detailed pixelated pipes
+                for (let pipe of pipes) {
+                    drawPixelatedPipe(ctx, pipe.x, 0, pipeWidth, pipe.topHeight, true); // Top pipe
+                    drawPixelatedPipe(ctx, pipe.x, pipe.bottomY, pipeWidth, pipe.bottomHeight, false); // Bottom pipe
+                }
+                
+                // Draw SOL coins
+                for (let coin of coins) {
+                    if (!coin.collected && solImage.complete) {
+                        ctx.imageSmoothingEnabled = false;
+                        ctx.drawImage(solImage, coin.x, coin.y, coinSize, coinSize);
+                        ctx.imageSmoothingEnabled = true;
+                    }
+                }
+            }
+            
+            
+            function gameLoop() {
+                update();
+                draw();
+                if (gameState !== 'gameOver') {
+                    requestAnimationFrame(gameLoop);
+                }
+            }
+            
+            // Event listeners
+            canvas.addEventListener('click', jump);
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    jump();
+                } else if (e.code === 'Escape') {
+                    exitFlappyBird();
+                }
+            });
+            
+            // Game object
+            flappyGame = {
+                stop: () => {
+                    gameState = 'gameOver';
+                },
+                restart: () => {
+                    gameState = 'waiting';
+                    score = 0;
+                    bird.y = canvas.height / 2;
+                    bird.velocity = 0;
+                    pipes = [];
+                    coins = [];
+                    pipeCount = 0; // Reset pipe count for easier beginning pipes
+                    document.getElementById('flappy-score').textContent = '0';
+                    gameLoop();
+                }
+            };
+            
+            // Start the game
+            gameLoop();
+        }
+
+        // Initialize navigation arrows on page load
+        updateNavigationArrows();
+
+    </script>
+</body>
+</html>

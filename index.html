@@ -3,115 +3,1203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>True Tap - Advanced Tap-to-Pay for Solana</title>
-    <meta name="description" content="True Tap transforms the Solana Seeker into the world's most advanced payment device. Two phones tap together, and money moves instantly.">
+    <title>True Tap - The Future of Solana Payments</title>
+    <meta name="description" content="True Tap transforms crypto payments with instant NFC tap-to-pay on Solana Mobile. Experience the magic of payments this fast.">
     <link rel="icon" href="/logo.png" type="image/png">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #FF8B3D 0%, #FF6B29 100%);
-            color: #fff;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-orange: #ff6b35;
+            --secondary-orange: #f7931e;
+            --dark-orange: #FA652E;
+            --light-bg: #FFF4E6;
+            --cream-bg: #FFE4CC;
+            --text-dark: #2d1810;
+            --text-medium: #4C4C4C;
+            --text-light: #888;
+            --white: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background: var(--light-bg);
+        }
+        
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 244, 230, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(45, 24, 16, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(255, 244, 230, 0.98);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+        
+        .nav-logo img {
+            width: 48px;
+            height: 48px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-logo:hover img {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .nav-logo span {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-orange);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: radial-gradient(circle at 30% 50%, var(--light-bg) 0%, var(--cream-bg) 100%);
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
         }
-        .container {
-            text-align: center;
-            max-width: 600px;
-            padding: 2rem;
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.05) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
         }
-        .logo {
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+            color: var(--text-medium);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-orange);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-orange);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-orange);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .hero-visual {
+            position: relative;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+        
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: var(--text-dark);
+            border-radius: 40px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(45, 24, 16, 0.3);
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .phone-screen {
+            width: 280px;
+            height: 580px;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange), #ff8a65 100%);
+            border-radius: 30px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .tap-animation {
+            position: absolute;
             width: 120px;
             height: 120px;
-            margin: 0 auto 2rem;
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: tapPulse 2s ease-in-out infinite;
         }
-        h1 {
+        
+        @keyframes tapPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
+            }
+        }
+        
+        .tap-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+            z-index: 2;
+            position: relative;
+            animation: bounceFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes bounceFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .tap-text {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            z-index: 2;
+            position: relative;
+        }
+        
+        /* Stats Section */
+        .stats {
+            background: var(--white);
+            padding: 4rem 2rem;
+            position: relative;
+        }
+        
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        .stat-number {
             font-size: 3rem;
             font-weight: 800;
-            margin: 0 0 1rem;
-            letter-spacing: -0.02em;
+            color: var(--primary-orange);
+            margin-bottom: 0.5rem;
         }
-        .tagline {
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin: 0 0 2rem;
-            opacity: 0.9;
-        }
-        .description {
+        
+        .stat-label {
             font-size: 1.1rem;
-            line-height: 1.6;
-            margin: 0 0 2rem;
-            opacity: 0.8;
+            color: var(--text-medium);
         }
+        
+        /* Features Section */
         .features {
+            padding: 6rem 2rem;
+            background: var(--light-bg);
+        }
+        
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-medium);
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(45, 24, 16, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover::before {
+            transform: translateX(0);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(45, 24, 16, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-orange);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 20px;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .feature-description {
+            color: var(--text-medium);
+            line-height: 1.8;
+        }
+        
+        /* Roadmap Section */
+        .roadmap {
+            padding: 6rem 2rem;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .roadmap-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .roadmap-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .roadmap-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .roadmap-items {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .roadmap-item {
+            flex: 1;
+            text-align: center;
+            padding: 0 1rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .roadmap-item:nth-child(1) { animation-delay: 0.1s; }
+        .roadmap-item:nth-child(2) { animation-delay: 0.3s; }
+        .roadmap-item:nth-child(3) { animation-delay: 0.5s; }
+        .roadmap-item:nth-child(4) { animation-delay: 0.7s; }
+        
+        .roadmap-dot {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border: 4px solid var(--primary-orange);
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .roadmap-item.active .roadmap-dot,
+        .roadmap-dot:hover {
+            background: var(--primary-orange);
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+        }
+        
+        .roadmap-content {
+            background: var(--light-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(45, 24, 16, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .roadmap-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(45, 24, 16, 0.15);
+        }
+        
+        .roadmap-quarter {
+            font-size: 0.9rem;
+            color: var(--primary-orange);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .roadmap-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .roadmap-list {
+            text-align: left;
+            list-style: none;
+        }
+        
+        .roadmap-list li {
+            color: var(--text-medium);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .roadmap-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-orange);
+            font-weight: bold;
+        }
+        
+        /* Problem Section */
+        .problem {
+            padding: 6rem 2rem;
+            background: var(--light-bg);
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .problem-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(45, 24, 16, 0.15);
+        }
+        
+        .problem-stat {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--dark-orange);
+            margin: 1rem 0;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-description {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+        
+        .cta-button {
+            background: white;
+            color: var(--primary-orange);
+            padding: 1.25rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            opacity: 1;
+        }
+        
+        .footer-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
             margin: 2rem 0;
         }
-        .feature {
-            background: rgba(255,255,255,0.1);
-            padding: 1.5rem;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
-        .feature h3 {
-            margin: 0 0 0.5rem;
-            font-size: 1.2rem;
-        }
-        .feature p {
-            margin: 0;
-            opacity: 0.9;
+        
+        .footer-copyright {
+            opacity: 0.6;
             font-size: 0.9rem;
         }
-        .footer {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.2);
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
+        
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .tagline { font-size: 1.2rem; }
-            .container { padding: 1rem; }
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-visual {
+                order: -1;
+                margin-bottom: 2rem;
+            }
+            
+            .phone-mockup {
+                width: 250px;
+                height: 500px;
+            }
+            
+            .phone-screen {
+                width: 230px;
+                height: 480px;
+            }
+            
+            .roadmap-items {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .roadmap-line {
+                top: 0;
+                bottom: 0;
+                left: 50%;
+                width: 4px;
+                height: auto;
+                transform: translateX(-50%);
+            }
+            
+            .roadmap-dot {
+                margin-bottom: 1rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .phone-mockup {
+                width: 200px;
+                height: 400px;
+            }
+            
+            .phone-screen {
+                width: 180px;
+                height: 380px;
+            }
+            
+            .tap-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Loading Animation */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="/logo.png" alt="True Tap Logo" class="logo">
-        <h1>True Tap</h1>
-        <p class="tagline">The world's most advanced tap-to-pay experience</p>
-        <p class="description">
-            Transform your Solana Seeker into the ultimate payment device. 
-            Two phones tap together, and money moves instantly on the Solana blockchain.
-        </p>
-        
-        <div class="features">
-            <div class="feature">
-                <h3>🚀 Instant Payments</h3>
-                <p>Tap two phones together for lightning-fast SOL, USDC, and BONK transfers</p>
-            </div>
-            <div class="feature">
-                <h3>🔒 Secure & Private</h3>
-                <p>Built on Solana with Genesis Token verification for authentic Seeker devices</p>
-            </div>
-            <div class="feature">
-                <h3>📱 NFC + Bluetooth</h3>
-                <p>Advanced hardware integration for seamless peer-to-peer transactions</p>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <img src="Images/Tappy.png" alt="True Tap Logo">
+                <span>True Tap</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#roadmap" class="nav-link">Roadmap</a>
+                <a href="#problem" class="nav-link">Why True Tap</a>
+                <a href="pitch-deck.html" class="nav-cta">View Pitch Deck</a>
             </div>
         </div>
+    </nav>
 
-        <div class="footer">
-            <p>Built for the Solana Mobile Hackathon • Optimized for Solana Seeker</p>
-            <p>&copy; 2025 True Tap. All rights reserved.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Payments. Reimagined.</h1>
+                <p class="hero-subtitle">The next evolution of Solana payments</p>
+                <p class="hero-description">
+                    Transform your Solana Seeker into the world's most advanced payment device. 
+                    Two phones tap together, and money moves instantly. No QR codes. No complex addresses. 
+                    Just the magic of a tap.
+                </p>
+                <div class="hero-buttons">
+                    <a href="pitch-deck.html" class="btn-primary">
+                        <i class="ph ph-presentation-chart"></i>
+                        View Pitch Deck
+                    </a>
+                    <a href="#roadmap" class="btn-secondary">
+                        <i class="ph ph-map-trifold"></i>
+                        See Roadmap
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="tap-animation"></div>
+                        <img src="Images/Tappy.png" alt="Tappy" class="tap-icon">
+                        <div class="tap-text">Tap to Pay</div>
+                        <div style="display: flex; gap: 1rem; z-index: 2; position: relative;">
+                            <span style="opacity: 0.9;">SOL • USDC • BONK</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats fade-in-section">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number">&lt;100ms</div>
+                <div class="stat-label">NFC Detection Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">659M</div>
+                <div class="stat-label">Global Crypto Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">140K+</div>
+                <div class="stat-label">Seeker Pre-orders</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$26T</div>
+                <div class="stat-label">Mobile Payments by 2032</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features fade-in-section">
+        <div class="features-container">
+            <h2 class="section-title">Magic in Every Tap</h2>
+            <p class="section-subtitle">Experience payments that feel like the future, built on Solana's lightning-fast blockchain</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-lightning"></i>
+                    </div>
+                    <h3 class="feature-title">Instant NFC Payments</h3>
+                    <p class="feature-description">
+                        Tap two phones together for sub-second transactions. Faster than Apple Pay, 
+                        powered by Solana's 400ms block times.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-shield-check"></i>
+                    </div>
+                    <h3 class="feature-title">Hardware-Level Security</h3>
+                    <p class="feature-description">
+                        Built on Seed Vault with biometric authentication and Genesis Token verification 
+                        for authentic Seeker devices.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-confetti"></i>
+                    </div>
+                    <h3 class="feature-title">Social Payments</h3>
+                    <p class="feature-description">
+                        BONK Rain for group payments, optional social feed, and fun payment messages. 
+                        Make money social again.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-code"></i>
+                    </div>
+                    <h3 class="feature-title">3-Line SDK</h3>
+                    <p class="feature-description">
+                        Integrate True Tap in minutes, not months. Our React Native SDK makes accepting 
+                        crypto as easy as copy-paste.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-broadcast"></i>
+                    </div>
+                    <h3 class="feature-title">BLE Discovery</h3>
+                    <p class="feature-description">
+                        Bluetooth LE enables seamless connections up to 30 feet. Perfect for crowded 
+                        venues and group payments.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-coins"></i>
+                    </div>
+                    <h3 class="feature-title">Multi-Token Support</h3>
+                    <p class="feature-description">
+                        Native support for SOL, USDC, USDT, and BONK. Instant settlement in stablecoins 
+                        for merchants who need stability.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="roadmap fade-in-section">
+        <div class="roadmap-container">
+            <h2 class="section-title">From Hackathon to Revolution</h2>
+            <p class="section-subtitle">Our journey to making crypto payments mainstream on Solana Mobile</p>
+            
+            <div class="roadmap-timeline">
+                <div class="roadmap-line"></div>
+                <div class="roadmap-items">
+                    <div class="roadmap-item active">
+                        <div class="roadmap-dot"></div>
+                        <div class="roadmap-content">
+                            <div class="roadmap-quarter">Q1 2025</div>
+                            <h3 class="roadmap-title">Hackathon MVP</h3>
+                            <ul class="roadmap-list">
+                                <li>Core NFC tap-to-pay</li>
+                                <li>Seeker app prototype</li>
+                                <li>Basic SDK release</li>
+                                <li>Genesis Token auth</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-item">
+                        <div class="roadmap-dot"></div>
+                        <div class="roadmap-content">
+                            <div class="roadmap-quarter">Q2 2025</div>
+                            <h3 class="roadmap-title">Beta Launch</h3>
+                            <ul class="roadmap-list">
+                                <li>Public beta on Seeker</li>
+                                <li>10+ merchant pilots</li>
+                                <li>Social payments feed</li>
+                                <li>BONK Rain feature</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-item">
+                        <div class="roadmap-dot"></div>
+                        <div class="roadmap-content">
+                            <div class="roadmap-quarter">Q3 2025</div>
+                            <h3 class="roadmap-title">Market Expansion</h3>
+                            <ul class="roadmap-list">
+                                <li>100+ merchants live</li>
+                                <li>Cross-chain support</li>
+                                <li>DeFi integrations</li>
+                                <li>iOS companion app</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-item">
+                        <div class="roadmap-dot"></div>
+                        <div class="roadmap-content">
+                            <div class="roadmap-quarter">Q4 2025</div>
+                            <h3 class="roadmap-title">Mass Adoption</h3>
+                            <ul class="roadmap-list">
+                                <li>1M+ transactions</li>
+                                <li>Global expansion</li>
+                                <li>Hardware partnerships</li>
+                                <li>True Tap Pay network</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problem" class="problem fade-in-section">
+        <div class="features-container">
+            <h2 class="section-title">Why Crypto Payments Are Broken</h2>
+            <p class="section-subtitle">And how True Tap fixes them with Solana Mobile</p>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-puzzle-piece"></i>
+                    </div>
+                    <div class="problem-stat">89%</div>
+                    <p class="feature-description">
+                        of merchants cite integration complexity as the #1 barrier to accepting crypto
+                    </p>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-timer"></i>
+                    </div>
+                    <div class="problem-stat">30+ sec</div>
+                    <p class="feature-description">
+                        Average crypto payment time. In a world of instant gratification, that's forever
+                    </p>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-sparkle"></i>
+                    </div>
+                    <div class="problem-stat">True Tap</div>
+                    <p class="feature-description">
+                        One tap. Sub-second payments. Zero complexity. That's the difference
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2 class="cta-title">The Future is One Tap Away</h2>
+            <p class="cta-description">
+                Ready to experience the magic of instant crypto payments? 
+                Dive into our vision for the future of Solana Mobile commerce.
+            </p>
+            <a href="pitch-deck.html" class="cta-button">
+                <i class="ph ph-presentation-chart"></i>
+                Explore Our Pitch Deck
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <img src="Images/Tappy.png" alt="True Tap" class="footer-logo">
+            <div class="footer-links">
+                <a href="#" class="footer-link">Home</a>
+                <a href="#features" class="footer-link">Features</a>
+                <a href="#roadmap" class="footer-link">Roadmap</a>
+                <a href="pitch-deck.html" class="footer-link">Pitch Deck</a>
+            </div>
+            <div class="footer-divider"></div>
+            <p class="footer-copyright">
+                © 2025 True Tap. Built for Solana Mobile Hackathon. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Animate stat numbers on scroll
+        const animateValue = (element, start, end, duration) => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = element.dataset.prefix + value + element.dataset.suffix;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        };
+
+        // Set up stat animations
+        const statObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    entry.target.classList.add('animated');
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const text = statNumber.textContent;
+                    
+                    if (text === '<100ms') {
+                        statNumber.dataset.prefix = '<';
+                        statNumber.dataset.suffix = 'ms';
+                        animateValue(statNumber, 0, 100, 1000);
+                    } else if (text === '659M') {
+                        statNumber.dataset.prefix = '';
+                        statNumber.dataset.suffix = 'M';
+                        animateValue(statNumber, 0, 659, 1500);
+                    } else if (text === '140K+') {
+                        statNumber.dataset.prefix = '';
+                        statNumber.dataset.suffix = 'K+';
+                        animateValue(statNumber, 0, 140, 1500);
+                    } else if (text === '$26T') {
+                        statNumber.dataset.prefix = '$';
+                        statNumber.dataset.suffix = 'T';
+                        animateValue(statNumber, 0, 26, 1500);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-card').forEach(el => {
+            statObserver.observe(el);
+        });
+
+        // Interactive roadmap
+        const roadmapItems = document.querySelectorAll('.roadmap-item');
+        roadmapItems.forEach(item => {
+            item.addEventListener('click', function() {
+                roadmapItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
