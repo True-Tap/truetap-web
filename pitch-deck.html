@@ -469,7 +469,7 @@
             }
             
             .problem-stat {
-                font-size: 40px;
+                font-size: 24px;
             }
             
             .problem-icon {
@@ -494,7 +494,7 @@
             }
             
             .problem-stat {
-                font-size: 36px;
+                font-size: 22px;
             }
             
             .problem-title {
@@ -504,7 +504,7 @@
         
         .problem-card {
             background: #FEFEFE;
-            padding: 32px 24px;
+            padding: 28px 20px;
             border-radius: 16px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
@@ -565,20 +565,21 @@
         
         .problem-stat {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 48px;
+            font-size: 28px;
             font-weight: 800;
             color: #FA652E;
             margin: 12px 0;
-            line-height: 1.1;
+            line-height: 1.2;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 60px;
+            min-height: auto;
+            text-align: center;
         }
         
         .problem-card:nth-child(3) .problem-stat {
-            font-size: 48px;
+            font-size: 24px;
             line-height: 1.2;
         }
         
@@ -589,8 +590,9 @@
             margin: 12px 0;
             flex-grow: 1;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             text-align: center;
+            padding: 0 8px;
         }
         
         .problem-footnote {
@@ -646,63 +648,99 @@
         
         .tap-animation {
             position: absolute;
-            width: 120px;
-            height: 120px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 70%);
             border-radius: 50%;
-            animation: glowPulse 2s ease-in-out infinite;
+            animation: tapPulse 3s ease-in-out infinite;
+        }
+        
+        .sparkle-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+        
+        .sparkle:nth-child(1) {
+            top: 20%;
+            left: 30%;
+            animation-delay: 0s;
+        }
+        
+        .sparkle:nth-child(2) {
+            top: 60%;
+            right: 25%;
+            animation-delay: 1s;
+        }
+        
+        .sparkle:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0) translateY(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) translateY(-20px);
+            }
         }
         
         .tap-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
             animation: sparkleFloat 3s ease-in-out infinite;
             z-index: 2;
             position: relative;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
         }
         
-        .tap-tappy {
-            margin-bottom: 16px;
-            z-index: 2;
-            position: relative;
-        }
         
         .tap-text {
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 12px;
             z-index: 2;
             position: relative;
+            line-height: 1.2;
+            color: #fff;
+            text-align: center;
         }
         
-        .crypto-icons {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
+        .tap-subtext {
+            font-size: 16px;
+            font-weight: 500;
             opacity: 0.9;
             z-index: 2;
             position: relative;
-        }
-        
-        .crypto-icon {
             color: #fff;
-            font-size: 12px;
         }
         
-        .crypto-label {
-            font-weight: 600;
-            font-size: 13px;
-        }
         
-        @keyframes glowPulse {
+        @keyframes tapPulse {
             0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 0 20px rgba(255, 166, 92, 0.6);
+                transform: scale(0.9);
+                opacity: 0.3;
             }
             50% {
                 transform: scale(1.1);
-                box-shadow: 0 0 40px rgba(255, 166, 92, 0.8);
+                opacity: 0.5;
             }
         }
         
@@ -812,7 +850,7 @@
         .features-container {
             background: #FFFFFF;
             border-radius: 20px;
-            padding: 32px;
+            padding: 24px;
             box-shadow: 0 8px 32px rgba(45, 24, 16, 0.1);
             border: 1px solid rgba(250, 101, 46, 0.1);
             margin-top: 24px;
@@ -831,16 +869,21 @@
             display: flex;
             align-items: flex-start;
             gap: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.3s ease;
+        }
+        
+        .feature-item:last-child {
+            margin-bottom: 0;
         }
         
         .feature-item:nth-child(1) { animation: fadeInUp 0.4s ease-out 0.8s forwards; }
         .feature-item:nth-child(2) { animation: fadeInUp 0.4s ease-out 1.0s forwards; }
         .feature-item:nth-child(3) { animation: fadeInUp 0.4s ease-out 1.2s forwards; }
         .feature-item:nth-child(4) { animation: fadeInUp 0.4s ease-out 1.4s forwards; }
+        .feature-item:nth-child(5) { animation: fadeInUp 0.4s ease-out 1.6s forwards; }
         
         .feature-item:hover {
             transform: translateY(-2px) scale(1.02);
@@ -1592,18 +1635,14 @@
             <div class="phone-mockup">
                 <div class="phone-screen">
                     <div class="tap-animation"></div>
-                    <div class="tap-tappy">
-                        <img src="Images/Tappy.png" alt="Tappy" style="width: 80px; height: 80px;">
+                    <div class="sparkle-container">
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
                     </div>
-                    <div class="tap-text">Tap to Pay</div>
-                    <div class="crypto-icons">
-                        <span class="crypto-icon"><i class="ph ph-circle-fill"></i></span>
-                        <span class="crypto-label">SOL</span>
-                        <span class="crypto-icon"><i class="ph ph-circle-fill"></i></span>
-                        <span class="crypto-label">USDC</span>
-                        <span class="crypto-icon"><i class="ph ph-circle-fill"></i></span>
-                        <span class="crypto-label">BONK</span>
-                    </div>
+                    <img src="Images/Tappy.png" alt="Tappy" class="tap-icon">
+                    <div class="tap-text">Money Moves<br>Like Magic</div>
+                    <div class="tap-subtext">Tap • Send • Done</div>
                 </div>
             </div>
         </div>
@@ -1747,7 +1786,7 @@
                 </div>
             </div>
             
-            <a href="https://solanamobile.com/" target="_blank" class="demo-cta">Tap, send, done. Secure. Joyful. Magical. Join us.</a>
+            <a href="https://solanamobile.com/" target="_blank" class="demo-cta">Join the revolution</a>
             
         </div>
     </div>
