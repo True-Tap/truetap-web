@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>True Tap - The Future of Solana Payments</title>
-    <meta name="description" content="True Tap transforms crypto payments with instant NFC tap-to-pay on Solana Mobile. Experience the magic of payments this fast.">
+    <title>TrueTap - The Venmo of Solana</title>
+    <meta name="description" content="TrueTap makes crypto payments as easy as sending a text. Tap two phones together for instant Solana payments. The Venmo experience, built for crypto.">
     <link rel="icon" href="/logo.png" type="image/png">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
@@ -271,7 +271,7 @@
             background: var(--text-dark);
             border-radius: 40px;
             position: relative;
-            box-shadow: 0 20px 60px rgba(45, 24, 16, 0.3);
+            box-shadow: 0 20px 60px rgba(45, 24, 16, 0.3), 0 0 80px rgba(255, 107, 53, 0.1);
             margin: 0 auto;
             overflow: hidden;
         }
@@ -289,48 +289,114 @@
             align-items: center;
             justify-content: center;
             color: white;
+            overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+        
+        .phone-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+            pointer-events: none;
+            z-index: 1;
         }
         
         .tap-animation {
             position: absolute;
-            width: 120px;
-            height: 120px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 70%);
             border-radius: 50%;
-            animation: tapPulse 2s ease-in-out infinite;
+            animation: tapPulse 3s ease-in-out infinite;
         }
         
         @keyframes tapPulse {
             0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+                transform: scale(0.9);
+                opacity: 0.6;
             }
             50% {
-                transform: scale(1.1);
-                box-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
+                transform: scale(1.2);
+                opacity: 1;
             }
         }
         
         .tap-icon {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
-            z-index: 2;
-            position: relative;
-            animation: bounceFloat 3s ease-in-out infinite;
-        }
-        
-        @keyframes bounceFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .tap-text {
-            font-size: 1.75rem;
-            font-weight: 700;
+            width: 90px;
+            height: 90px;
             margin-bottom: 1.5rem;
             z-index: 2;
             position: relative;
+            animation: bounceFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+        
+        @keyframes bounceFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
+        }
+        
+        .tap-text {
+            font-size: 2rem;
+            font-weight: 700;
+            z-index: 2;
+            position: relative;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+        
+        .sparkle-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkleAnimation 3s linear infinite;
+        }
+        
+        .sparkle:nth-child(1) {
+            top: 20%;
+            left: 30%;
+            animation-delay: 0s;
+        }
+        
+        .sparkle:nth-child(2) {
+            top: 60%;
+            right: 25%;
+            animation-delay: 1s;
+        }
+        
+        .sparkle:nth-child(3) {
+            bottom: 30%;
+            left: 40%;
+            animation-delay: 2s;
+        }
+        
+        @keyframes sparkleAnimation {
+            0% {
+                opacity: 0;
+                transform: scale(0) translateY(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) translateY(-20px);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-40px);
+            }
         }
         
         /* Stats Section */
@@ -500,6 +566,8 @@
             justify-content: space-between;
             position: relative;
             z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
         }
         
         .roadmap-item {
@@ -515,11 +583,10 @@
         .roadmap-item:nth-child(1) { animation-delay: 0.1s; }
         .roadmap-item:nth-child(2) { animation-delay: 0.3s; }
         .roadmap-item:nth-child(3) { animation-delay: 0.5s; }
-        .roadmap-item:nth-child(4) { animation-delay: 0.7s; }
         
         .roadmap-dot {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             background: var(--white);
             border: 4px solid var(--primary-orange);
             border-radius: 50%;
@@ -527,6 +594,12 @@
             position: relative;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary-orange);
         }
         
         .roadmap-item.active .roadmap-dot,
@@ -534,6 +607,13 @@
             background: var(--primary-orange);
             transform: scale(1.2);
             box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+            color: var(--white);
+        }
+        
+        .roadmap-item:nth-child(3) .roadmap-dot {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            color: var(--white);
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
         }
         
         .roadmap-content {
@@ -543,6 +623,24 @@
             box-shadow: 0 4px 20px rgba(45, 24, 16, 0.1);
             transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .roadmap-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .roadmap-content:hover::before {
+            transform: translateX(0);
         }
         
         .roadmap-content:hover {
@@ -550,16 +648,35 @@
             box-shadow: 0 8px 30px rgba(45, 24, 16, 0.15);
         }
         
+        .roadmap-item:nth-child(3) .roadmap-content {
+            border: 2px solid rgba(255, 107, 53, 0.2);
+            box-shadow: 0 4px 20px rgba(45, 24, 16, 0.1), 0 0 40px rgba(255, 107, 53, 0.1);
+        }
+        
+        .roadmap-item:nth-child(3) .roadmap-content:hover {
+            border-color: rgba(255, 107, 53, 0.3);
+            box-shadow: 0 8px 30px rgba(45, 24, 16, 0.15), 0 0 60px rgba(255, 107, 53, 0.15);
+        }
+        
         .roadmap-quarter {
-            font-size: 0.9rem;
+            font-size: 1.75rem;
             color: var(--primary-orange);
-            font-weight: 600;
+            font-weight: 900;
             margin-bottom: 0.5rem;
+            text-transform: none;
+            line-height: 1;
+        }
+        
+        .roadmap-item:nth-child(3) .roadmap-quarter {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
         }
         
         .roadmap-title {
-            font-size: 1.25rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 800;
             color: var(--text-dark);
             margin-bottom: 1rem;
         }
@@ -575,6 +692,7 @@
             padding-left: 1.5rem;
             position: relative;
             font-size: 0.95rem;
+            line-height: 1.4;
         }
         
         .roadmap-list li::before {
@@ -740,6 +858,25 @@
                 height: 480px;
             }
             
+            .tap-animation {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .tap-icon {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .tap-text {
+                font-size: 1.5rem;
+            }
+            
+            .sparkle {
+                width: 3px;
+                height: 3px;
+            }
+            
             .roadmap-items {
                 flex-direction: column;
                 gap: 2rem;
@@ -756,6 +893,17 @@
             
             .roadmap-dot {
                 margin-bottom: 1rem;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            
+            .roadmap-quarter {
+                font-size: 1.5rem;
+            }
+            
+            .roadmap-title {
+                font-size: 1.25rem;
             }
             
             .stats-container {
@@ -785,13 +933,42 @@
                 height: 380px;
             }
             
+            .tap-animation {
+                width: 140px;
+                height: 140px;
+            }
+            
             .tap-icon {
                 width: 60px;
                 height: 60px;
             }
             
+            .tap-text {
+                font-size: 1.25rem;
+            }
+            
+            .sparkle {
+                width: 2px;
+                height: 2px;
+            }
+            
             .stats-container {
                 grid-template-columns: 1fr;
+            }
+            
+            @keyframes sparkleAnimation {
+                0% {
+                    opacity: 0;
+                    transform: scale(0) translateY(0);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1) translateY(-15px);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0) translateY(-30px);
+                }
             }
         }
         
@@ -813,13 +990,13 @@
     <nav id="navbar">
         <div class="nav-container">
             <a href="#" class="nav-logo">
-                <img src="Images/Tappy.png" alt="True Tap Logo">
-                <span>True Tap</span>
+                <img src="Images/Tappy.png" alt="TrueTap Logo">
+                <span>TrueTap</span>
             </a>
             <div class="nav-links">
                 <a href="#features" class="nav-link">Features</a>
-                <a href="#roadmap" class="nav-link">Roadmap</a>
-                <a href="#problem" class="nav-link">Why True Tap</a>
+                <a href="#roadmap" class="nav-link">The Dream</a>
+                <a href="#problem" class="nav-link">Why TrueTap</a>
                 <a href="pitch-deck.html" class="nav-cta">View Pitch Deck</a>
             </div>
         </div>
@@ -829,12 +1006,12 @@
     <section class="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Payments. Reimagined.</h1>
-                <p class="hero-subtitle">The next evolution of Solana payments</p>
+                <h1 class="hero-title">The Venmo of Solana</h1>
+                <p class="hero-subtitle">Making crypto payments as easy as sending a text</p>
                 <p class="hero-description">
-                    Transform your Solana Seeker into the world's most advanced payment device. 
-                    Two phones tap together, and money moves instantly. No QR codes. No complex addresses. 
-                    Just the magic of a tap.
+                    Tap two phones together for instant payments. No QR codes. No wallet addresses. 
+                    Just the magic of NFC on Solana Seeker. TrueTap brings Venmo-like simplicity to 
+                    crypto, making it accessible to everyone.
                 </p>
                 <div class="hero-buttons">
                     <a href="pitch-deck.html" class="btn-primary">
@@ -842,8 +1019,8 @@
                         View Pitch Deck
                     </a>
                     <a href="#roadmap" class="btn-secondary">
-                        <i class="ph ph-map-trifold"></i>
-                        See Roadmap
+                        <i class="ph ph-sparkle"></i>
+                        See The Dream
                     </a>
                 </div>
             </div>
@@ -851,11 +1028,13 @@
                 <div class="phone-mockup">
                     <div class="phone-screen">
                         <div class="tap-animation"></div>
+                        <div class="sparkle-container">
+                            <div class="sparkle"></div>
+                            <div class="sparkle"></div>
+                            <div class="sparkle"></div>
+                        </div>
                         <img src="Images/Tappy.png" alt="Tappy" class="tap-icon">
                         <div class="tap-text">Tap to Pay</div>
-                        <div style="display: flex; gap: 1rem; z-index: 2; position: relative;">
-                            <span style="opacity: 0.9;">SOL • USDC • BONK</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -866,8 +1045,8 @@
     <section class="stats fade-in-section">
         <div class="stats-container">
             <div class="stat-card">
-                <div class="stat-number">&lt;100ms</div>
-                <div class="stat-label">NFC Detection Time</div>
+                <div class="stat-number">1 Tap</div>
+                <div class="stat-label">Instant Payments</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">659M</div>
@@ -887,18 +1066,40 @@
     <!-- Features Section -->
     <section id="features" class="features fade-in-section">
         <div class="features-container">
-            <h2 class="section-title">Magic in Every Tap</h2>
-            <p class="section-subtitle">Experience payments that feel like the future, built on Solana's lightning-fast blockchain</p>
+            <h2 class="section-title">Imagine this</h2>
+            <p class="section-subtitle">What if sending crypto was this simple?</p>
             
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="ph ph-lightning"></i>
+                        <i class="ph ph-paper-plane"></i>
                     </div>
-                    <h3 class="feature-title">Instant NFC Payments</h3>
+                    <h3 class="feature-title">Send money like a text</h3>
                     <p class="feature-description">
-                        Tap two phones together for sub-second transactions. Faster than Apple Pay, 
-                        powered by Solana's 400ms block times.
+                        Pick a friend, add an emoji, tap send. Done. No wallet addresses, no confusion, 
+                        just instant payments that work like magic.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-users-three"></i>
+                    </div>
+                    <h3 class="feature-title">Split bills instantly</h3>
+                    <p class="feature-description">
+                        Dinner with friends? Split in SOL. No bank delays, no awkward IOUs. 
+                        Everyone gets paid instantly.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ph ph-qr-code"></i>
+                    </div>
+                    <h3 class="feature-title">Pay anywhere</h3>
+                    <p class="feature-description">
+                        Scan to pay at cafes, stores, anywhere. Merchants love it because setup 
+                        takes minutes, not months.
                     </p>
                 </div>
                 
@@ -906,10 +1107,10 @@
                     <div class="feature-icon">
                         <i class="ph ph-shield-check"></i>
                     </div>
-                    <h3 class="feature-title">Hardware-Level Security</h3>
+                    <h3 class="feature-title">Bank-grade security</h3>
                     <p class="feature-description">
-                        Built on Seed Vault with biometric authentication and Genesis Token verification 
-                        for authentic Seeker devices.
+                        Hardware wallet built into Seeker. Your face is your password. 
+                        Secure by default, simple by design.
                     </p>
                 </div>
                 
@@ -917,43 +1118,21 @@
                     <div class="feature-icon">
                         <i class="ph ph-confetti"></i>
                     </div>
-                    <h3 class="feature-title">Social Payments</h3>
+                    <h3 class="feature-title">Make it fun</h3>
                     <p class="feature-description">
-                        BONK Rain for group payments, optional social feed, and fun payment messages. 
-                        Make money social again.
+                        Group payments with friends, payment messages with emojis, and a social feed. 
+                        Because payments should spark joy.
                     </p>
                 </div>
                 
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="ph ph-code"></i>
+                        <i class="ph ph-lightning"></i>
                     </div>
-                    <h3 class="feature-title">3-Line SDK</h3>
+                    <h3 class="feature-title">Lightning fast</h3>
                     <p class="feature-description">
-                        Integrate True Tap in minutes, not months. Our React Native SDK makes accepting 
-                        crypto as easy as copy-paste.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="ph ph-broadcast"></i>
-                    </div>
-                    <h3 class="feature-title">BLE Discovery</h3>
-                    <p class="feature-description">
-                        Bluetooth LE enables seamless connections up to 30 feet. Perfect for crowded 
-                        venues and group payments.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="ph ph-coins"></i>
-                    </div>
-                    <h3 class="feature-title">Multi-Token Support</h3>
-                    <p class="feature-description">
-                        Native support for SOL, USDC, USDT, and BONK. Instant settlement in stablecoins 
-                        for merchants who need stability.
+                        Sub-second payments powered by Solana. Faster than Apple Pay, 
+                        cheaper than anything else. The future is here.
                     </p>
                 </div>
             </div>
@@ -963,64 +1142,50 @@
     <!-- Roadmap Section -->
     <section id="roadmap" class="roadmap fade-in-section">
         <div class="roadmap-container">
-            <h2 class="section-title">From Hackathon to Revolution</h2>
-            <p class="section-subtitle">Our journey to making crypto payments mainstream on Solana Mobile</p>
+            <h2 class="section-title">The Dream</h2>
+            <p class="section-subtitle">Starting with 140,000 Seekers. Ending with the world.</p>
             
             <div class="roadmap-timeline">
                 <div class="roadmap-line"></div>
                 <div class="roadmap-items">
                     <div class="roadmap-item active">
-                        <div class="roadmap-dot"></div>
+                        <div class="roadmap-dot">1</div>
                         <div class="roadmap-content">
-                            <div class="roadmap-quarter">Q1 2025</div>
-                            <h3 class="roadmap-title">Hackathon MVP</h3>
+                            <div class="roadmap-quarter">Today</div>
+                            <h3 class="roadmap-title">140,000 Seekers</h3>
                             <ul class="roadmap-list">
-                                <li>Core NFC tap-to-pay</li>
-                                <li>Seeker app prototype</li>
-                                <li>Basic SDK release</li>
-                                <li>Genesis Token auth</li>
+                                <li>Launch the first true mobile payment app</li>
+                                <li>One killer app to show what's possible</li>
+                                <li>Build a passionate community</li>
+                                <li>Make crypto payments magical</li>
                             </ul>
                         </div>
                     </div>
                     
                     <div class="roadmap-item">
-                        <div class="roadmap-dot"></div>
+                        <div class="roadmap-dot">2</div>
                         <div class="roadmap-content">
-                            <div class="roadmap-quarter">Q2 2025</div>
-                            <h3 class="roadmap-title">Beta Launch</h3>
+                            <div class="roadmap-quarter">Tomorrow</div>
+                            <h3 class="roadmap-title">Every Solana Phone</h3>
                             <ul class="roadmap-list">
-                                <li>Public beta on Seeker</li>
-                                <li>10+ merchant pilots</li>
-                                <li>Social payments feed</li>
-                                <li>BONK Rain feature</li>
+                                <li>Become the default payment method</li>
+                                <li>Every merchant accepts TrueTap</li>
+                                <li>Millions tap to pay daily</li>
+                                <li>The Venmo moment for crypto</li>
                             </ul>
                         </div>
                     </div>
                     
                     <div class="roadmap-item">
-                        <div class="roadmap-dot"></div>
+                        <div class="roadmap-dot">3</div>
                         <div class="roadmap-content">
-                            <div class="roadmap-quarter">Q3 2025</div>
-                            <h3 class="roadmap-title">Market Expansion</h3>
+                            <div class="roadmap-quarter">The Dream</div>
+                            <h3 class="roadmap-title">The Payment Layer for Web3</h3>
                             <ul class="roadmap-list">
-                                <li>100+ merchants live</li>
-                                <li>Cross-chain support</li>
-                                <li>DeFi integrations</li>
-                                <li>iOS companion app</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="roadmap-item">
-                        <div class="roadmap-dot"></div>
-                        <div class="roadmap-content">
-                            <div class="roadmap-quarter">Q4 2025</div>
-                            <h3 class="roadmap-title">Mass Adoption</h3>
-                            <ul class="roadmap-list">
-                                <li>1M+ transactions</li>
-                                <li>Global expansion</li>
-                                <li>Hardware partnerships</li>
-                                <li>True Tap Pay network</li>
+                                <li>Cross-chain, global, unstoppable</li>
+                                <li>Every phone becomes a payment device</li>
+                                <li>1 billion people using crypto daily</li>
+                                <li>Money moves like information</li>
                             </ul>
                         </div>
                     </div>
@@ -1032,37 +1197,37 @@
     <!-- Problem Section -->
     <section id="problem" class="problem fade-in-section">
         <div class="features-container">
-            <h2 class="section-title">Why Crypto Payments Are Broken</h2>
-            <p class="section-subtitle">And how True Tap fixes them with Solana Mobile</p>
+            <h2 class="section-title">Crypto is too hard for normal people</h2>
+            <p class="section-subtitle">Current wallets feel like engineering tools. We're changing that.</p>
             
             <div class="problem-grid">
                 <div class="problem-card">
                     <div class="feature-icon">
-                        <i class="ph ph-puzzle-piece"></i>
+                        <i class="ph ph-robot"></i>
                     </div>
-                    <div class="problem-stat">89%</div>
+                    <div class="problem-stat">Too Complex</div>
                     <p class="feature-description">
-                        of merchants cite integration complexity as the #1 barrier to accepting crypto
+                        Current wallets feel like engineering tools. Your mom can use Venmo but can't figure out Phantom.
                     </p>
                 </div>
                 
                 <div class="problem-card">
                     <div class="feature-icon">
-                        <i class="ph ph-timer"></i>
+                        <i class="ph ph-users"></i>
                     </div>
-                    <div class="problem-stat">30+ sec</div>
+                    <div class="problem-stat">659M Users</div>
                     <p class="feature-description">
-                        Average crypto payment time. In a world of instant gratification, that's forever
+                        Waiting for a mobile-first payment app. They don't want another DeFi dashboard.
                     </p>
                 </div>
                 
                 <div class="problem-card">
                     <div class="feature-icon">
-                        <i class="ph ph-sparkle"></i>
+                        <i class="ph ph-device-mobile"></i>
                     </div>
-                    <div class="problem-stat">True Tap</div>
+                    <div class="problem-stat">No Venmo</div>
                     <p class="feature-description">
-                        One tap. Sub-second payments. Zero complexity. That's the difference
+                        Solana has amazing tech but no consumer payment app. We're fixing that.
                     </p>
                 </div>
             </div>
@@ -1072,10 +1237,10 @@
     <!-- CTA Section -->
     <section class="cta">
         <div class="cta-container">
-            <h2 class="cta-title">The Future is One Tap Away</h2>
+            <h2 class="cta-title">Ready to join the payment revolution?</h2>
             <p class="cta-description">
-                Ready to experience the magic of instant crypto payments? 
-                Dive into our vision for the future of Solana Mobile commerce.
+                TrueTap is bringing Venmo-like simplicity to Solana. Be part of the future where 
+                crypto payments are as easy as sending a text.
             </p>
             <a href="pitch-deck.html" class="cta-button">
                 <i class="ph ph-presentation-chart"></i>
@@ -1087,16 +1252,16 @@
     <!-- Footer -->
     <footer>
         <div class="footer-container">
-            <img src="Images/Tappy.png" alt="True Tap" class="footer-logo">
+            <img src="Images/Tappy.png" alt="TrueTap" class="footer-logo">
             <div class="footer-links">
                 <a href="#" class="footer-link">Home</a>
                 <a href="#features" class="footer-link">Features</a>
-                <a href="#roadmap" class="footer-link">Roadmap</a>
+                <a href="#roadmap" class="footer-link">The Dream</a>
                 <a href="pitch-deck.html" class="footer-link">Pitch Deck</a>
             </div>
             <div class="footer-divider"></div>
             <p class="footer-copyright">
-                © 2025 True Tap. Built for Solana Mobile Hackathon. All rights reserved.
+                © 2025 TrueTap. Built for Solana Mobile Hackathon. All rights reserved.
             </p>
         </div>
     </footer>
@@ -1167,10 +1332,9 @@
                     const statNumber = entry.target.querySelector('.stat-number');
                     const text = statNumber.textContent;
                     
-                    if (text === '<100ms') {
-                        statNumber.dataset.prefix = '<';
-                        statNumber.dataset.suffix = 'ms';
-                        animateValue(statNumber, 0, 100, 1000);
+                    if (text === '1 Tap') {
+                        // Keep as is - no animation needed
+                        statNumber.textContent = text;
                     } else if (text === '659M') {
                         statNumber.dataset.prefix = '';
                         statNumber.dataset.suffix = 'M';
