@@ -189,11 +189,11 @@
         }
         
         .nav-arrow.left {
-            left: calc(50% - 140px);
+            left: 40px;
         }
         
         .nav-arrow.right {
-            right: calc(50% - 140px);
+            right: 40px;
         }
         
         .nav-arrow.disabled {
@@ -230,16 +230,16 @@
             transition: all 0.3s ease;
         }
         
-        .nav-dot:nth-child(9) {
+        .nav-dot:nth-child(5) {
             position: relative;
         }
         
-        .nav-dot:nth-child(9).active .flappy-dot {
+        .nav-dot:nth-child(5).active .flappy-dot {
             opacity: 1;
             display: block;
         }
         
-        .nav-dot:nth-child(9).active .flappy-dot-text {
+        .nav-dot:nth-child(5).active .flappy-dot-text {
             opacity: 1;
         }
         
@@ -1419,102 +1419,6 @@
             }
         }
         
-        /* Slide 9 - One More Thing */
-        .slide9 {
-            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
-            color: #2C2C2C;
-            padding: 96px 24px;
-        }
-        
-        .one-more-container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        }
-        
-        .one-more-title {
-            font-family: 'Helvetica Neue', sans-serif;
-            font-weight: 900;
-            font-size: 72px;
-            line-height: 1.1;
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 32px;
-            opacity: 0;
-            transform: translateY(40px);
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
-        }
-        
-        .one-more-subtitle {
-            font-size: 24px;
-            color: #4C4C4C;
-            margin-bottom: 48px;
-            max-width: 600px;
-            opacity: 0;
-            transform: translateY(40px);
-            animation: fadeInUp 0.8s ease-out 0.4s forwards;
-        }
-        
-        .game-preview {
-            background: #FFFFFF;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px rgba(45, 24, 16, 0.1);
-            opacity: 0;
-            transform: translateY(40px);
-            animation: fadeInUp 0.8s ease-out 0.6s forwards;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .game-preview:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 48px rgba(45, 24, 16, 0.15);
-        }
-        
-        .game-icon {
-            font-size: 64px;
-            color: #FA652E;
-            margin-bottom: 16px;
-        }
-        
-        .game-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #2C2C2C;
-            margin-bottom: 8px;
-        }
-        
-        .game-desc {
-            font-size: 16px;
-            color: #4C4C4C;
-            margin-bottom: 24px;
-        }
-        
-        .play-button {
-            background: #FA652E;
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 100px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .play-button:hover {
-            background: #e95b25;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(250, 101, 46, 0.3);
-        }
-        
         /* Back to Home Button */
         .back-home {
             position: fixed;
@@ -1567,6 +1471,8 @@
         </div>
         <div class="nav-dot" onclick="goToSlide(4)">
             <img src="Images/Tappy.png" alt="Slide 5">
+            <div class="flappy-dot-text">Bored?</div>
+            <div class="flappy-dot" onclick="startFlappyBird(event)"></div>
         </div>
         <div class="nav-dot" onclick="goToSlide(5)">
             <img src="Images/Tappy.png" alt="Slide 6">
@@ -1576,11 +1482,6 @@
         </div>
         <div class="nav-dot" onclick="goToSlide(7)">
             <img src="Images/Tappy.png" alt="Slide 8">
-        </div>
-        <div class="nav-dot" onclick="goToSlide(8)">
-            <img src="Images/Tappy.png" alt="Slide 9">
-            <div class="flappy-dot-text">Play FlappyTappy!</div>
-            <div class="flappy-dot" onclick="startFlappyBird(event)"></div>
         </div>
     </div>
     
@@ -1847,23 +1748,7 @@
         </div>
     </div>
 
-    <!-- Slide 9: One More Thing -->
-    <div class="slide slide9">
-        <div class="one-more-container">
-            <h1 class="one-more-title">One more thing...</h1>
-            <p class="one-more-subtitle">
-                If we can make payments fun, imagine what else we can do.<br>
-                Try FlappyTappy - collect SOL while you fly!
-            </p>
-            
-            <div class="game-preview" onclick="startFlappyBird()">
-                <div class="game-icon"><i class="ph ph-game-controller"></i></div>
-                <h2 class="game-title">FlappyTappy</h2>
-                <p class="game-desc">A taste of how we're making crypto delightful</p>
-                <button class="play-button">Play Now</button>
-            </div>
-        </div>
-    </div>
+
 
     <script>
         let currentSlide = 0;
@@ -2298,7 +2183,7 @@
                 previousSlide();
             }
             if (key === 'w' || e.key === 'ArrowUp') {
-                if (currentSlide === 8) {
+                if (currentSlide === 4) {
                     startFlappyBird(e);
                 } else if (currentSlide > 0) {
                     lastDirection = 'left';
