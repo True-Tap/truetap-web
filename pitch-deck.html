@@ -229,16 +229,16 @@
             transition: all 0.3s ease;
         }
         
-        .nav-dot:nth-child(4) {
+        .nav-dot:nth-child(9) {
             position: relative;
         }
         
-        .nav-dot:nth-child(4).active .flappy-dot {
+        .nav-dot:nth-child(9).active .flappy-dot {
             opacity: 1;
             display: block;
         }
         
-        .nav-dot:nth-child(4).active .flappy-dot-text {
+        .nav-dot:nth-child(9).active .flappy-dot-text {
             opacity: 1;
         }
         
@@ -1015,7 +1015,19 @@
             font-style: italic;
         }
         
-        /* Slide 4 - Innovation */
+        .feature-status {
+            font-size: 11px;
+            color: #28a745;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+        
+        .feature-status.coming-soon {
+            color: #f7931e;
+        }
+        
+        /* Slide 4 - Why Now */
         .slide4 {
             background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
         }
@@ -1027,7 +1039,7 @@
             padding: 80px 24px;
         }
         
-        .innovation-title {
+        .why-now-title {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 48px;
             font-weight: 800;
@@ -1041,13 +1053,7 @@
             animation: fadeInUp 0.6s ease-out 0.2s forwards;
         }
         
-        @media (max-width: 640px) {
-            .innovation-title {
-                font-size: 60px;
-            }
-        }
-        
-        .innovation-grid {
+        .why-now-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 32px;
@@ -1056,78 +1062,64 @@
         }
         
         @media (max-width: 768px) {
-            .innovation-grid {
+            .why-now-grid {
                 grid-template-columns: 1fr;
                 gap: 24px;
             }
         }
         
-        .innovation-card {
+        .why-now-card {
             background: #FEFEFE;
             border-radius: 16px;
-            border-top: 3px solid #ff6b35;
             padding: 32px 24px;
             box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
             transition: all 0.3s ease;
             opacity: 0;
             transform: translateY(40px);
-            position: relative;
         }
         
-        .innovation-card:hover {
+        .why-now-card:hover {
             background: #F5F5F5;
             box-shadow: 0 8px 25px rgba(45, 24, 16, 0.15);
             transform: translateY(-2px) scale(1.02);
         }
         
-        .innovation-card:nth-child(1) {
+        .why-now-card:nth-child(1) {
             animation: fadeInUp 0.6s ease-out 0.4s forwards;
         }
         
-        .innovation-card:nth-child(2) {
+        .why-now-card:nth-child(2) {
             animation: fadeInUp 0.6s ease-out 0.6s forwards;
         }
         
-        .innovation-card:nth-child(3) {
+        .why-now-card:nth-child(3) {
             animation: fadeInUp 0.6s ease-out 0.8s forwards;
         }
         
-        .innovation-card:nth-child(4) {
+        .why-now-card:nth-child(4) {
             animation: fadeInUp 0.6s ease-out 1.0s forwards;
         }
         
-        
-        .innovation-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #888;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-        
-        .innovation-value {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 32px;
-            font-weight: 800;
+        .why-now-icon {
+            font-size: 48px;
             color: #FA652E;
+            margin-bottom: 16px;
+        }
+        
+        .why-now-label {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2C2C2C;
             margin-bottom: 8px;
-            line-height: 1.2;
         }
         
-        @media (max-width: 640px) {
-            .innovation-value {
-                font-size: 48px;
-            }
-        }
-        
-        .innovation-desc {
+        .why-now-desc {
             font-size: 14px;
             color: #4C4C4C;
             line-height: 1.6;
         }
         
-        /* Slide 5 - Traction */
+        /* Slide 5 - The Dream */
         .slide5 {
             background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
         }
@@ -1141,251 +1133,305 @@
             align-items: center;
         }
         
-        .traction-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .traction-title {
+        .dream-title {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 48px;
-            font-weight: 800;
+            font-size: 56px;
+            font-weight: 900;
             background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+            text-align: center;
+            margin-bottom: 24px;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.6s ease-out 0.2s forwards;
         }
         
-        @media (max-width: 640px) {
-            .traction-title {
-                font-size: 60px;
-            }
-        }
-        
-        .traction-subtitle {
-            font-size: 16px;
+        .dream-subtitle {
+            font-size: 24px;
             color: #4C4C4C;
+            text-align: center;
+            margin-bottom: 48px;
+            max-width: 800px;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.6s ease-out 0.4s forwards;
         }
         
-        .demo-layout {
+        .dream-phases {
             display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 40px;
-            align-items: center;
-            justify-content: center;
-            padding: 0 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-            min-height: 600px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 48px;
         }
-        
-        .demo-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            max-width: 320px;
-        }
-        
         
         @media (max-width: 768px) {
-            .demo-layout {
+            .dream-phases {
                 grid-template-columns: 1fr;
-                gap: 32px;
-                min-height: auto;
-            }
-            
-            .demo-phone {
-                width: 240px;
-                height: 480px;
-                margin: 0 auto;
-            }
-            
-            .demo-phone-screen {
-                width: 220px;
-                height: 460px;
-            }
-            
-        }
-        
-        @media (max-width: 480px) {
-            .demo-phone {
-                width: 200px;
-                height: 400px;
-            }
-            
-            .demo-phone-screen {
-                width: 180px;
-                height: 380px;
-            }
-            
-            .demo-icon {
-                font-size: 48px;
-            }
-            
-            .demo-title {
-                font-size: 20px;
-            }
-            
-            .demo-subtitle {
-                font-size: 14px;
+                gap: 24px;
             }
         }
         
-        .demo-card {
+        .dream-phase {
             background: #FEFEFE;
             border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
-            padding: 48px 24px;
+            padding: 32px 24px;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.3s ease;
+        }
+        
+        .dream-phase:hover {
+            background: #F5F5F5;
+            box-shadow: 0 8px 25px rgba(45, 24, 16, 0.15);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .dream-phase:nth-child(1) {
+            animation: fadeInUp 0.6s ease-out 0.6s forwards;
+        }
+        
+        .dream-phase:nth-child(2) {
+            animation: fadeInUp 0.6s ease-out 0.8s forwards;
+        }
+        
+        .dream-phase:nth-child(3) {
+            animation: fadeInUp 0.6s ease-out 1.0s forwards;
+        }
+        
+        .phase-number {
+            font-size: 48px;
+            font-weight: 900;
+            color: #FA652E;
+            margin-bottom: 16px;
+        }
+        
+        .phase-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 12px;
+        }
+        
+        .phase-desc {
+            font-size: 14px;
+            color: #4C4C4C;
+            line-height: 1.5;
+        }
+        
+        /* Slide 6 - Developer Vision */
+        .slide6 {
+            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
+        }
+        
+        .slide6 .slide-content {
+            max-width: 1200px;
             width: 100%;
-            max-width: 320px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        
+        .developer-title {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            text-align: center;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        }
+        
+        .developer-subtitle {
+            font-size: 20px;
+            color: #4C4C4C;
+            text-align: center;
+            margin-bottom: 48px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        }
+        
+        .stripe-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 48px;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .stripe-comparison {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+        
+        .comparison-card {
+            background: #FEFEFE;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
             opacity: 0;
             transform: translateY(30px);
         }
         
-        .demo-card:nth-child(1) {
+        .comparison-card:nth-child(1) {
             animation: fadeInUp 0.6s ease-out 0.6s forwards;
         }
         
-        .demo-card:nth-child(3) {
+        .comparison-card:nth-child(3) {
             animation: fadeInUp 0.6s ease-out 0.8s forwards;
         }
         
-        .demo-card-icon {
-            font-size: 48px;
+        .comparison-title {
+            font-size: 24px;
+            font-weight: 700;
             margin-bottom: 16px;
         }
         
-        .demo-card-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #FA652E;
-            margin-bottom: 8px;
+        .comparison-stripe {
+            color: #635BFF;
         }
         
-        .demo-card-desc {
+        .comparison-truetap {
+            color: #FA652E;
+        }
+        
+        .comparison-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .comparison-item {
             font-size: 14px;
             color: #4C4C4C;
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
         }
         
-        .plus-icon {
+        .comparison-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .vs-divider {
             font-size: 32px;
+            font-weight: 700;
             color: #FA652E;
-            font-weight: 300;
+            text-align: center;
             opacity: 0;
             animation: fadeInUp 0.6s ease-out 0.7s forwards;
         }
         
-        /* Demo phone mockups similar to magic screen */
-        .demo-phone {
-            width: 280px;
-            height: 560px;
-            background: #2d1810;
-            border-radius: 35px;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(45, 24, 16, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transform: translateY(30px);
+        /* Slide 7 - Business Model */
+        .slide7 {
+            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
         }
         
-        .demo-phone:nth-child(1) {
-            animation: fadeInUp 0.8s ease-out 0.6s forwards;
-        }
-        
-        .demo-phone:nth-child(3) {
-            animation: fadeInUp 0.8s ease-out 0.8s forwards;
-        }
-        
-        .demo-phone-screen {
-            width: 260px;
-            height: 540px;
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e, #ff8a65 100%);
-            border-radius: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .demo-phone-content {
-            text-align: center;
-            padding: 40px 24px;
-        }
-        
-        .demo-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-            opacity: 0.9;
-        }
-        
-        .demo-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .demo-subtitle {
-            font-size: 16px;
-            opacity: 0.8;
-            margin-bottom: 32px;
-        }
-        
-        .demo-features {
-            text-align: left;
-        }
-        
-        .demo-feature {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 8px;
-            padding-left: 8px;
-        }
-        
-        
-        .code-snippet {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            padding: 20px;
-            font-family: 'Monaco', 'Courier New', monospace;
-            font-size: 12px;
-            border: 1px solid rgba(255, 107, 53, 0.2);
-            box-shadow: 0 4px 20px rgba(45, 24, 16, 0.1);
+        .slide7 .slide-content {
+            max-width: 1200px;
             width: 100%;
-            text-align: left;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        
+        .business-title {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 48px;
+            text-align: center;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        }
+        
+        .revenue-streams {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .revenue-streams {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+        
+        .revenue-card {
+            background: #FEFEFE;
+            border-radius: 16px;
+            padding: 32px 24px;
+            box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
+            border-left: 4px solid #ff6b35;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        
+        .revenue-card:hover {
+            background: #F5F5F5;
+            box-shadow: 0 8px 25px rgba(45, 24, 16, 0.15);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .revenue-card:nth-child(1) {
+            animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        }
+        
+        .revenue-card:nth-child(2) {
+            animation: fadeInUp 0.6s ease-out 0.6s forwards;
+        }
+        
+        .revenue-card:nth-child(3) {
             animation: fadeInUp 0.6s ease-out 0.8s forwards;
         }
         
-        .code-comment {
-            color: #6a737d;
+        .revenue-card:nth-child(4) {
+            animation: fadeInUp 0.6s ease-out 1.0s forwards;
         }
         
-        .code-keyword {
-            color: #ff6b35;
+        .revenue-percentage {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FA652E;
+            margin-bottom: 8px;
         }
         
-        .code-string {
-            color: #f7931e;
+        .revenue-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2C2C2C;
+            margin-bottom: 8px;
         }
         
-        /* Slide 6 - The future is one tap away */
-        .slide6 {
+        .revenue-desc {
+            font-size: 14px;
+            color: #4C4C4C;
+            line-height: 1.5;
+        }
+        
+        /* Slide 8 - Vision */
+        .slide8 {
             background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
             color: #2C2C2C;
             padding: 96px 24px;
@@ -1509,20 +1555,100 @@
             box-shadow: 0 12px 48px rgba(250, 101, 46, 0.4);
         }
         
+        /* Slide 9 - One More Thing */
+        .slide9 {
+            background: radial-gradient(circle at 30% 50%, #FFF4E6 0%, #FFE4CC 100%);
+            color: #2C2C2C;
+            padding: 96px 24px;
+        }
         
-        @media (min-width: 640px) {
-            .future-title {
-                font-size: 96px;
-            }
-            
-            .vision-stats {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 64px;
-            }
-            
-            .vision-stat-number {
-                font-size: 56px;
-            }
+        .one-more-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .one-more-title {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 900;
+            font-size: 72px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 32px;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+        
+        .one-more-subtitle {
+            font-size: 24px;
+            color: #4C4C4C;
+            margin-bottom: 48px;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+        
+        .game-preview {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(45, 24, 16, 0.1);
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .game-preview:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 48px rgba(45, 24, 16, 0.15);
+        }
+        
+        .game-icon {
+            font-size: 64px;
+            color: #FA652E;
+            margin-bottom: 16px;
+        }
+        
+        .game-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 8px;
+        }
+        
+        .game-desc {
+            font-size: 16px;
+            color: #4C4C4C;
+            margin-bottom: 24px;
+        }
+        
+        .play-button {
+            background: #FA652E;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 100px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .play-button:hover {
+            background: #e95b25;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(250, 101, 46, 0.3);
         }
         
         /* Back to Home Button */
@@ -1574,14 +1700,23 @@
         </div>
         <div class="nav-dot" onclick="goToSlide(3)">
             <img src="Images/Tappy.png" alt="Slide 4">
-            <div class="flappy-dot-text">Need a break?</div>
-            <div class="flappy-dot" onclick="startFlappyBird(event)"></div>
         </div>
         <div class="nav-dot" onclick="goToSlide(4)">
             <img src="Images/Tappy.png" alt="Slide 5">
         </div>
         <div class="nav-dot" onclick="goToSlide(5)">
             <img src="Images/Tappy.png" alt="Slide 6">
+        </div>
+        <div class="nav-dot" onclick="goToSlide(6)">
+            <img src="Images/Tappy.png" alt="Slide 7">
+        </div>
+        <div class="nav-dot" onclick="goToSlide(7)">
+            <img src="Images/Tappy.png" alt="Slide 8">
+        </div>
+        <div class="nav-dot" onclick="goToSlide(8)">
+            <img src="Images/Tappy.png" alt="Slide 9">
+            <div class="flappy-dot-text">Play FlappyTappy!</div>
+            <div class="flappy-dot" onclick="startFlappyBird(event)"></div>
         </div>
     </div>
     
@@ -1617,32 +1752,33 @@
             <img src="Images/Tappy.png" alt="Tappy Logo" />
         </div>
         <h1 class="brand-name">TrueTap</h1>
-        <p class="tagline" data-vo-sync="tagline">Payments. Reimagined.</p>
-        <p class="sub-tagline" data-vo-sync="subtitle">The next evolution of Solana payments.</p>
+        <p class="tagline" data-vo-sync="tagline">The Venmo of Solana</p>
+        <p class="sub-tagline" data-vo-sync="subtitle">Making crypto payments as easy as sending a text.</p>
+        <div class="hackathon-badge">Solana Mobile Hackathon</div>
     </div>
 
     <!-- Slide 2: Problem -->
     <div class="slide slide2">
         <div class="slide-content">
-            <h2 class="problem-title">Crypto payments are broken</h2>
+            <h2 class="problem-title">Crypto is too hard for normal people</h2>
             <div class="problem-grid">
             <div class="problem-card animate">
-                <div class="problem-icon"><i class="ph ph-puzzle-piece"></i></div>
-                <div class="problem-stat">89%</div>
-                <div class="problem-desc">of merchants say integration complexity is the #1 reason they avoid crypto payments.</div>
-                <div class="problem-footnote">Source: PYMNTS 2023</div>
-            </div>
-            <div class="problem-card animate">
-                <div class="problem-icon"><i class="ph ph-timer"></i></div>
-                <div class="problem-stat">30+ Seconds</div>
-                <div class="problem-desc">Crypto payments take too long in a world that wants everything yesterday. Friction breaks trust.</div>
-                <div class="problem-footnote">Source: Chainalysis, Solana Docs</div>
-            </div>
-            <div class="problem-card animate">
                 <div class="problem-icon"><i class="ph ph-robot"></i></div>
-                <div class="problem-stat">TrueTap is Different</div>
-                <div class="problem-desc">We lead with user experience, not engineering complexity. That's why people use us — and stick with us.</div>
-                <div class="problem-footnote">UX-first. Built for Solana. Designed for humans.</div>
+                <div class="problem-stat">Too Complex</div>
+                <div class="problem-desc">Current wallets feel like engineering tools. Your mom can use Venmo but can't figure out Phantom.</div>
+                <div class="problem-footnote">The UX problem</div>
+            </div>
+            <div class="problem-card animate">
+                <div class="problem-icon"><i class="ph ph-users"></i></div>
+                <div class="problem-stat">659M Users</div>
+                <div class="problem-desc">Waiting for a mobile-first payment app. They don't want another DeFi dashboard.</div>
+                <div class="problem-footnote">Source: Crypto.com 2024</div>
+            </div>
+            <div class="problem-card animate">
+                <div class="problem-icon"><i class="ph ph-device-mobile"></i></div>
+                <div class="problem-stat">No Venmo</div>
+                <div class="problem-desc">Solana has amazing tech but no consumer payment app. We're fixing that.</div>
+                <div class="problem-footnote">The opportunity</div>
             </div>
         </div>
         </div>
@@ -1652,36 +1788,36 @@
     <div class="slide slide3">
         <div class="solution-content">
             <div class="solution-text">
-                <h1 class="solution-title">Magic in a tap</h1>
-                <p class="solution-subtitle">Payments this fast feel like magic.</p>
+                <h1 class="solution-title">Imagine this</h1>
+                <p class="solution-subtitle">What if sending crypto was this simple?</p>
                 <div class="features-container">
                     <ul class="feature-list">
                         <li class="feature-item">
-                            <div class="feature-icon"><i class="ph ph-lightning"></i></div>
+                            <div class="feature-icon"><i class="ph ph-paper-plane"></i></div>
                             <div class="feature-text">
-                                <div class="feature-title">Instant NFC</div>
-                                <div class="feature-desc">Tap-to-pay in under 1 second</div>
+                                <div class="feature-title">Send money like a text</div>
+                                <div class="feature-desc">Pick a friend, add an emoji, tap send. Done.</div>
                             </div>
                         </li>
                         <li class="feature-item">
-                            <div class="feature-icon"><i class="ph ph-broadcast"></i></div>
+                            <div class="feature-icon"><i class="ph ph-users-three"></i></div>
                             <div class="feature-text">
-                                <div class="feature-title">BLE Discovery</div>
-                                <div class="feature-desc">Seamless connection up to 30 feet</div>
+                                <div class="feature-title">Split bills instantly</div>
+                                <div class="feature-desc">Dinner with friends? Split in SOL. No bank delays.</div>
                             </div>
                         </li>
                         <li class="feature-item">
-                            <div class="feature-icon"><i class="ph ph-confetti"></i></div>
+                            <div class="feature-icon"><i class="ph ph-qr-code"></i></div>
                             <div class="feature-text">
-                                <div class="feature-title">BONK Rain</div>
-                                <div class="feature-desc">Group payments that feel like a party</div>
+                                <div class="feature-title">Pay anywhere</div>
+                                <div class="feature-desc">Scan to pay at cafes, stores, anywhere.</div>
                             </div>
                         </li>
                         <li class="feature-item">
-                            <div class="feature-icon"><i class="ph ph-wrench"></i></div>
+                            <div class="feature-icon"><i class="ph ph-shield-check"></i></div>
                             <div class="feature-text">
-                                <div class="feature-title">3-line SDK</div>
-                                <div class="feature-desc">Integrate faster than any other crypto stack</div>
+                                <div class="feature-title">Bank-grade security</div>
+                                <div class="feature-desc">Hardware wallet built into Seeker. Your face is your password.</div>
                             </div>
                         </li>
                     </ul>
@@ -1707,677 +1843,31 @@
         </div>
     </div>
 
-    <!-- Slide 4: Innovation -->
+    <!-- Slide 4: Why Now -->
     <div class="slide slide4">
         <div class="slide-content">
-            <h2 class="innovation-title">Built different. Built fast.</h2>
-            <div class="innovation-grid">
-                <div class="innovation-card">
-                    <div class="innovation-label">SPEED</div>
-                    <div class="innovation-value">&lt;100ms</div>
-                    <div class="innovation-desc">NFC detection time. Faster than Apple Pay.</div>
+            <h2 class="why-now-title">Why now is the perfect time</h2>
+            <div class="why-now-grid">
+                <div class="why-now-card">
+                    <div class="why-now-icon"><i class="ph ph-device-mobile"></i></div>
+                    <div class="why-now-label">Seeker Changes Everything</div>
+                    <div class="why-now-desc">First Solana mobile device creates a captive audience hungry for native apps.</div>
                 </div>
-                <div class="innovation-card">
-                    <div class="innovation-label">SCALE</div>
-                    <div class="innovation-value">438 tests</div>
-                    <div class="innovation-desc">Production-ready with CI/CD in under 4 minutes.</div>
+                <div class="why-now-card">
+                    <div class="why-now-icon"><i class="ph ph-coins"></i></div>
+                    <div class="why-now-label">Solana Speed</div>
+                    <div class="why-now-desc">Transaction costs finally make micropayments viable. Send $0.01 for $0.0001.</div>
                 </div>
-                <div class="innovation-card">
-                    <div class="innovation-label">SECURITY</div>
-                    <div class="innovation-value">Seed Vault</div>
-                    <div class="innovation-desc">Hardware wallet + biometric support built-in.</div>
+                <div class="why-now-card">
+                    <div class="why-now-icon"><i class="ph ph-users-three"></i></div>
+                    <div class="why-now-label">659M Users</div>
+                    <div class="why-now-desc">Global crypto adoption hit critical mass. They need consumer apps, not trading tools.</div>
                 </div>
-                <div class="innovation-card">
-                    <div class="innovation-label">DEVELOPER LOVE</div>
-                    <div class="innovation-value">3 lines</div>
-                    <div class="innovation-desc">From zero to payments. Mock mode included.</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 5: Traction -->
-    <div class="slide slide5">
-        <div class="traction-header">
-            <h2 class="traction-title">From idea to impact in weeks</h2>
-            <p class="traction-subtitle">Ready to demo. Ready to scale.</p>
-        </div>
-        
-        <div class="demo-layout">
-            <div class="demo-phone">
-                <div class="demo-phone-screen">
-                    <div class="demo-phone-content">
-                        <div class="demo-icon"><i class="ph ph-device-mobile"></i></div>
-                        <div class="demo-title">App MVP</div>
-                        <div class="demo-subtitle">Live on Seeker</div>
-                        <div class="demo-features">
-                            <div class="demo-feature">• NFC Payments</div>
-                            <div class="demo-feature">• Wallet Integration</div>
-                            <div class="demo-feature">• QR Code Support</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="demo-center">
-                <div class="code-snippet">
-                    <span class="code-comment">// Your app, powered by TrueTap</span><br>
-                    <span class="code-keyword">import</span> { TrueTap } <span class="code-keyword">from</span> <span class="code-string">'@truetap/react-native'</span>;<br><br>
-                    <span class="code-keyword">const</span> payment = <span class="code-keyword">await</span> TrueTap.tap();<br>
-                    <span class="code-comment">// That's it. You're accepting crypto.</span>
-                </div>
-            </div>
-            
-            <div class="demo-phone">
-                <div class="demo-phone-screen">
-                    <div class="demo-phone-content">
-                        <div class="demo-icon"><i class="ph ph-hammer"></i></div>
-                        <div class="demo-title">SDK Core</div>
-                        <div class="demo-subtitle">React Native ready</div>
-                        <div class="demo-features">
-                            <div class="demo-feature">• 3-line Integration</div>
-                            <div class="demo-feature">• Mock Mode</div>
-                            <div class="demo-feature">• TypeScript Ready</div>
-                        </div>
-                    </div>
+                <div class="why-now-card">
+                    <div class="why-now-icon"><i class="ph ph-globe"></i></div>
+                    <div class="why-now-label">Proven Model</div>
+                    <div class="why-now-desc">WeChat Pay & Alipay showed the world wants super-apps. Crypto needs its Venmo.</div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Slide 6: The future is one tap away -->
-    <div class="slide slide6">
-        <div class="future-container">
-            <h1 class="future-title">The future is one tap away</h1>
-            
-            <p class="future-statement">
-                We're not just building payments.<br>
-                We're crafting moments where crypto feels human.
-            </p>
-            
-            <div class="vision-stats">
-                <div class="vision-stat">
-                    <div class="vision-stat-number">659M</div>
-                    <div class="vision-stat-label">Crypto users ready to tap</div>
-                </div>
-                <div class="vision-stat">
-                    <div class="vision-stat-number">140K+</div>
-                    <div class="vision-stat-label">Seeker pre-orders</div>
-                </div>
-                <div class="vision-stat">
-                    <div class="vision-stat-number">$26T</div>
-                    <div class="vision-stat-label">Mobile payments by 2032</div>
-                </div>
-            </div>
-            
-            <button class="demo-cta">Demo TrueTap</button>
-            
-        </div>
-    </div>
-
-    <script>
-        let currentSlide = 0;
-        let lastDirection = 'front'; // Track last direction used
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.nav-dot');
-
-        function goToSlide(index) {
-            const oldSlide = currentSlide;
-            
-            if (oldSlide === index) return; // No movement needed
-            
-            // Remove active from old slide
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
-            
-            currentSlide = index;
-            
-            // Activate new slide
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-            
-            // Update Tappy direction and arrows based on slide position
-            setTimeout(() => {
-                updateTappyDirection();
-                updateNavigationArrows();
-            }, 50);
-            
-            // Trigger slide-specific animations
-            triggerSlideAnimations(index);
-        }
-        
-        
-        
-        function triggerSlideAnimations(index) {
-            
-            
-            // Trigger animations for slide 6
-            if (index === 5) {
-                setTimeout(() => {
-                    const futureTitle = document.querySelector('.future-title');
-                    const futureStatement = document.querySelector('.future-statement');
-                    const visionStats = document.querySelectorAll('.vision-stat');
-                    const demoCta = document.querySelector('.demo-cta');
-                    
-                    if (futureTitle) futureTitle.classList.add('animate');
-                    if (futureStatement) futureStatement.classList.add('animate');
-                    if (demoCta) demoCta.classList.add('animate');
-                    
-                    visionStats.forEach(stat => {
-                        stat.classList.add('animate');
-                    });
-                }, 100);
-            }
-        }
-        
-
-        function nextSlide() {
-            if (currentSlide < slides.length - 1) {
-                lastDirection = 'right';
-                goToSlide(currentSlide + 1);
-            }
-        }
-
-        function previousSlide() {
-            if (currentSlide > 0) {
-                lastDirection = 'left';
-                goToSlide(currentSlide - 1);
-            }
-        }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            const key = e.key.toLowerCase();
-            
-            if (e.key === 'ArrowRight' || key === 'd') {
-                nextSlide();
-            }
-            if (e.key === 'ArrowLeft' || key === 'a') {
-                previousSlide();
-            }
-            if (key === 'w' || e.key === 'ArrowUp') {
-                if (currentSlide === 3) {
-                    // Special case: start FlappyTappy from slide 4
-                    startFlappyBird(e);
-                } else if (currentSlide > 0) {
-                    lastDirection = 'left';
-                    goToSlide(currentSlide - 1);
-                }
-            }
-            if (key === 's' || e.key === 'ArrowDown') {
-                if (currentSlide < slides.length - 1) {
-                    lastDirection = 'right';
-                    goToSlide(currentSlide + 1);
-                }
-            }
-        });
-
-        
-        // Update Tappy direction based on current slide position
-        function updateTappyDirection() {
-            const activeDot = document.querySelector('.nav-dot.active');
-            if (!activeDot) return;
-            
-            const img = activeDot.querySelector('img');
-            if (!img) return;
-            
-            // At beginning (slide 0) or end (last slide), use front-facing Tappy
-            if (currentSlide === 0 || currentSlide === slides.length - 1) {
-                img.src = 'Images/Tappy.png';
-                lastDirection = 'front';
-            } else {
-                // Use last direction
-                switch(lastDirection) {
-                    case 'right':
-                        img.src = 'Images/TappyLookingRight.png';
-                        break;
-                    case 'left':
-                        img.src = 'Images/TappyLookingLeft.png';
-                        break;
-                    default:
-                        img.src = 'Images/Tappy.png';
-                }
-            }
-        }
-
-        // Touch/swipe support
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        document.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) nextSlide();
-            if (touchEndX > touchStartX + 50) previousSlide();
-        }
-
-        // Navigation arrow visibility
-        function updateNavigationArrows() {
-            const leftArrow = document.getElementById('nav-arrow-left');
-            const rightArrow = document.getElementById('nav-arrow-right');
-            
-            // Hide left arrow on first slide
-            if (currentSlide === 0) {
-                leftArrow.classList.add('disabled');
-            } else {
-                leftArrow.classList.remove('disabled');
-            }
-            
-            // Hide right arrow on last slide
-            if (currentSlide === slides.length - 1) {
-                rightArrow.classList.add('disabled');
-            } else {
-                rightArrow.classList.remove('disabled');
-            }
-        }
-
-        // Flappy Bird Game
-        let flappyGame = null;
-        
-        function startFlappyBird(event) {
-            if (event) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
-            const gameElement = document.getElementById('flappy-game');
-            gameElement.style.display = 'block';
-            initFlappyBird();
-        }
-        
-        function exitFlappyBird() {
-            const gameElement = document.getElementById('flappy-game');
-            const gameOverElement = document.getElementById('flappy-game-over');
-            
-            gameElement.style.display = 'none';
-            gameOverElement.style.display = 'none'; // Hide game over screen
-            
-            if (flappyGame) {
-                flappyGame.stop();
-                flappyGame = null;
-            }
-        }
-        
-        
-        function restartFlappyBird() {
-            document.getElementById('flappy-game-over').style.display = 'none';
-            if (flappyGame) {
-                flappyGame.restart();
-            }
-        }
-        
-        function initFlappyBird() {
-            const canvas = document.getElementById('flappy-canvas');
-            const ctx = canvas.getContext('2d');
-            
-            // Set canvas size
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            
-            // Load FlappyTappy pixel image and SOL coin
-            const tappyImage = new Image();
-            tappyImage.src = 'Images/FlappyTappy.png';
-            
-            const solImage = new Image();
-            solImage.src = 'Images/SOL.png';
-            
-            let gameState = 'waiting'; // waiting, playing, gameOver
-            let score = 0;
-            let highScore = localStorage.getItem('flappyTappyHighScore') || 0;
-            
-            // Update high score display
-            document.getElementById('flappy-high-score').textContent = highScore;
-            let bird = {
-                x: canvas.width / 4,
-                y: canvas.height / 2,
-                width: 48,
-                height: 48,
-                velocity: 0,
-                gravity: 0.08,
-                jumpPower: -5
-            };
-            
-            let pipes = [];
-            let pipeWidth = 60;
-            let pipeGap = 300; // Increased gap between top and bottom pipes
-            let pipeSpeed = 3;
-            let pipeCount = 0; // Track number of pipes created
-            
-            let coins = [];
-            let coinSize = 72; // 1.5x the size of Tappy (48px * 1.5 = 72px)
-            
-            function createPipe() {
-                pipeCount++;
-                let currentGap = pipeGap;
-                
-                // Make first 3 pipes much easier
-                if (pipeCount <= 3) {
-                    currentGap = 350; // Much bigger gap for first 3 pipes
-                } else if (pipeCount <= 6) {
-                    currentGap = 325; // Slightly bigger gap for next 3
-                }
-                
-                let pipeHeight = Math.random() * (canvas.height - currentGap - 200) + 100;
-                
-                pipes.push({
-                    x: canvas.width,
-                    topHeight: pipeHeight,
-                    bottomY: pipeHeight + currentGap,
-                    bottomHeight: canvas.height - (pipeHeight + currentGap),
-                    passed: false,
-                    gap: currentGap
-                });
-                
-                // Occasionally create a coin (40% chance, positioned in the gap between pipes)
-                if (Math.random() < 0.4) {
-                    coins.push({
-                        x: canvas.width + pipeWidth/2 - coinSize/2, // Center horizontally on the pipe gap
-                        y: pipeHeight + currentGap/2 - coinSize/2, // Center vertically in the gap between top and bottom pipes
-                        collected: false
-                    });
-                }
-            }
-            
-            function jump() {
-                if (gameState === 'waiting') {
-                    gameState = 'playing';
-                }
-                if (gameState === 'playing') {
-                    bird.velocity = bird.jumpPower;
-                }
-            }
-            
-            function gameOver() {
-                gameState = 'gameOver';
-                
-                // Check and update high score
-                if (score > highScore) {
-                    highScore = score;
-                    localStorage.setItem('flappyTappyHighScore', highScore);
-                    document.getElementById('flappy-high-score').textContent = highScore;
-                }
-                
-                document.getElementById('final-score').textContent = score;
-                document.getElementById('final-high-score').textContent = highScore;
-                document.getElementById('flappy-game-over').style.display = 'block';
-            }
-            
-            function update() {
-                if (gameState !== 'playing') return;
-                
-                // Update bird
-                bird.velocity += bird.gravity;
-                bird.y += bird.velocity;
-                
-                // Check boundaries
-                if (bird.y < 0 || bird.y + bird.height > canvas.height) {
-                    gameOver();
-                    return;
-                }
-                
-                // Update pipes
-                for (let i = pipes.length - 1; i >= 0; i--) {
-                    let pipe = pipes[i];
-                    pipe.x -= pipeSpeed;
-                    
-                    // Remove off-screen pipes
-                    if (pipe.x + pipeWidth < 0) {
-                        pipes.splice(i, 1);
-                        continue;
-                    }
-                    
-                    // Check collision
-                    if (bird.x < pipe.x + pipeWidth && bird.x + bird.width > pipe.x) {
-                        if (bird.y < pipe.topHeight || bird.y + bird.height > pipe.bottomY) {
-                            gameOver();
-                            return;
-                        }
-                    }
-                    
-                    // Score
-                    if (!pipe.passed && bird.x > pipe.x + pipeWidth) {
-                        pipe.passed = true;
-                        score++;
-                        document.getElementById('flappy-score').textContent = score;
-                    }
-                }
-                
-                // Update coins
-                for (let i = coins.length - 1; i >= 0; i--) {
-                    let coin = coins[i];
-                    coin.x -= pipeSpeed;
-                    
-                    // Remove off-screen coins
-                    if (coin.x + coinSize < 0) {
-                        coins.splice(i, 1);
-                        continue;
-                    }
-                    
-                    // Check coin collection
-                    if (!coin.collected && 
-                        bird.x < coin.x + coinSize && 
-                        bird.x + bird.width > coin.x &&
-                        bird.y < coin.y + coinSize && 
-                        bird.y + bird.height > coin.y) {
-                        coin.collected = true;
-                        score += 5; // Bonus points for coins
-                        document.getElementById('flappy-score').textContent = score;
-                    }
-                }
-                
-                // Create new pipes
-                if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 300) {
-                    createPipe();
-                }
-            }
-            
-            function drawPixelatedPipe(ctx, x, y, width, height, isTopPipe) {
-                // Disable smoothing for pixelated effect
-                ctx.imageSmoothingEnabled = false;
-                
-                const pixelSize = 4;
-                const segments = Math.floor(width / pixelSize);
-                const heightSegments = Math.floor(height / pixelSize);
-                
-                // Main pipe body - dark green
-                ctx.fillStyle = '#228B22';
-                ctx.fillRect(x, y, width, height);
-                
-                // Add pipe cap (wider section at the end)
-                const capHeight = 20;
-                const capWidth = width + 8;
-                const capX = x - 4;
-                
-                if (isTopPipe) {
-                    // Top pipe cap at bottom of pipe
-                    ctx.fillStyle = '#2E8B57';
-                    ctx.fillRect(capX, y + height - capHeight, capWidth, capHeight);
-                    
-                    // Cap highlights
-                    ctx.fillStyle = '#32CD32';
-                    ctx.fillRect(capX, y + height - capHeight, capWidth, 4);
-                    ctx.fillRect(capX, y + height - capHeight, 4, capHeight);
-                    
-                    // Cap shadows
-                    ctx.fillStyle = '#1F5F1F';
-                    ctx.fillRect(capX + capWidth - 4, y + height - capHeight, 4, capHeight);
-                    ctx.fillRect(capX, y + height - 4, capWidth, 4);
-                } else {
-                    // Bottom pipe cap at top of pipe
-                    ctx.fillStyle = '#2E8B57';
-                    ctx.fillRect(capX, y, capWidth, capHeight);
-                    
-                    // Cap highlights
-                    ctx.fillStyle = '#32CD32';
-                    ctx.fillRect(capX, y, capWidth, 4);
-                    ctx.fillRect(capX, y, 4, capHeight);
-                    
-                    // Cap shadows
-                    ctx.fillStyle = '#1F5F1F';
-                    ctx.fillRect(capX + capWidth - 4, y, 4, capHeight);
-                    ctx.fillRect(capX, y + capHeight - 4, capWidth, 4);
-                }
-                
-                // Add proper shading gradient from left to right
-                const gradient = ctx.createLinearGradient(x, 0, x + width, 0);
-                gradient.addColorStop(0, '#32CD32');    // Light green highlight on left
-                gradient.addColorStop(0.3, '#228B22');  // Main green
-                gradient.addColorStop(0.7, '#228B22');  // Main green
-                gradient.addColorStop(1, '#1F5F1F');    // Dark shadow on right
-                
-                ctx.fillStyle = gradient;
-                ctx.fillRect(x, y, width, height);
-                
-                // Add black outline to main pipe body
-                ctx.strokeStyle = '#000000';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(x, y, width, height);
-                
-                // Add black outline to pipe caps (avoiding overlaps)
-                ctx.strokeStyle = '#000000';
-                ctx.lineWidth = 2;
-                
-                if (isTopPipe) {
-                    // Top pipe cap - draw only the parts that don't overlap with main pipe
-                    const capY = y + height - capHeight;
-                    
-                    // Top edge of cap
-                    ctx.beginPath();
-                    ctx.moveTo(capX, capY);
-                    ctx.lineTo(capX + capWidth, capY);
-                    ctx.stroke();
-                    
-                    // Left edge of cap (only the extended part)
-                    ctx.beginPath();
-                    ctx.moveTo(capX, capY);
-                    ctx.lineTo(capX, capY + capHeight);
-                    ctx.stroke();
-                    
-                    // Right edge of cap (only the extended part)
-                    ctx.beginPath();
-                    ctx.moveTo(capX + capWidth, capY);
-                    ctx.lineTo(capX + capWidth, capY + capHeight);
-                    ctx.stroke();
-                    
-                    // Bottom edge of cap
-                    ctx.beginPath();
-                    ctx.moveTo(capX, capY + capHeight);
-                    ctx.lineTo(capX + capWidth, capY + capHeight);
-                    ctx.stroke();
-                } else {
-                    // Bottom pipe cap - draw only the parts that don't overlap with main pipe
-                    
-                    // Top edge of cap
-                    ctx.beginPath();
-                    ctx.moveTo(capX, y);
-                    ctx.lineTo(capX + capWidth, y);
-                    ctx.stroke();
-                    
-                    // Left edge of cap (only the extended part)
-                    ctx.beginPath();
-                    ctx.moveTo(capX, y);
-                    ctx.lineTo(capX, y + capHeight);
-                    ctx.stroke();
-                    
-                    // Right edge of cap (only the extended part)  
-                    ctx.beginPath();
-                    ctx.moveTo(capX + capWidth, y);
-                    ctx.lineTo(capX + capWidth, y + capHeight);
-                    ctx.stroke();
-                    
-                    // Bottom edge of cap
-                    ctx.beginPath();
-                    ctx.moveTo(capX, y + capHeight);
-                    ctx.lineTo(capX + capWidth, y + capHeight);
-                    ctx.stroke();
-                }
-                
-                // Re-enable smoothing
-                ctx.imageSmoothingEnabled = true;
-            }
-            
-            function draw() {
-                // Clear canvas with pitch deck background
-                ctx.fillStyle = '#FFF4E6';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                // Draw FlappyTappy
-                if (tappyImage.complete) {
-                    ctx.imageSmoothingEnabled = false;
-                    ctx.drawImage(tappyImage, bird.x, bird.y, bird.width, bird.height);
-                    ctx.imageSmoothingEnabled = true;
-                } else {
-                    ctx.fillStyle = '#FF6B35';
-                    ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
-                }
-                
-                // Draw detailed pixelated pipes
-                for (let pipe of pipes) {
-                    drawPixelatedPipe(ctx, pipe.x, 0, pipeWidth, pipe.topHeight, true); // Top pipe
-                    drawPixelatedPipe(ctx, pipe.x, pipe.bottomY, pipeWidth, pipe.bottomHeight, false); // Bottom pipe
-                }
-                
-                // Draw SOL coins
-                for (let coin of coins) {
-                    if (!coin.collected && solImage.complete) {
-                        ctx.imageSmoothingEnabled = false;
-                        ctx.drawImage(solImage, coin.x, coin.y, coinSize, coinSize);
-                        ctx.imageSmoothingEnabled = true;
-                    }
-                }
-            }
-            
-            
-            function gameLoop() {
-                update();
-                draw();
-                if (gameState !== 'gameOver') {
-                    requestAnimationFrame(gameLoop);
-                }
-            }
-            
-            // Event listeners
-            canvas.addEventListener('click', jump);
-            document.addEventListener('keydown', (e) => {
-                if (e.code === 'Space') {
-                    e.preventDefault();
-                    jump();
-                } else if (e.code === 'Escape') {
-                    exitFlappyBird();
-                }
-            });
-            
-            // Game object
-            flappyGame = {
-                stop: () => {
-                    gameState = 'gameOver';
-                },
-                restart: () => {
-                    gameState = 'waiting';
-                    score = 0;
-                    bird.y = canvas.height / 2;
-                    bird.velocity = 0;
-                    pipes = [];
-                    coins = [];
-                    pipeCount = 0; // Reset pipe count for easier beginning pipes
-                    document.getElementById('flappy-score').textContent = '0';
-                    gameLoop();
-                }
-            };
-            
-            // Start the game
-            gameLoop();
-        }
-
-        // Initialize navigation arrows on page load
-        updateNavigationArrows();
-
-    </script>
-</body>
-</html>
