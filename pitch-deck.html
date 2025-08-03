@@ -469,7 +469,7 @@
             }
             
             .problem-stat {
-                font-size: 24px;
+                font-size: 20px;
             }
             
             .problem-icon {
@@ -494,7 +494,7 @@
             }
             
             .problem-stat {
-                font-size: 22px;
+                font-size: 18px;
             }
             
             .problem-title {
@@ -504,7 +504,7 @@
         
         .problem-card {
             background: #FEFEFE;
-            padding: 28px 20px;
+            padding: 24px 16px;
             border-radius: 16px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(45, 24, 16, 0.1);
@@ -516,6 +516,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            overflow: hidden;
         }
         
         .problem-card:hover {
@@ -552,55 +553,64 @@
         }
         
         .problem-icon {
-            font-size: 64px;
+            font-size: 56px;
             line-height: 1;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
-            height: 80px;
+            height: 70px;
             margin-bottom: 0;
             flex-shrink: 0;
-            padding-top: 8px;
+            color: #FA652E;
+            opacity: 0.8;
         }
         
         .problem-stat {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 800;
             color: #FA652E;
-            margin: 12px 0;
-            line-height: 1.2;
+            margin: 8px 0;
+            line-height: 1.1;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: auto;
             text-align: center;
+            padding: 0 10px;
+        }
+        
+        .problem-card:nth-child(2) .problem-stat {
+            font-size: 20px;
+            line-height: 1.1;
         }
         
         .problem-card:nth-child(3) .problem-stat {
-            font-size: 24px;
-            line-height: 1.2;
+            font-size: 18px;
+            line-height: 1.1;
         }
         
         .problem-desc {
-            font-size: 14px;
+            font-size: 13px;
             color: #4C4C4C;
-            line-height: 1.5;
-            margin: 12px 0;
+            line-height: 1.4;
+            margin: 8px 0;
             flex-grow: 1;
             display: flex;
             align-items: center;
             text-align: center;
-            padding: 0 8px;
+            padding: 0 12px;
         }
         
         .problem-footnote {
-            font-size: 12px;
+            font-size: 11px;
             color: #888;
-            margin-top: 12px;
+            margin-top: 8px;
             opacity: 0.7;
             flex-shrink: 0;
+            padding: 0 12px;
+            line-height: 1.3;
         }
         
         /* Slide 3 - Solution */
