@@ -71,6 +71,24 @@
                 bottom: 20px;
                 gap: 8px;
             }
+            
+            /* Ensure minimum readable font sizes on mobile */
+            .problem-desc,
+            .feature-desc,
+            .why-now-desc,
+            .phase-desc,
+            .comparison-item,
+            .revenue-desc {
+                font-size: 15px !important;
+            }
+            
+            .problem-footnote {
+                font-size: 13px !important;
+            }
+            
+            .vision-stat-label {
+                font-size: 16px !important;
+            }
         }
         
         @media (max-width: 480px) {
@@ -465,7 +483,7 @@
             
             .problem-card {
                 width: 320px;
-                height: 380px;
+                height: 340px;
             }
             
             .problem-stat {
@@ -490,7 +508,7 @@
             .problem-card {
                 padding: 24px 20px;
                 width: 300px;
-                height: 360px;
+                height: 320px;
             }
             
             .problem-stat {
@@ -512,7 +530,7 @@
             opacity: 0;
             transform: translateY(40px);
             width: 320px;
-            height: 380px;
+            height: 320px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -592,7 +610,7 @@
         }
         
         .problem-desc {
-            font-size: 13px;
+            font-size: 16px;
             color: #4C4C4C;
             line-height: 1.4;
             margin: 8px 0;
@@ -604,7 +622,7 @@
         }
         
         .problem-footnote {
-            font-size: 11px;
+            font-size: 14px;
             color: #888;
             margin-top: 8px;
             opacity: 0.7;
@@ -939,7 +957,7 @@
         }
         
         .feature-desc {
-            font-size: 13px;
+            font-size: 15px;
             color: #4C4C4C;
             font-style: italic;
             line-height: 1.4;
@@ -1032,7 +1050,7 @@
         }
         
         .why-now-desc {
-            font-size: 14px;
+            font-size: 16px;
             color: #4C4C4C;
             line-height: 1.6;
         }
@@ -1136,7 +1154,7 @@
         }
         
         .phase-desc {
-            font-size: 14px;
+            font-size: 16px;
             color: #4C4C4C;
             line-height: 1.5;
         }
@@ -1230,7 +1248,7 @@
         }
         
         .comparison-item {
-            font-size: 14px;
+            font-size: 16px;
             color: #4C4C4C;
             margin-bottom: 12px;
             padding-left: 24px;
@@ -1343,7 +1361,7 @@
         }
         
         .revenue-desc {
-            font-size: 14px;
+            font-size: 16px;
             color: #4C4C4C;
             line-height: 1.5;
         }
@@ -1441,7 +1459,7 @@
         .vision-stat-label {
             font-family: 'Helvetica Neue', sans-serif;
             font-weight: 400;
-            font-size: 16px;
+            font-size: 18px;
             color: #4C4C4C;
             text-align: center;
         }
@@ -1593,7 +1611,7 @@
                 <div class="problem-card animate">
                     <div class="problem-icon"><i class="ph ph-robot"></i></div>
                     <div class="problem-stat">Too Complex</div>
-                    <div class="problem-desc">Wallets feel like engineering dashboards. Your mom uses Venmo but can't crack Phantom.</div>
+                    <div class="problem-desc">Wallets feel like engineering dashboards. Your mom uses payment apps but can't crack Phantom.</div>
                     <div class="problem-footnote">The UX barrier killing adoption.</div>
                 </div>
                 <div class="problem-card animate">
@@ -1604,7 +1622,7 @@
                 </div>
                 <div class="problem-card animate">
                     <div class="problem-icon"><i class="ph ph-device-mobile"></i></div>
-                    <div class="problem-stat">No True Venmo for Solana</div>
+                    <div class="problem-stat">No Simple Payment App for Solana</div>
                     <div class="problem-desc">Amazing tech, zero consumer-friendly payments. We're changing that.</div>
                     <div class="problem-footnote">The massive untapped opportunity.</div>
                 </div>
