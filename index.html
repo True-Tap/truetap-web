@@ -7,6 +7,42 @@
 <meta name="description" content="TrueTap makes crypto payments as easy as sending a text. Tap two phones together for instant Solana payments. The social payment experience, built for crypto.">
 <link rel="icon" href="/logo.png" type="image/png">
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
+<script>
+// Configure for devnet environment
+(function() {
+    const pathname = window.location.pathname;
+    
+    // Check if we're in the /dev/ path
+    const isDevEnvironment = pathname.startsWith('/dev/');
+    
+    if (isDevEnvironment) {
+        // Configure Solana RPC endpoint for devnet
+        window.TRUETAP_CONFIG = {
+            rpcEndpoint: 'https://api.devnet.solana.com',
+            cluster: 'devnet',
+            environment: 'dev'
+        };
+        
+        // Serve web3.json manifest for devnet
+        if (window.location.pathname === '/dev/.well-known/web3.json') {
+            const manifest = {
+                "name": "TrueTap (Dev)",
+                "description": "Payments. Reimagined.",
+                "image": "https://truetap.app/logo.png",
+                "cluster": "devnet",
+                "chain": "solana:devnet",
+                "app_url": "https://truetap.app/dev/"
+            };
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                document.body.innerHTML = '<pre>' + JSON.stringify(manifest, null, 2) + '</pre>';
+                document.body.style.fontFamily = 'monospace';
+                document.body.style.padding = '20px';
+            });
+        }
+    }
+})();
+</script>
 <style>
 * {
 margin: 0;
@@ -1258,6 +1294,12 @@ roadmapItems.forEach(i => i.classList.remove('active'));
 this.classList.add('active');
             });
         });
+
+// Log environment configuration for development
+if (window.TRUETAP_CONFIG) {
+    console.log('TrueTap Environment:', window.TRUETAP_CONFIG);
+    console.log('Web3 manifest available at:', window.location.origin + '/.well-known/web3.json');
+}
 </script>
 </body>
 </html>
