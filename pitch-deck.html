@@ -447,6 +447,89 @@
             image-rendering: pixelated;
         }
 
+        /* Landing Page Styles */
+        .landing-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .landing-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 64px;
+            font-weight: bold;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            image-rendering: pixelated;
+        }
+
+        .landing-options {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .landing-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 48px;
+            background: rgba(255, 107, 53, 0.1);
+            border: 2px solid #FF6B35;
+            border-radius: 12px;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        .landing-button:hover {
+            background: rgba(255, 107, 53, 0.2);
+            border-color: #F7931E;
+            transform: translateY(-2px);
+        }
+
+        .landing-button.recommended {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            border-color: #F7931E;
+            box-shadow: 0 0 20px rgba(247, 147, 30, 0.3);
+        }
+
+        .landing-button.recommended:hover {
+            background: linear-gradient(135deg, #FF7B45 0%, #F8A31E 50%, #FFC357 100%);
+            box-shadow: 0 0 30px rgba(247, 147, 30, 0.5);
+        }
+
+        .landing-button.continue {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-text {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .button-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            font-weight: normal;
+        }
+
         /* Empty slide styling */
         .slide h2 {
             font-family: 'PixeloidSans', sans-serif;
@@ -737,7 +820,7 @@
             color: #FF6B35;
             position: absolute;
             left: -30px;
-            top: -10px;
+            top: -15px;
             font-family: serif;
         }
 
@@ -746,8 +829,8 @@
             font-size: 48px;
             color: #FF6B35;
             position: absolute;
-            right: -30px;
-            bottom: -30px;
+            right: 55px;
+            top: -15px;
             font-family: serif;
         }
 
@@ -852,7 +935,7 @@
             height: auto;
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            border: 3px solid rgba(255, 107, 53, 0.4);
+            border: 3px solid transparent;
         }
 
         .ux-nav-arrow {
@@ -1655,11 +1738,12 @@
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 179, 71, 0.3);
             display: flex;
-            gap: 20px;
+            gap: 15px;
             align-items: flex-start;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            min-height: 140px;
         }
 
         .next-item::before {
@@ -2222,6 +2306,7 @@
             .next-item {
                 padding: 20px;
                 gap: 15px;
+                min-height: 120px;
             }
 
             .next-number {
@@ -2377,7 +2462,7 @@
                     <img src="Images/Don.png" alt="Don Norman" class="don-image">
                     <div class="quote-text">
                         <blockquote>
-                            "Attractive things make people feel good, which in turn makes them think more creatively. That's the essence of emotional design — it invites you in."
+                            Attractive things make people feel good, which in turn makes them think more creatively. That's the essence of emotional design — it invites you in.
                         </blockquote>
                         <cite>— Don Norman, Emotional Design</cite>
                     </div>
@@ -2429,7 +2514,7 @@
                     </div>
                     <div class="formula-equals">=</div>
                     <div class="formula-result">
-                        <img src="Images/bank.png" alt="Bank Security" class="formula-icon">
+                        <img src="Images/Bank.png" alt="Bank Security" class="formula-icon">
                         <span class="result-text">Bank grade security with Venmo grade simplicity</span>
                     </div>
                 </div>
@@ -2960,8 +3045,8 @@
             player = {
                 x: 250,
                 y: canvas.height / 2,
-                width: 60,
-                height: 60,
+                width: 45,
+                height: 45,
                 velocity: 0,
                 gravity: 0.5,
                 jump: -8,
@@ -3104,10 +3189,11 @@
                 ctx.strokeRect(pipe.x, 0, pipe.width, pipe.topHeight);
                 ctx.strokeRect(pipe.x, pipe.bottomY, pipe.width, pipe.bottomHeight);
                 
-                // Check collision with pipes
-                if (player.x < pipe.x + pipe.width &&
-                    player.x + player.width > pipe.x &&
-                    (player.y < pipe.topHeight || player.y + player.height > pipe.bottomY)) {
+                // Check collision with pipes (more forgiving collision detection)
+                // Add 3px margin to make collision more pixel-accurate
+                if (player.x + 3 < pipe.x + pipe.width &&
+                    player.x + player.width - 3 > pipe.x &&
+                    (player.y + 3 < pipe.topHeight || player.y + player.height - 3 > pipe.bottomY)) {
                     gameOver();
                 }
                 
@@ -3130,8 +3216,8 @@
                 if (!coin.collected) {
                     coin.x -= 8;
                     
-                    // Draw coin (SOL)
-                    if (coin.image.complete) {
+                    // Draw coin (SOL) only if game is running
+                    if (coin.image.complete && gameRunning) {
                         ctx.imageSmoothingEnabled = false;
                         ctx.drawImage(coin.image, coin.x, coin.y, coin.width, coin.height);
                     }
@@ -3275,6 +3361,7 @@
         // Simple UX Image Navigation
         let currentUXImageIndex = 0;
         const uxImages = ['Images/1.png', 'Images/2.png', 'Images/3.png', 'Images/4.png'];
+        let uxAutoRotateInterval;
         
         function nextUXImage() {
             currentUXImageIndex = (currentUXImageIndex + 1) % uxImages.length;
@@ -3285,6 +3372,18 @@
             currentUXImageIndex = (currentUXImageIndex - 1 + uxImages.length) % uxImages.length;
             document.getElementById('uxImage').src = uxImages[currentUXImageIndex];
         }
+        
+        // Auto-rotate UX images every 3 seconds
+        function startUXAutoRotate() {
+            uxAutoRotateInterval = setInterval(nextUXImage, 3000);
+        }
+        
+        function stopUXAutoRotate() {
+            clearInterval(uxAutoRotateInterval);
+        }
+        
+        // Start auto-rotation when page loads
+        startUXAutoRotate();
     </script>
 </body>
 </html>
