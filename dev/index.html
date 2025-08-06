@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrueTap - Payments. Reimagined.</title>
+<meta name="description" content="TrueTap makes crypto payments as easy as sending a text. Tap two phones together for instant Solana payments. The social payment experience, built for crypto.">
+<link rel="icon" href="/logo.png" type="image/png">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<script>
+// Configure for devnet environment
+(function() {
+    const pathname = window.location.pathname;
+    
+    // Check if we're in the /dev/ path
+    const isDevEnvironment = pathname.startsWith('/dev/');
+    
+    if (isDevEnvironment) {
+        // Configure Solana RPC endpoint for devnet
+        window.TRUETAP_CONFIG = {
+            rpcEndpoint: 'https://api.devnet.solana.com',
+            cluster: 'devnet',
+            environment: 'dev'
+        };
+        
+        // Serve web3.json manifest for devnet
+        if (window.location.pathname === '/dev/web3.json') {
+            const manifest = {
+                "name": "TrueTap (Dev)",
+                "description": "Payments. Reimagined.",
+                "image": "https://truetap.app/logo.png",
+                "cluster": "devnet",
+                "chain": "solana:devnet",
+                "app_url": "https://truetap.app/dev/"
+            };
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                document.body.innerHTML = '<pre>' + JSON.stringify(manifest, null, 2) + '</pre>';
+                document.body.style.fontFamily = 'monospace';
+                document.body.style.padding = '20px';
+            });
+        }
+    }
+})();
+</script>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+        }
+:root {
+--primary-orange: #ff6b35;
+--secondary-orange: #f7931e;
+--dark-orange: #FA652E;
+--light-bg: #FFF4E6;
+--cream-bg: #FFE4CC;
+--text-dark: #2d1810;
+--text-medium: #4C4C4C;
+--text-light: #888;
+--white: #FFFFFF;
+        }
+body {
+font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+line-height: 1.6;
+color: var(--text-dark);
+overflow-x: hidden;
+background: var(--light-bg);
+        }
+/* Smooth Scrolling */
+html {
+scroll-behavior: smooth;
+        }
+/* Navigation */
+nav {
+position: fixed;
+top: 0;
+width: 100%;
+background: rgba(255, 244, 230, 0.95);
+backdrop-filter: blur(10px);
+z-index: 1000;
+padding: 1rem 0;
+box-shadow: 0 2px 10px rgba(45, 24, 16, 0.1);
+transition: all 0.3s ease;
+        }
+nav.scrolled {
+padding: 0.5rem 0;
+background: rgba(255, 244, 230, 0.98);
+        }
+.nav-container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 2rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+        }
+.nav-logo {
+display: flex;
+align-items: center;
+gap: 1rem;
+text-decoration: none;
+        }
+.nav-logo img {
+width: 48px;
+height: 48px;
+transition: transform 0.3s ease;
+        }
+.nav-logo:hover img {
+transform: scale(1.1) rotate(5deg);
+        }
+.nav-logo span {
+font-size: 1.5rem;
+font-weight: 800;
+background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+        }
+.nav-links {
+display: flex;
+gap: 2rem;
+align-items: center;
+        }
+.nav-link {
+color: var(--text-dark);
+text-decoration: none;
+font-weight: 500;
+transition: all 0.3s ease;
+position: relative;
+        }
+.nav-link::after {
+content: '';
+position: absolute;
+bottom: -4px;
+left: 0;
+width: 0;
+height: 2px;
+background: var(--primary-orange);
+transition: width 0.3s ease;
+        }
+.nav-link:hover::after {
+width: 100%;
+        }
+.nav-cta {
+background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+color: white;
+padding: 0.5rem 1.5rem;
+border-radius: 50px;
+text-decoration: none;
+font-weight: 600;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+.nav-cta:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+/* Hero Section */
+.hero {
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+background: radial-gradient(circle at 30% 50%, var(--light-bg) 0%, var(--cream-bg) 100%);
+padding: 6rem 2rem 4rem;
+position: relative;
+overflow: hidden;
+        }
+.hero::before {
+content: '';
+position: absolute;
+top: -50%;
+right: -50%;
+width: 200%;
+height: 200%;
+background: radial-gradient(circle, rgba(255, 107, 53, 0.05) 0%, transparent 70%);
+animation: float 20s ease-in-out infinite;
+        }
+@keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+.hero-container {
+max-width: 1200px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 4rem;
+align-items: center;
+position: relative;
+z-index: 1;
+        }
+.hero-content {
+animation: fadeInUp 0.8s ease-out;
+        }
+@keyframes fadeInUp {
+            from {
+opacity: 0;
+transform: translateY(30px);
+            }
+            to {
+opacity: 1;
+transform: translateY(0);
+            }
+        }
+.hero-title {
+font-size: clamp(2.5rem, 5vw, 4rem);
+font-weight: 900;
+line-height: 1.1;
+margin-bottom: 1.5rem;
+background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+        }
+.hero-subtitle {
+font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+color: var(--text-medium);
+margin-bottom: 2rem;
+font-weight: 400;
+        }
+.hero-description {
+font-size: 1.1rem;
+color: var(--text-medium);
+margin-bottom: 2.5rem;
+line-height: 1.8;
+        }
+.hero-buttons {
+display: flex;
+gap: 1rem;
+flex-wrap: wrap;
+        }
+.btn-primary {
+background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+color: white;
+padding: 1rem 2rem;
+border-radius: 50px;
+text-decoration: none;
+font-weight: 600;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+        }
+.btn-primary:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+.btn-secondary {
+background: transparent;
+color: var(--primary-orange);
+padding: 1rem 2rem;
+border-radius: 50px;
+text-decoration: none;
+font-weight: 600;
+transition: all 0.3s ease;
+border: 2px solid var(--primary-orange);
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+        }
+.btn-secondary:hover {
+background: var(--primary-orange);
+color: white;
+transform: translateY(-2px);
+        }
+.hero-visual {
+position: relative;
+animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+.phone-mockup {
+width: 300px;
+height: 600px;
+background: var(--text-dark);
+border-radius: 40px;
+position: relative;
+box-shadow: 0 20px 60px rgba(45, 24, 16, 0.3), 0 0 80px rgba(255, 107, 53, 0.1);
+margin: 0 auto;
+overflow: hidden;
+        }
+.phone-screen {
+width: 280px;
+height: 580px;
+background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange), #ff8a65 100%);
+border-radius: 30px;
+position: absolute;
+top: 10px;
+left: 10px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+color: white;
+overflow: hidden;
+box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+.phone-screen::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+pointer-events: none;
+z-index: 1;
+        }
+.tap-animation {
+position: absolute;
+width: 200px;
+height: 200px;
+background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 70%);
+border-radius: 50%;
+animation: tapPulse 3s ease-in-out infinite;
+        }
+@keyframes tapPulse {
+            0%, 100% {
+transform: scale(0.9);
+opacity: 0.6;
+            }
+            50% {
+transform: scale(1.2);
+opacity: 1;
+            }
+        }
+.tap-icon {
+width: 90px;
+height: 90px;
+margin-bottom: 1.5rem;
+z-index: 2;
+position: relative;
+animation: bounceFloat 3s ease-in-out infinite;
+filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+@keyframes bounceFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
+        }
+.tap-text {
+font-size: 1.75rem;
+font-weight: 700;
+z-index: 2;
+position: relative;
+text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+text-align: center;
+line-height: 1.3;
+margin-bottom: 1rem;
+        }
+.tap-subtext {
+font-size: 1rem;
+z-index: 2;
+position: relative;
+opacity: 0.9;
+text-align: center;
+        }
+.sparkle-container {
+position: absolute;
+width: 100%;
+height: 100%;
+pointer-events: none;
+        }
+.sparkle {
+position: absolute;
+width: 4px;
+height: 4px;
+background: white;
+border-radius: 50%;
+opacity: 0;
+animation: sparkleAnimation 3s linear infinite;
+        }
+.sparkle:nth-child(1) {
+top: 20%;
+left: 30%;
+animation-delay: 0s;
+        }
+.sparkle:nth-child(2) {
+top: 60%;
+right: 25%;
+animation-delay: 1s;
+        }
+.sparkle:nth-child(3) {
+bottom: 30%;
+left: 40%;
+animation-delay: 2s;
+        }
+@keyframes sparkleAnimation {
+            0% {
+opacity: 0;
+transform: scale(0) translateY(0);
+            }
+            50% {
+opacity: 1;
+transform: scale(1) translateY(-20px);
+            }
+            100% {
+opacity: 0;
+transform: scale(0) translateY(-40px);
+            }
+        }
+/* Stats Section */
+.stats {
+background: var(--white);
+padding: 4rem 2rem;
+position: relative;
+        }
+.stats-container {
+max-width: 1200px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 2rem;
+        }
+.stat-card {
+text-align: center;
+padding: 2rem;
+opacity: 0;
+transform: translateY(30px);
+animation: fadeInUp 0.6s ease-out forwards;
+        }
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+.stat-number {
+font-size: 3rem;
+font-weight: 800;
+color: var(--primary-orange);
+margin-bottom: 0.5rem;
+        }
+.stat-label {
+font-size: 1.1rem;
+color: var(--text-medium);
+        }
+/* Features Section */
+.features {
+padding: 6rem 2rem;
+background: var(--light-bg);
+        }
+.features-container {
+max-width: 1200px;
+margin: 0 auto;
+        }
+.section-title {
+font-size: clamp(2rem, 4vw, 3rem);
+font-weight: 800;
+text-align: center;
+margin-bottom: 1rem;
+background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+        }
+.section-subtitle {
+font-size: 1.25rem;
+color: var(--text-medium);
+text-align: center;
+margin-bottom: 4rem;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+        }
+.features-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+        }
+.feature-card {
+background: var(--white);
+padding: 2.5rem;
+border-radius: 20px;
+box-shadow: 0 4px 20px rgba(45, 24, 16, 0.1);
+transition: all 0.3s ease;
+position: relative;
+overflow: hidden;
+        }
+.feature-card::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 4px;
+background: linear-gradient(90deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+transform: translateX(-100%);
+transition: transform 0.3s ease;
+        }
+.feature-card:hover::before {
+transform: translateX(0);
+        }
+.feature-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 30px rgba(45, 24, 16, 0.15);
+        }
+.feature-icon {
+font-size: 3rem;
+color: var(--primary-orange);
+margin-bottom: 1.5rem;
+display: flex;
+align-items: center;
+justify-content: center;
+width: 80px;
+height: 80px;
+background: rgba(255, 107, 53, 0.1);
+border-radius: 20px;
+        }
+.feature-title {
+font-size: 1.5rem;
+font-weight: 700;
+margin-bottom: 1rem;
+color: var(--text-dark);
+        }
+.feature-description {
+color: var(--text-medium);
+line-height: 1.8;
+        }
+/* Roadmap Section */
+.roadmap {
+padding: 6rem 2rem;
+background: var(--white);
+position: relative;
+overflow: hidden;
+        }
+.roadmap-container {
+max-width: 1200px;
+margin: 0 auto;
+        }
+.roadmap-timeline {
+position: relative;
+padding: 2rem 0;
+        }
+.roadmap-line {
+position: absolute;
+top: 50%;
+left: 0;
+right: 0;
+height: 4px;
+background: linear-gradient(90deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+transform: translateY(-50%);
+z-index: 1;
+        }
+.roadmap-items {
+display: flex;
+justify-content: space-between;
+position: relative;
+z-index: 2;
+max-width: 900px;
+margin: 0 auto;
+        }
+.roadmap-item {
+flex: 1;
+text-align: center;
+padding: 0 1rem;
+position: relative;
+opacity: 0;
+transform: translateY(30px);
+animation: fadeInUp 0.6s ease-out forwards;
+        }
+.roadmap-item:nth-child(1) { animation-delay: 0.1s; }
+.roadmap-item:nth-child(2) { animation-delay: 0.3s; }
+.roadmap-item:nth-child(3) { animation-delay: 0.5s; }
+.roadmap-dot {
+width: 48px;
+height: 48px;
+background: var(--white);
+border: 4px solid var(--primary-orange);
+border-radius: 50%;
+margin: 0 auto 2rem;
+position: relative;
+cursor: pointer;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 20px;
+font-weight: 800;
+color: var(--primary-orange);
+        }
+.roadmap-item.active .roadmap-dot,
+.roadmap-dot:hover {
+background: var(--primary-orange);
+transform: scale(1.2);
+box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+color: var(--white);
+        }
+.roadmap-content {
+background: var(--light-bg);
+padding: 2rem;
+border-radius: 20px;
+box-shadow: 0 4px 20px rgba(45, 24, 16, 0.1);
+transition: all 0.3s ease;
+cursor: pointer;
+position: relative;
+overflow: hidden;
+        }
+.roadmap-content::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 4px;
+background: linear-gradient(90deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+transform: translateX(-100%);
+transition: transform 0.3s ease;
+        }
+.roadmap-content:hover::before {
+transform: translateX(0);
+        }
+.roadmap-content:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 30px rgba(45, 24, 16, 0.15);
+        }
+.roadmap-quarter {
+font-size: 1.75rem;
+color: var(--primary-orange);
+font-weight: 900;
+margin-bottom: 0.5rem;
+text-transform: none;
+line-height: 1;
+        }
+.roadmap-title {
+font-size: 1.5rem;
+font-weight: 800;
+color: var(--text-dark);
+margin-bottom: 1rem;
+        }
+.roadmap-list {
+text-align: left;
+list-style: none;
+        }
+.roadmap-list li {
+color: var(--text-medium);
+margin-bottom: 0.5rem;
+padding-left: 1.5rem;
+position: relative;
+font-size: 0.95rem;
+line-height: 1.4;
+        }
+.roadmap-list li::before {
+content: '✓';
+position: absolute;
+left: 0;
+color: var(--primary-orange);
+font-weight: bold;
+        }
+/* Problem Section */
+.problem {
+  padding: 6rem 2rem;
+  background: var(--light-bg);
+}
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;  /* Match other sections */
+  margin: 0 auto;
+}
+
+.problem-card {
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: 20px;  /* Match feature-card rounding */
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(45, 24, 16, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.problem-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.problem-card:hover::before {
+  transform: translateX(0);
+}
+
+.problem-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(45, 24, 16, 0.15);
+}
+
+.problem-icon {
+  font-size: 3rem;
+  color: var(--primary-orange);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 107, 53, 0.1);
+  border-radius: 20px;
+  margin: 0 auto;
+}
+
+.problem-stat {
+  font-size: 2rem;  /* Slightly smaller for better hierarchy */
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 1rem 0 0.5rem;
+}
+
+.problem-description {
+  color: var(--text-medium);
+  line-height: 1.8;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.problem-footnote {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-style: italic;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 107, 53, 0.2);
+}
+/* CTA Section */
+.cta {
+padding: 6rem 2rem;
+background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+color: white;
+text-align: center;
+        }
+.cta-container {
+max-width: 800px;
+margin: 0 auto;
+        }
+.cta-title {
+font-size: clamp(2rem, 4vw, 3rem);
+font-weight: 800;
+margin-bottom: 1.5rem;
+        }
+.cta-description {
+font-size: 1.25rem;
+margin-bottom: 2.5rem;
+opacity: 0.95;
+        }
+.cta-button {
+background: white;
+color: var(--primary-orange);
+padding: 1.25rem 2.5rem;
+border-radius: 50px;
+text-decoration: none;
+font-weight: 700;
+font-size: 1.1rem;
+transition: all 0.3s ease;
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+.cta-button:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+/* Footer */
+footer {
+background: var(--text-dark);
+color: white;
+padding: 3rem 2rem 2rem;
+text-align: center;
+        }
+.footer-container {
+max-width: 1200px;
+margin: 0 auto;
+        }
+.footer-logo {
+width: 60px;
+height: 60px;
+margin: 0 auto 1.5rem;
+        }
+.footer-links {
+display: flex;
+justify-content: center;
+gap: 2rem;
+margin-bottom: 2rem;
+flex-wrap: wrap;
+        }
+.footer-link {
+color: white;
+text-decoration: none;
+opacity: 0.8;
+transition: opacity 0.3s ease;
+        }
+.footer-link:hover {
+opacity: 1;
+        }
+.footer-divider {
+height: 1px;
+background: rgba(255, 255, 255, 0.2);
+margin: 2rem 0;
+        }
+.footer-copyright {
+opacity: 0.6;
+font-size: 0.9rem;
+        }
+/* Mobile Responsive */
+@media (max-width: 768px) {
+.nav-links {
+display: none;
+            }
+.hero-container {
+grid-template-columns: 1fr;
+text-align: center;
+            }
+.hero-visual {
+order: -1;
+margin-bottom: 2rem;
+            }
+.phone-mockup {
+width: 250px;
+height: 500px;
+            }
+.phone-screen {
+width: 230px;
+height: 480px;
+            }
+.tap-animation {
+width: 160px;
+height: 160px;
+            }
+.tap-icon {
+width: 70px;
+height: 70px;
+            }
+.tap-text {
+font-size: 1.25rem;
+            }
+.tap-subtext {
+font-size: 0.9rem;
+            }
+.sparkle {
+width: 3px;
+height: 3px;
+            }
+.roadmap-items {
+flex-direction: column;
+gap: 2rem;
+            }
+.roadmap-line {
+top: 0;
+bottom: 0;
+left: 50%;
+width: 4px;
+height: auto;
+transform: translateX(-50%);
+            }
+.roadmap-dot {
+margin-bottom: 1rem;
+width: 40px;
+height: 40px;
+font-size: 18px;
+            }
+.roadmap-quarter {
+font-size: 1.5rem;
+            }
+.roadmap-title {
+font-size: 1.25rem;
+            }
+.stats-container {
+grid-template-columns: repeat(2, 1fr);
+            }
+        }
+@media (max-width: 480px) {
+.hero-buttons {
+flex-direction: column;
+width: 100%;
+            }
+.btn-primary,
+.btn-secondary {
+width: 100%;
+justify-content: center;
+            }
+.phone-mockup {
+width: 200px;
+height: 400px;
+            }
+.phone-screen {
+width: 180px;
+height: 380px;
+            }
+.tap-animation {
+width: 140px;
+height: 140px;
+            }
+.tap-icon {
+width: 60px;
+height: 60px;
+margin-bottom: 1rem;
+            }
+.tap-text {
+font-size: 1.1rem;
+margin-bottom: 0.5rem;
+            }
+.tap-subtext {
+font-size: 0.8rem;
+            }
+.sparkle {
+width: 2px;
+height: 2px;
+            }
+.stats-container {
+grid-template-columns: 1fr;
+            }
+@keyframes sparkleAnimation {
+                0% {
+opacity: 0;
+transform: scale(0) translateY(0);
+                }
+                50% {
+opacity: 1;
+transform: scale(1) translateY(-15px);
+                }
+                100% {
+opacity: 0;
+transform: scale(0) translateY(-30px);
+                }
+            }
+        }
+/* Loading Animation */
+.fade-in-section {
+opacity: 0;
+transform: translateY(20px);
+transition: all 0.6s ease-out;
+        }
+.fade-in-section.visible {
+opacity: 1;
+transform: translateY(0);
+        }
+</style>
+</head>
+<body>
+<!-- Navigation -->
+<nav id="navbar">
+<div class="nav-container">
+<a href="#" class="nav-logo">
+<img src="Images/Tappy.png" alt="TrueTap Logo">
+<span>TrueTap</span>
+</a>
+<div class="nav-links">
+<a href="#features" class="nav-link">Features</a>
+<a href="#roadmap" class="nav-link">The Dream</a>
+<a href="#problem" class="nav-link">Why TrueTap</a>
+<a href="pitch-deck.html" class="nav-cta">View Pitch Deck</a>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="hero">
+<div class="hero-container">
+<div class="hero-content">
+<h1 class="hero-title">Payments. Reimagined.</h1>
+<p class="hero-subtitle">Making crypto payments as easy as sending a text</p>
+<p class="hero-description">
+                    Tap two phones together for instant magic. Add friends like you already do.
+                    Pay however feels natural - a tap, a scan, or a send. TrueTap brings the simplicity you expect from modern apps to the speed of Solana.
+</p>
+<div class="hero-buttons">
+<a href="pitch-deck.html" class="btn-primary">
+<i class="ph ph-presentation-chart"></i>
+                        View Pitch Deck
+</a>
+<a href="#roadmap" class="btn-secondary">
+<i class="ph ph-sparkle"></i>
+                        See The Dream
+</a>
+</div>
+</div>
+<div class="hero-visual">
+<div class="phone-mockup">
+<div class="phone-screen">
+<div class="tap-animation"></div>
+<div class="sparkle-container">
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+</div>
+<img src="Images/Tappy.png" alt="Tappy" class="tap-icon">
+<div class="tap-text">Money Moves<br>Like Magic</div>
+<div class="tap-subtext">Tap • Send • Done</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="stats fade-in-section">
+<div class="stats-container">
+<div class="stat-card">
+<div class="stat-number">1 Tap</div>
+<div class="stat-label">Instant Payments</div>
+</div>
+<div class="stat-card">
+<div class="stat-number">659M</div>
+<div class="stat-label">Global Crypto Users</div>
+</div>
+<div class="stat-card">
+<div class="stat-number">140K+</div>
+<div class="stat-label">Seeker Pre-orders</div>
+</div>
+<div class="stat-card">
+<div class="stat-number">$26T</div>
+<div class="stat-label">Mobile Payments by 2032</div>
+</div>
+</div>
+</section>
+<!-- Features Section -->
+<section id="features" class="features fade-in-section">
+<div class="features-container">
+<h2 class="section-title">Imagine this</h2>
+<p class="section-subtitle">What if sending crypto was this simple?</p>
+<div class="features-grid">
+<div class="feature-card">
+<div class="feature-icon">
+<i class="ph ph-paper-plane"></i>
+</div>
+<h3 class="feature-title">Send money like a text</h3>
+<p class="feature-description">
+                        Pick a friend, add an emoji, tap send. Done. No wallet addresses, no confusion,
+                        just instant payments that work like magic.
+</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">
+<i class="ph ph-users-three"></i>
+</div>
+<h3 class="feature-title">Split bills instantly</h3>
+<p class="feature-description">
+                        Dinner with friends? Split in SOL. No bank delays, no awkward IOUs.
+                        Everyone gets paid instantly.
+</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">
+<i class="ph ph-qr-code"></i>
+</div>
+<h3 class="feature-title">Pay anywhere</h3>
+<p class="feature-description">
+                        Scan to pay at cafes, stores, anywhere. Merchants love it because setup
+                        takes minutes, not months.
+</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">
+<i class="ph ph-shield-check"></i>
+</div>
+<h3 class="feature-title">Bank-grade security</h3>
+<p class="feature-description">
+                        Hardware wallet built into Seeker. Your fingerprint is your password.
+                        Secure by default, simple by design.
+</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">
+<i class="ph ph-confetti"></i>
+</div>
+<h3 class="feature-title">Make it fun</h3>
+<p class="feature-description">
+                        Group payments with friends, payment messages with emojis, and a social feed.
+                        Because payments should spark joy.
+</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">
+<i class="ph ph-lightning"></i>
+</div>
+<h3 class="feature-title">Lightning fast</h3>
+<p class="feature-description">
+                        Sub-second payments powered by Solana. Faster than Apple Pay,
+                        cheaper than anything else. The future is here.
+</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Roadmap Section -->
+<section id="roadmap" class="roadmap fade-in-section">
+<div class="roadmap-container">
+<h2 class="section-title">The Dream</h2>
+<p class="section-subtitle">Starting with 140,000 Seekers. Ending with the world.</p>
+<div class="roadmap-timeline">
+<div class="roadmap-line"></div>
+<div class="roadmap-items">
+<div class="roadmap-item active">
+<div class="roadmap-dot">1</div>
+<div class="roadmap-content">
+<div class="roadmap-quarter">Today</div>
+<h3 class="roadmap-title">140,000 Seekers</h3>
+<ul class="roadmap-list">
+<li>Launch the first true mobile payment app</li>
+<li>One killer app to show what's possible</li>
+<li>Build a passionate community</li>
+<li>Make crypto payments magical</li>
+</ul>
+</div>
+</div>
+<div class="roadmap-item">
+<div class="roadmap-dot">2</div>
+<div class="roadmap-content">
+<div class="roadmap-quarter">Tomorrow</div>
+<h3 class="roadmap-title">Every Solana Phone</h3>
+<ul class="roadmap-list">
+<li>Become the default payment method</li>
+<li>Every merchant accepts TrueTap</li>
+<li>Millions tap to pay daily</li>
+<li>The breakthrough moment for crypto payments</li>
+</ul>
+</div>
+</div>
+<div class="roadmap-item">
+<div class="roadmap-dot">3</div>
+<div class="roadmap-content">
+<div class="roadmap-quarter">The Dream</div>
+<h3 class="roadmap-title">The Payment Layer for Web3</h3>
+<ul class="roadmap-list">
+<li>Cross-chain, global, unstoppable</li>
+<li>Every phone becomes a payment device</li>
+<li>1 billion people using crypto daily</li>
+<li>Money moves like information</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Problem Section -->
+<section id="problem" class="problem fade-in-section">
+  <div class="features-container">  <!-- Reusing container for width consistency -->
+    <h2 class="section-title">The Problem</h2>
+    <p class="section-subtitle">Crypto is powerful, but too complex for everyday use. TrueTap fixes that.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">
+          <i class="ph ph-robot"></i>
+        </div>
+        <div class="problem-stat">Too Complex</div>
+        <p class="problem-description">
+          Current wallets feel like engineering tools. Your mom can use payment apps, but crypto wallets feel like rocket science.
+        </p>
+        <div class="problem-footnote">The UX Problem</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">
+          <i class="ph ph-users"></i>
+        </div>
+        <div class="problem-stat">659M Users</div>
+        <p class="problem-description">
+          Waiting for a mobile-first payment app. They don't want another DeFi dashboard.
+        </p>
+        <div class="problem-footnote">Source: Crypto.com 2024</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">
+          <i class="ph ph-device-mobile"></i>
+        </div>
+        <div class="problem-stat">No Consumer App</div>
+        <p class="problem-description">
+          Solana has incredible technology, but sending money shouldn't require a PhD in crypto. There's no simple app for everyday payments.
+        </p>
+        <div class="problem-footnote">The Opportunity</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- CTA Section -->
+<section class="cta">
+<div class="cta-container">
+<h2 class="cta-title">Ready to join the payment revolution?</h2>
+<p class="cta-description">
+                TrueTap is bringing next-gen simplicity to Solana payments. Be part of the future where
+                crypto payments are as easy as sending a text.
+</p>
+<a href="pitch-deck.html" class="cta-button">
+<i class="ph ph-presentation-chart"></i>
+                Explore Our Pitch Deck
+</a>
+</div>
+</section>
+<!-- Footer -->
+<footer>
+<div class="footer-container">
+<img src="Images/Tappy.png" alt="TrueTap" class="footer-logo">
+<div class="footer-links">
+<a href="#" class="footer-link">Home</a>
+<a href="#features" class="footer-link">Features</a>
+<a href="#roadmap" class="footer-link">The Dream</a>
+<a href="pitch-deck.html" class="footer-link">Pitch Deck</a>
+</div>
+<div class="footer-divider"></div>
+<p class="footer-copyright">
+                © 2025 TrueTap. Built for Solana Mobile Hackathon. All rights reserved.
+</p>
+</div>
+</footer>
+<script>
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+const navbar = document.getElementById('navbar');
+if (window.scrollY > 50) {
+navbar.classList.add('scrolled');
+            } else {
+navbar.classList.remove('scrolled');
+            }
+        });
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+const target = document.querySelector(this.getAttribute('href'));
+if (target) {
+target.scrollIntoView({
+behavior: 'smooth',
+block: 'start'
+                    });
+                }
+            });
+        });
+// Intersection Observer for fade-in animations
+const observerOptions = {
+threshold: 0.1,
+rootMargin: '0px 0px -50px 0px'
+        };
+const observer = new IntersectionObserver(function(entries) {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+document.querySelectorAll('.fade-in-section').forEach(el => {
+observer.observe(el);
+        });
+// Animate stat numbers on scroll
+const animateValue = (element, start, end, duration) => {
+let startTimestamp = null;
+const step = (timestamp) => {
+if (!startTimestamp) startTimestamp = timestamp;
+const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+const value = Math.floor(progress * (end - start) + start);
+element.textContent = element.dataset.prefix + value + element.dataset.suffix;
+if (progress < 1) {
+window.requestAnimationFrame(step);
+                }
+            };
+window.requestAnimationFrame(step);
+        };
+// Set up stat animations
+const statObserver = new IntersectionObserver(function(entries) {
+entries.forEach(entry => {
+if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+entry.target.classList.add('animated');
+const statNumber = entry.target.querySelector('.stat-number');
+const text = statNumber.textContent;
+if (text === '1 Tap') {
+// Keep as is - no animation needed
+statNumber.textContent = text;
+                    } else if (text === '659M') {
+statNumber.dataset.prefix = '';
+statNumber.dataset.suffix = 'M';
+animateValue(statNumber, 0, 659, 1500);
+                    } else if (text === '140K+') {
+statNumber.dataset.prefix = '';
+statNumber.dataset.suffix = 'K+';
+animateValue(statNumber, 0, 140, 1500);
+                    } else if (text === '$26T') {
+statNumber.dataset.prefix = '$';
+statNumber.dataset.suffix = 'T';
+animateValue(statNumber, 0, 26, 1500);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+document.querySelectorAll('.stat-card').forEach(el => {
+statObserver.observe(el);
+        });
+// Interactive roadmap
+const roadmapItems = document.querySelectorAll('.roadmap-item');
+roadmapItems.forEach(item => {
+item.addEventListener('click', function() {
+roadmapItems.forEach(i => i.classList.remove('active'));
+this.classList.add('active');
+            });
+        });
+
+// Log environment configuration for development
+if (window.TRUETAP_CONFIG) {
+    console.log('TrueTap Environment:', window.TRUETAP_CONFIG);
+    console.log('Web3 manifest available at:', window.location.origin + '/.well-known/web3.json');
+}
+</script>
+</body>
+</html>
