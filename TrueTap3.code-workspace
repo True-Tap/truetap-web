@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "TrueTap3",
+			"path": "."
+		},
+		{
+			"name": "dev",
+			"path": "../../Downloads/truetap-web-main/dev"
+		},
+		{
+			"name": "Images",
+			"path": "../../Downloads/truetap-web-main/Images"
+		}
+	],
+	"settings": {}
+}

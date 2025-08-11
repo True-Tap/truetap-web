@@ -1,0 +1,8 @@
+{
+  "name": "TrueTap (Dev)",
+  "description": "Payments. Reimagined.",
+  "image": "https://truetap.app/logo.png",
+  "cluster": "devnet",
+  "chain": "solana:devnet",
+  "app_url": "https://truetap.app/dev/"
+}

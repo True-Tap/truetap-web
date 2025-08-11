@@ -1,0 +1,3705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueTap - Pitch Deck</title>
+    <link rel="icon" href="Images/Tappy.png" type="image/png">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        @font-face {
+            font-family: 'PixeloidSans';
+            src: url('font/Web Open Font Format (.woff)/PixeloidSans.woff2') format('woff2'),
+                 url('font/Web Open Font Format (.woff)/PixeloidSans.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'PixeloidSans';
+            src: url('font/Web Open Font Format (.woff)/PixeloidSans-Bold.woff2') format('woff2'),
+                 url('font/Web Open Font Format (.woff)/PixeloidSans-Bold.woff') format('woff');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'PixeloidMono';
+            src: url('font/Web Open Font Format (.woff)/PixeloidMono.woff2') format('woff2'),
+                 url('font/Web Open Font Format (.woff)/PixeloidMono.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'PixeloidSans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: url('Images/Background.png') center center / cover no-repeat;
+            background-attachment: fixed;
+            color: #FFFFFF;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            position: relative;
+            overflow: hidden;
+            padding: 60px 40px;
+            box-sizing: border-box;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            border-radius: 50%;
+            background: rgba(45, 24, 16, 0.3);
+            position: relative;
+        }
+        
+        .nav-dot.active {
+            background: transparent;
+            transform: scale(2);
+            width: 24px;
+            height: 24px;
+        }
+        
+        .nav-dot img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .nav-dot.active img {
+            display: block;
+        }
+
+        /* Game dot styling */
+        .game-dot {
+            position: relative;
+            background: rgba(128, 128, 128, 0.6) !important;
+        }
+
+        .game-dot-text {
+            position: absolute;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 107, 53, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Navigation arrows */
+        .nav-arrow {
+            position: fixed;
+            bottom: 36px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 18px;
+            color: rgba(30, 30, 35, 0.9);
+            z-index: 1000;
+        }
+        
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+        
+        .nav-arrow.left {
+            left: 40px;
+        }
+        
+        .nav-arrow.right {
+            right: 40px;
+        }
+        
+        .nav-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* FlappyTappy Game Styles */
+        #flappyGame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(180deg, #87CEEB 0%, #98FB98 100%);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #gameCanvas {
+            width: 100vw;
+            height: 100vh;
+            background: url('Images/Background.png') center center / cover no-repeat;
+            image-rendering: pixelated;
+        }
+
+        .game-ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-family: 'PixeloidSans', sans-serif;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .game-score {
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .game-high-score {
+            font-size: 24px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 16px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            color: #FFB347;
+        }
+
+
+        .game-button {
+            background: rgba(255, 107, 53, 0.9);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-family: 'PixeloidSans', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .game-button:hover {
+            background: rgba(255, 107, 53, 1);
+            transform: scale(1.05);
+        }
+
+        .game-instructions {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white;
+            font-family: 'PixeloidSans', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .game-instructions p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        /* Team Slide Styles */
+        .team-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            text-shadow: none;
+            image-rendering: pixelated;
+            position: absolute;
+            top: 80px;
+            left: 0;
+            right: 0;
+            margin: 0;
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        
+        .team-hover-hint {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 16px;
+            color: black;
+            text-align: center;
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        .team-container {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            height: 500px;
+        }
+
+        .team-member {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .team-member.left {
+        }
+
+        .player-circle {
+            min-width: 120px;
+            height: 60px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
+            padding: 0 20px;
+            position: relative;
+            cursor: default;
+            transition: all 0.3s ease;
+        }
+
+
+        .player-role {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* RPG Speech Bubble - Default (Emory - Right side) */
+        .rpg-tooltip {
+            position: absolute;
+            top: 50%;
+            left: calc(100% + 20px);
+            transform: translateY(-50%);
+            background: #2a1810;
+            color: #fff;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 3px solid #ff6b35;
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 13px;
+            line-height: 1.4;
+            width: 200px;
+            height: auto;
+            text-align: left;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-50%) translateX(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Speech bubble tail pointing left (for right-side tooltip) */
+        .rpg-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -15px;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-right: 12px solid #ff6b35;
+        }
+
+        .rpg-tooltip::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -12px;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 9px solid transparent;
+            border-bottom: 9px solid transparent;
+            border-right: 9px solid #2a1810;
+            z-index: 1;
+        }
+
+        /* Micah's tooltip - Left side positioning */
+        .team-member.right .rpg-tooltip {
+            left: calc(-100% - 20px);
+            transform: translateY(-50%) translateX(10px);
+            max-width: 200px;
+            width: 200px;
+            height: auto;
+        }
+
+        .team-member.right .rpg-tooltip::after {
+            left: auto;
+            right: -15px;
+            border-right: none;
+            border-left: 12px solid #ff6b35;
+        }
+
+        .team-member.right .rpg-tooltip::before {
+            left: auto;
+            right: -12px;
+            border-right: none;
+            border-left: 9px solid #2a1810;
+        }
+
+
+        .tooltip-title {
+            color: #ff6b35;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .sprite-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .team-member.left:hover .rpg-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .team-member.right:hover .rpg-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .pixel-sprite {
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            max-width: 200px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hover effect for team member sprites */
+        .team-member:hover .pixel-sprite {
+            transform: scale(1.15);
+        }
+
+
+        /* Tappy easter egg speech bubble for first slide */
+        .tappy-speech {
+            position: absolute;
+            bottom: calc(100% + 15px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2a1810;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 5px;
+            border: 2px solid #ff6b35;
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 8px;
+            line-height: 1.1;
+            width: 120px;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-50%) translateY(5px);
+            transition: all 0.3s ease;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            white-space: normal;
+        }
+
+        /* Speech bubble tail pointing down */
+        .tappy-speech::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-top: 8px solid #ff6b35;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+        }
+
+        .tappy-speech::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-top: 6px solid #2a1810;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            z-index: 1;
+            margin-top: -2px;
+        }
+
+        /* Show speech bubble only on first slide when hovering */
+        .nav-dot:first-child:hover .tappy-speech {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Hide speech bubble when not on first slide */
+        body:not(.on-first-slide) .tappy-speech {
+            display: none;
+        }
+
+        .member-name {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            image-rendering: pixelated;
+        }
+
+        /* Landing Page Styles */
+        .landing-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .landing-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 64px;
+            font-weight: bold;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            image-rendering: pixelated;
+        }
+
+        .landing-options {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .landing-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 48px;
+            background: rgba(255, 107, 53, 0.1);
+            border: 2px solid #FF6B35;
+            border-radius: 12px;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        .landing-button:hover {
+            background: rgba(255, 107, 53, 0.2);
+            border-color: #F7931E;
+            transform: translateY(-2px);
+        }
+
+        .landing-button.recommended {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            border-color: #F7931E;
+            box-shadow: 0 0 20px rgba(247, 147, 30, 0.3);
+        }
+
+        .landing-button.recommended:hover {
+            background: linear-gradient(135deg, #FF7B45 0%, #F8A31E 50%, #FFC357 100%);
+            box-shadow: 0 0 30px rgba(247, 147, 30, 0.5);
+        }
+
+        .landing-button.continue {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-text {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .button-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            font-weight: normal;
+        }
+
+        /* Empty slide styling */
+        .slide h2 {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            image-rendering: pixelated;
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            margin: 0;
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        /* BASE MOBILE RESPONSIVE STYLES FOR ENTIRE PITCH DECK */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 20px !important;
+                width: 100vw !important;
+                height: 100vh !important;
+            }
+
+            .slide h2 {
+                font-size: 32px !important;
+                top: 15px !important;
+                height: 100px !important;
+            }
+
+            /* Navigation mobile */
+            .nav {
+                bottom: 15px !important;
+            }
+
+            .nav-dot {
+                width: 10px !important;
+                height: 10px !important;
+                margin: 0 6px !important;
+            }
+
+            /* General content scaling */
+            p, span, div {
+                font-size: 16px !important;
+                line-height: 1.4 !important;
+            }
+
+            h3, h4 {
+                font-size: 20px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide {
+                padding: 20px 15px !important;
+                width: 100vw !important;
+                height: 100vh !important;
+            }
+
+            .slide h2 {
+                font-size: 24px !important;
+                top: 10px !important;
+                height: 80px !important;
+                line-height: 1.2 !important;
+            }
+
+            /* Navigation mobile */
+            .nav {
+                bottom: 10px !important;
+            }
+
+            .nav-dot {
+                width: 8px !important;
+                height: 8px !important;
+                margin: 0 4px !important;
+            }
+
+            /* General content scaling for small mobile */
+            p, span, div {
+                font-size: 14px !important;
+                line-height: 1.3 !important;
+            }
+
+            h3, h4 {
+                font-size: 18px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-container {
+                flex-direction: column;
+                height: auto;
+                gap: 40px;
+            }
+
+            .team-member.left {
+                border-right: none;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+                padding-bottom: 40px;
+            }
+
+            .team-title {
+                font-size: 36px;
+                margin-bottom: 40px;
+            }
+
+            .player-circle {
+                min-width: 100px;
+                height: 50px;
+                border-radius: 25px;
+                padding: 0 15px;
+            }
+
+            .player-role {
+                font-size: 12px;
+            }
+
+            .pixel-sprite {
+                max-width: 150px;
+                height: auto;
+            }
+
+            .member-name {
+                font-size: 24px;
+            }
+
+            .rpg-tooltip {
+                width: 240px;
+                font-size: 12px;
+                padding: 12px 16px;
+                left: 50%;
+                top: -80px;
+                transform: translateX(-50%) translateY(10px);
+            }
+
+            .rpg-tooltip::after {
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                border-top: 12px solid #ff6b35;
+                border-right: 12px solid transparent;
+                border-left: 12px solid transparent;
+                border-bottom: none;
+            }
+
+            .rpg-tooltip::before {
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                border-top: 9px solid #2a1810;
+                border-right: 9px solid transparent;
+                border-left: 9px solid transparent;
+                border-bottom: none;
+            }
+
+            .team-member.left:hover .rpg-tooltip,
+            .team-member.right:hover .rpg-tooltip {
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Problem Slide Styles */
+        .problem-content {
+            margin: -50px auto 0;
+            padding: 0 40px;
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+            justify-content: center;
+            width: fit-content;
+            max-width: 90vw;
+            min-height: 400px;
+        }
+
+        .problem-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 18px 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            display: flex;
+            flex-direction: column;
+            min-width: 280px;
+            max-width: 350px;
+            margin-bottom: 10px;
+            height: 100%;
+            justify-content: space-between;
+        }
+        
+        .problem-main {
+            flex: 1;
+        }
+
+        .problem-number {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 28px;
+            font-weight: bold;
+            color: #FAFAFA;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .problem-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .problem-list li {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            color: rgba(30, 30, 35, 0.9);
+            text-shadow: none;
+        }
+
+        .problem-list li::before {
+            content: '•';
+            color: #FF6B35;
+            font-size: 20px;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .problem-sources {
+            margin-top: 15px;
+            margin-left: 25px;
+            margin-right: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 107, 53, 0.3);
+            text-align: center;
+        }
+
+        .problem-sources a {
+            color: #FF6B35;
+            text-decoration: none;
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .problem-sources a:hover {
+            color: #FFB347;
+            text-shadow: 0 0 8px rgba(255, 107, 53, 0.6);
+        }
+
+        /* Solution Slide Styles */
+        .solution-content {
+            max-width: 1000px;
+            margin: 100px auto 0;
+            padding: 0 40px;
+        }
+
+        .solution-intro {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.4);
+        }
+
+        .solution-tagline {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 36px;
+            font-weight: bold;
+            color: #FAFAFA;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .solution-description {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 18px;
+            color: rgba(30, 30, 35, 0.9);
+            text-shadow: none;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .solution-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-item:hover {
+            border-color: rgba(255, 107, 53, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+        }
+
+        .feature-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            color: #FAFAFA;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+            margin-bottom: 12px;
+        }
+
+        .feature-description {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 14px;
+            color: rgba(30, 30, 35, 0.9);
+            text-shadow: none;
+            line-height: 1.5;
+        }
+
+        .solution-quote {
+            background: rgba(42, 24, 16, 0.6);
+            padding: 25px 30px 20px 30px;
+            border-radius: 15px;
+            border-left: 4px solid #FF6B35;
+            backdrop-filter: blur(10px);
+            margin-bottom: 5px;
+        }
+
+        .quote-content {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .don-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #FF6B35;
+            flex-shrink: 0;
+        }
+
+        .quote-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .solution-quote blockquote {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 16px;
+            font-style: italic;
+            color: #FFFFFF;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+            position: relative;
+        }
+
+        .solution-quote blockquote::before {
+            content: '"';
+            font-size: 48px;
+            color: #FF6B35;
+            position: absolute;
+            left: -30px;
+            top: -15px;
+            font-family: serif;
+        }
+
+        .solution-quote blockquote::after {
+            content: '"';
+            font-size: 48px;
+            color: #FF6B35;
+            position: absolute;
+            right: 55px;
+            top: -15px;
+            font-family: serif;
+        }
+
+        .solution-quote cite {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 14px;
+            color: #FF6B35;
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        /* Introducing Slide Styles */
+        .introducing-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100% - 200px);
+            max-width: 800px;
+            margin: 100px auto 0;
+            text-align: center;
+        }
+
+        .tappy-hero {
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .tappy-main {
+            width: 300px;
+            height: auto;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            filter: drop-shadow(0 20px 40px rgba(255, 107, 53, 0.3));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .truetap-branding {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 50px 60px;
+            border-radius: 30px;
+            backdrop-filter: blur(15px);
+            border: 3px solid rgba(255, 107, 53, 0.4);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.2);
+        }
+
+        .truetap-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 72px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 30%, #FFB347 70%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: none;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .truetap-tagline {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 28px;
+            font-weight: normal;
+            color: rgba(30, 30, 35, 0.9);
+            text-shadow: none;
+            letter-spacing: 1px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* User Experience Carousel Styles */
+        .ux-content {
+            max-width: 1200px;
+            margin: 75px auto 0;
+            padding: 0 40px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ux-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+            background: transparent;
+        }
+
+        .ux-image-display {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border: 3px solid transparent;
+            background: transparent;
+            object-fit: contain;
+        }
+
+        .ux-nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 107, 53, 0.8);
+            color: white;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .ux-nav-arrow:hover {
+            background: rgba(255, 107, 53, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .ux-nav-arrow.prev {
+            left: -45px;
+        }
+
+        .ux-nav-arrow.next {
+            right: -45px;
+        }
+
+        /* Why Now Slide Styles */
+        .why-now-content {
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .why-now-section {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        /* Grid positioning for Why Now sections */
+        .why-now-section:nth-child(1) { grid-column: 1; grid-row: 1; }  /* Immediate Market */
+        .why-now-section:nth-child(3) { grid-column: 2; grid-row: 1; }  /* Rapidly Expanding */
+        .why-now-section:nth-child(5) { grid-column: 1; grid-row: 2; }  /* Developer Goldmine */
+        .why-now-section:nth-child(7) { grid-column: 2; grid-row: 2; }  /* Why Now (2025) */
+        .why-now-section:nth-child(9) { 
+            grid-column: 1 / 3; 
+            grid-row: 3;
+            justify-self: center;
+            max-width: 600px;
+        }  /* The Play - centered */
+
+        .section-divider {
+            display: none; /* Hide dividers in grid layout */
+        }
+
+        .why-now-section:hover {
+            border-color: rgba(255, 107, 53, 0.5);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .section-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .section-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .section-list li {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 14px;
+            color: rgba(30, 30, 35, 0.9);
+            margin-bottom: 8px;
+            padding-left: 18px;
+            position: relative;
+            line-height: 1.3;
+        }
+
+        .section-list li:before {
+            content: "•";
+            color: #FF6B35;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 18px;
+        }
+
+        .section-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-divider {
+            text-align: center;
+            font-size: 24px;
+            color: rgba(255, 107, 53, 0.6);
+            margin: 10px 0;
+        }
+
+        .final-section {
+            border-color: rgba(255, 107, 53, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .play-content {
+            text-align: center;
+        }
+
+        .play-main {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 22px;
+            font-weight: bold;
+            color: #FF6B35;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .play-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            color: rgba(30, 30, 35, 0.9);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .play-tagline {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        /* Closing Remarks Slide Styles */
+        .slide:has(.closing-content) {
+            padding-top: 20px !important;
+        }
+        
+        .closing-content {
+            max-width: 900px;
+            margin: 40px auto 0 !important;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 70px !important;
+            text-align: center;
+        }
+
+        .closing-statement {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            max-width: 700px;
+        }
+
+        .statement-main {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            color: rgba(30, 30, 35, 0.9);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .statement-highlight {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 26px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .closing-status {
+            max-width: 600px;
+        }
+
+        .status-line {
+            font-family: 'Inter', sans-serif;
+            font-size: 22px;
+            color: rgba(30, 30, 35, 0.8);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .status-emphasis {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF6B35;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .demo-section {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 30px 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            max-width: 500px;
+            width: 100%;
+            margin-top: -20px !important;
+        }
+
+        .demo-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 22px;
+            font-weight: bold;
+            color: #FAFAFA;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .demo-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .demo-list li {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 18px;
+            color: rgba(30, 30, 35, 0.9);
+            text-shadow: none;
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .demo-list li:before {
+            content: "•";
+            color: #FF6B35;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        .demo-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .final-tagline {
+            max-width: 600px;
+            margin-top: 0px;
+        }
+
+        .final-tagline p {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        /* Seeker Slide Styles */
+        .seeker-content {
+            max-width: 1000px;
+            margin: 50px auto 0;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 50px;
+        }
+
+        .seeker-highlight {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px 50px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 3px solid rgba(255, 107, 53, 0.4);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.2);
+        }
+
+        .seeker-formula {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .formula-part {
+            background: rgba(255, 107, 53, 0.15);
+            padding: 20px 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .formula-icon {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .formula-text {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            color: #FAFAFA;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+        }
+
+        .formula-plus,
+        .formula-equals {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 36px;
+            font-weight: bold;
+            color: #FF6B35;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .formula-result {
+            background: rgba(255, 107, 53, 0.2);
+            padding: 25px 35px;
+            border-radius: 20px;
+            border: 3px solid rgba(255, 107, 53, 0.5);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .formula-result .formula-icon {
+            width: 80px;
+            height: 80px;
+        }
+
+        .result-text {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 22px;
+            font-weight: bold;
+            color: #FAFAFA;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            display: block;
+        }
+
+        .seeker-tagline {
+            text-align: center;
+        }
+
+        .seeker-tagline p {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 24px;
+            font-weight: normal;
+            color: rgba(30, 30, 35, 0.9);
+            text-shadow: none;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Performance Slide Styles */
+        .performance-content {
+            max-width: 1200px;
+            margin: -50px auto 0;
+            padding: 0 40px;
+        }
+
+        .performance-sections {
+            display: flex;
+            gap: 30px;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .performance-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            display: flex;
+            flex-direction: column;
+            min-width: 280px;
+            max-width: 380px;
+        }
+
+        .section-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 22px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Override for performance section titles */
+        .performance-section .section-title {
+            color: #FAFAFA !important;
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            -webkit-text-fill-color: initial !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+        }
+
+        /* Override for why-now section titles (150,000+ Seekers slide) */
+        .why-now-section .section-title {
+            color: #FAFAFA !important;
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            -webkit-text-fill-color: initial !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+        }
+
+        .performance-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
+
+        .performance-list li {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding-left: 25px;
+            position: relative;
+            color: rgba(30, 30, 35, 0.9);
+            text-shadow: none;
+        }
+
+        .performance-list li::before {
+            content: '▶';
+            color: #FF6B35;
+            font-size: 14px;
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        .performance-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Architecture Slide Styles */
+        .architecture-content {
+            max-width: 1400px;
+            margin: 50px auto 0;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: center;
+        }
+
+        .architecture-diagram {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, auto);
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: start;
+            position: relative;
+        }
+
+        .arch-layer {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 107, 53, 0.2);
+            border-radius: 12px;
+            padding: 15px 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+            position: relative;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* Specific positioning for jigsaw layout */
+        .arch-layer:nth-child(1) { grid-column: 1; grid-row: 1; }      /* App Entry Point */
+        .arch-layer:nth-child(2) { grid-column: 2; grid-row: 1; }      /* UI Layer */
+        .arch-layer:nth-child(3) { grid-column: 3; grid-row: 1; }      /* ViewModel */
+        .arch-layer:nth-child(4) { grid-column: 1; grid-row: 2; }      /* Domain Layer */
+        .arch-layer:nth-child(5) { grid-column: 2; grid-row: 2; }      /* Data Layer */
+        .arch-layer:nth-child(6) { grid-column: 3; grid-row: 2; }      /* Platform SDK */
+        .arch-layer:nth-child(7) { grid-column: 1; grid-row: 3; transform: translateX(50%); margin-right: 7.5px; }      /* Shared Core */
+        .arch-layer:nth-child(8) { grid-column: 3; grid-row: 3; transform: translateX(-50%); margin-left: 7.5px; }      /* Testing */
+
+        /* Disable hover effects for containers 7 and 8 */
+        .arch-layer:nth-child(7):hover,
+        .arch-layer:nth-child(8):hover {
+            border-color: rgba(255, 107, 53, 0.2) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            transform: translateX(50%) !important;
+            z-index: initial !important;
+        }
+
+        .arch-layer:nth-child(8):hover {
+            transform: translateX(-50%) !important;
+        }
+
+        /* Layer ordering and visual hierarchy */
+        .arch-layer::before {
+            content: attr(data-order);
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        /* Progressive opacity to show hierarchy */
+        .arch-layer:nth-child(1),    /* App Entry Point */
+        .arch-layer:nth-child(2),    /* UI Layer */
+        .arch-layer:nth-child(3),    /* ViewModel */
+        .arch-layer:nth-child(4),    /* Domain Layer */
+        .arch-layer:nth-child(5),    /* Data Layer */
+        .arch-layer:nth-child(6),    /* Platform SDK */
+        .arch-layer:nth-child(7),    /* Shared Core */
+        .arch-layer:nth-child(8) {   /* Testing */
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 107, 53, 0.2);
+        }
+
+        /* Enhanced hover effects to show relationships */
+        .arch-layer:hover {
+            border-color: rgba(255, 107, 53, 0.8);
+            background: rgba(255, 107, 53, 0.25);
+            transform: scale(1.02);
+            z-index: 10;
+        }
+
+        /* Hide original arrows - we'll use the pseudo-element arrows */
+        .layer-arrow {
+            display: none;
+        }
+
+        .arch-layer:hover {
+            border-color: rgba(255, 107, 53, 0.4);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .layer-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .layer-items {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .layer-items span {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 12px;
+            color: rgba(30, 30, 35, 0.9);
+            text-shadow: none;
+            line-height: 1.3;
+            padding-left: 12px;
+            position: relative;
+        }
+
+        .layer-items span::before {
+            content: '•';
+            color: #FF6B35;
+            font-size: 16px;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .layer-arrow {
+            font-size: 24px;
+            color: #FF6B35;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 5px 0;
+        }
+
+        .tech-footer {
+            background: rgba(42, 24, 16, 0.6);
+            padding: 20px 30px;
+            border-radius: 15px;
+            border-left: 4px solid #FF6B35;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .tech-footer p {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 16px;
+            color: #FFFFFF;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* What we built Slide Styles */
+        .built-content {
+            max-width: 1200px;
+            margin: 50px auto 0;
+            padding: 0 40px;
+        }
+
+
+        .built-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto auto auto;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* 2-column layout: 1&2, 3&4, 5&6, then 7 centered */
+        .built-item:nth-child(1) { grid-column: 1; grid-row: 1; }  /* Row 1 - Left */
+        .built-item:nth-child(2) { grid-column: 2; grid-row: 1; }  /* Row 1 - Right */
+        .built-item:nth-child(3) { grid-column: 1; grid-row: 2; }  /* Row 2 - Left */
+        .built-item:nth-child(4) { grid-column: 2; grid-row: 2; }  /* Row 2 - Right */
+        .built-item:nth-child(5) { grid-column: 1; grid-row: 3; }  /* Row 3 - Left */
+        .built-item:nth-child(6) { grid-column: 2; grid-row: 3; }  /* Row 3 - Right */
+        .built-item:nth-child(7) { 
+            grid-column: 1 / 3; 
+            grid-row: 4;
+            justify-self: center;
+            max-width: 500px;
+        }  /* Row 4 - Centered */
+
+        .built-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 140px;
+        }
+
+        .built-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            opacity: 0.7;
+        }
+
+        .built-item:hover {
+            border-color: rgba(255, 107, 53, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+        }
+
+        .built-number {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            margin: 0;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .built-details {
+            flex: 1;
+        }
+
+        .built-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            color: #FAFAFA;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+            margin: 0 0 10px 0;
+            line-height: 1.3;
+        }
+
+        .built-description {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 14px;
+            color: rgba(30, 30, 35, 0.9);
+            text-shadow: none;
+            line-height: 1.5;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* What's Next Slide Styles */
+        .next-content {
+            max-width: 1200px;
+            margin: 50px auto 0;
+            padding: 0 40px;
+        }
+
+        @media (max-width: 768px) {
+            .next-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(4, auto);
+                gap: 15px;
+            }
+            /* Tablet: 2-column layout */
+            .next-item:nth-child(1) { grid-column: 1; grid-row: 1; }
+            .next-item:nth-child(2) { grid-column: 2; grid-row: 1; }
+            .next-item:nth-child(3) { grid-column: 1; grid-row: 2; }
+            .next-item:nth-child(4) { grid-column: 2; grid-row: 2; }
+            .next-item:nth-child(5) { grid-column: 1; grid-row: 3; }
+            .next-item:nth-child(6) { grid-column: 2; grid-row: 3; }
+            .next-item:nth-child(7) { 
+                grid-column: 1 / 3; 
+                grid-row: 4;
+                justify-self: center;
+            }
+        }
+
+        .next-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto auto auto;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* 2-column layout: 1&2, 3&4, 5&6, then 7 centered */
+        .next-item:nth-child(1) { grid-column: 1; grid-row: 1; }  /* Row 1 - Left */
+        .next-item:nth-child(2) { grid-column: 2; grid-row: 1; }  /* Row 1 - Right */
+        .next-item:nth-child(3) { grid-column: 1; grid-row: 2; }  /* Row 2 - Left */
+        .next-item:nth-child(4) { grid-column: 2; grid-row: 2; }  /* Row 2 - Right */
+        .next-item:nth-child(5) { grid-column: 1; grid-row: 3; }  /* Row 3 - Left */
+        .next-item:nth-child(6) { grid-column: 2; grid-row: 3; }  /* Row 3 - Right */
+        .next-item:nth-child(7) { 
+            grid-column: 1 / 3; 
+            grid-row: 4;
+            justify-self: center;
+            max-width: 500px;
+        }  /* Row 4 - Centered */
+
+        .next-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 179, 71, 0.3);
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 140px;
+        }
+
+        .next-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FFB347 0%, #F7931E 50%, #FF6B35 100%);
+            opacity: 0.7;
+        }
+
+        .next-item:hover {
+            border-color: rgba(255, 179, 71, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 179, 71, 0.2);
+        }
+
+        .next-number {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FFB347 0%, #F7931E 50%, #FF6B35 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            margin: 0;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .next-details {
+            flex: 1;
+        }
+
+        .next-title {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            color: #FAFAFA;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+            margin: 0 0 10px 0;
+            line-height: 1.3;
+        }
+
+        .next-description {
+            font-family: 'PixeloidSans', sans-serif;
+            font-size: 14px;
+            color: rgba(30, 30, 35, 0.9);
+            text-shadow: none;
+            line-height: 1.5;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .problem-content {
+                padding: 0 20px;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .problem-section {
+                padding: 20px;
+                flex: none;
+            }
+
+            .problem-number {
+                font-size: 20px;
+            }
+
+            .problem-list li {
+                font-size: 14px;
+            }
+
+            .problem-sources a {
+                font-size: 11px;
+            }
+
+            /* Solution mobile styles */
+            .solution-content {
+                padding: 0 20px;
+            }
+
+            .solution-intro {
+                padding: 25px;
+                margin-bottom: 30px;
+            }
+
+            .solution-tagline {
+                font-size: 24px;
+            }
+
+            .solution-description {
+                font-size: 16px;
+            }
+
+            .solution-features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+
+            .feature-item {
+                padding: 20px;
+            }
+
+            .feature-title {
+                font-size: 18px;
+            }
+
+            .feature-description {
+                font-size: 13px;
+            }
+
+            .solution-quote {
+                padding: 20px;
+            }
+
+            .solution-quote blockquote {
+                font-size: 14px;
+            }
+
+            .solution-quote blockquote::before,
+            .solution-quote blockquote::after {
+                font-size: 32px;
+            }
+
+            .solution-quote blockquote::before {
+                left: -20px;
+                top: -5px;
+            }
+
+            .solution-quote blockquote::after {
+                right: -20px;
+                bottom: -20px;
+            }
+
+            .quote-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .don-image {
+                width: 60px;
+                height: 60px;
+            }
+
+            .quote-text {
+                text-align: center;
+            }
+
+            /* Introducing mobile styles */
+            .introducing-content {
+                padding: 20px;
+            }
+
+            .tappy-hero {
+                margin-bottom: 40px;
+            }
+
+            .tappy-main {
+                width: 200px;
+            }
+
+            .truetap-branding {
+                padding: 30px 40px;
+                border-radius: 20px;
+            }
+
+            .truetap-title {
+                font-size: 48px;
+                letter-spacing: -1px;
+            }
+
+            .truetap-tagline {
+                font-size: 20px;
+            }
+
+            /* UX Carousel mobile styles */
+            .ux-content {
+                padding: 0 20px;
+            }
+
+            .ux-image-container {
+                max-width: 280px;
+            }
+
+            .ux-nav-arrow {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+
+            .ux-nav-arrow.prev {
+                left: -35px;
+            }
+
+            .ux-nav-arrow.next {
+                right: -35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ux-content {
+                padding: 0 15px;
+            }
+
+            .ux-image-container {
+                max-width: 240px;
+            }
+
+            .ux-nav-arrow {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+
+            .ux-nav-arrow.prev {
+                left: -30px;
+            }
+
+            .ux-nav-arrow.next {
+                right: -30px;
+            }
+
+            /* Why Now mobile styles */
+            .why-now-content {
+                padding: 0 20px;
+                gap: 15px;
+                grid-template-columns: 1fr;
+            }
+
+            .why-now-section {
+                padding: 15px 20px;
+            }
+
+            .why-now-section:nth-child(1),
+            .why-now-section:nth-child(3),
+            .why-now-section:nth-child(5),
+            .why-now-section:nth-child(7),
+            .why-now-section:nth-child(9) {
+                grid-column: 1;
+                grid-row: auto;
+                justify-self: stretch;
+                max-width: none;
+            }
+
+            .section-divider {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            .section-list li {
+                font-size: 13px;
+                margin-bottom: 6px;
+            }
+
+            .play-main {
+                font-size: 16px;
+            }
+
+            .play-sub {
+                font-size: 14px;
+            }
+
+            .play-tagline {
+                font-size: 15px;
+            }
+
+            /* Closing Remarks mobile styles */
+            .closing-content {
+                padding: 0 20px;
+                gap: 30px;
+            }
+
+            .closing-statement {
+                padding: 30px 25px;
+                max-width: 100%;
+            }
+
+            .statement-main {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .statement-highlight {
+                font-size: 22px;
+            }
+
+            .status-line {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            .status-emphasis {
+                font-size: 20px;
+            }
+
+            .demo-section {
+                padding: 25px 30px;
+                max-width: 100%;
+            }
+
+            .demo-title {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+
+            .demo-list li {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            .final-tagline {
+                padding: 25px 35px;
+                max-width: 100%;
+            }
+
+            .final-tagline p {
+                font-size: 22px;
+            }
+
+            /* Seeker mobile styles */
+            .seeker-content {
+                padding: 0 20px;
+                gap: 30px;
+            }
+
+            .seeker-highlight {
+                padding: 25px 30px;
+            }
+
+            .seeker-formula {
+                gap: 15px;
+            }
+
+            .formula-part {
+                padding: 15px 20px;
+                gap: 10px;
+            }
+
+            .formula-icon {
+                width: 45px;
+                height: 45px;
+            }
+
+            .formula-text {
+                font-size: 16px;
+            }
+
+            .formula-plus,
+            .formula-equals {
+                font-size: 28px;
+            }
+
+            .formula-result {
+                padding: 20px 25px;
+            }
+
+            .result-text {
+                font-size: 18px;
+            }
+
+            .seeker-tagline p {
+                font-size: 20px;
+            }
+        }
+
+        /* Tablet responsive styles - Maintain 3-column layout but smaller */
+        @media (max-width: 768px) {
+            .architecture-content {
+                padding: 0 15px;
+            }
+
+            .architecture-diagram {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(3, auto);
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+
+            .arch-layer {
+                padding: 12px 15px;
+                height: 120px;
+            }
+
+            /* Maintain desktop positioning but smaller */
+            .arch-layer:nth-child(7) { 
+                grid-column: 1; 
+                grid-row: 3; 
+                transform: translateX(25%) !important; 
+                margin-right: 5px !important; 
+            }
+            .arch-layer:nth-child(8) { 
+                grid-column: 3; 
+                grid-row: 3; 
+                transform: translateX(-25%) !important; 
+                margin-left: 5px !important; 
+            }
+
+            .layer-title {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+
+            .layer-items span {
+                font-size: 10px;
+                line-height: 1.3;
+                margin-bottom: 4px;
+            }
+
+            .arch-layer::before {
+                width: 22px;
+                height: 22px;
+                font-size: 11px;
+                top: -8px;
+                left: -8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .seeker-formula {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .formula-part,
+            .formula-result {
+                width: 100%;
+                text-align: center;
+            }
+
+            .formula-plus,
+            .formula-equals {
+                font-size: 32px;
+            }
+
+            /* Performance mobile styles */
+            .performance-content {
+                padding: 0 20px;
+            }
+
+            .performance-sections {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .performance-section {
+                min-width: auto;
+                max-width: none;
+                padding: 25px;
+            }
+
+            .section-title {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+            .performance-list li {
+                font-size: 15px;
+                margin-bottom: 15px;
+            }
+
+            /* Architecture mobile styles - Maintain desktop layout, much smaller */
+            .architecture-content {
+                padding: 0 10px !important;
+            }
+
+            .architecture-diagram {
+                grid-template-columns: repeat(3, 1fr) !important;
+                grid-template-rows: repeat(3, auto) !important;
+                gap: 8px !important;
+                margin-bottom: 15px !important;
+                display: grid !important;
+            }
+
+            .arch-layer {
+                padding: 8px 10px;
+                height: 90px;
+                border-radius: 8px;
+                border-width: 1px;
+            }
+
+            /* Explicit grid positioning for all containers on mobile */
+            .arch-layer:nth-child(1) { grid-column: 1 !important; grid-row: 1 !important; }      /* App Entry Point */
+            .arch-layer:nth-child(2) { grid-column: 2 !important; grid-row: 1 !important; }      /* UI Layer */
+            .arch-layer:nth-child(3) { grid-column: 3 !important; grid-row: 1 !important; }      /* ViewModel */
+            .arch-layer:nth-child(4) { grid-column: 1 !important; grid-row: 2 !important; }      /* Domain Layer */
+            .arch-layer:nth-child(5) { grid-column: 2 !important; grid-row: 2 !important; }      /* Data Layer */
+            .arch-layer:nth-child(6) { grid-column: 3 !important; grid-row: 2 !important; }      /* Platform SDK */
+
+            /* Maintain desktop positioning but much smaller transforms */
+            .arch-layer:nth-child(7) { 
+                grid-column: 1 !important; 
+                grid-row: 3 !important; 
+                transform: translateX(15%) !important; 
+                margin-right: 3px !important; 
+            }
+            .arch-layer:nth-child(8) { 
+                grid-column: 3 !important; 
+                grid-row: 3 !important; 
+                transform: translateX(-15%) !important; 
+                margin-left: 3px !important; 
+            }
+
+            .layer-title {
+                font-size: 11px;
+                margin-bottom: 6px;
+                line-height: 1.2;
+            }
+
+            .layer-items span {
+                font-size: 8px;
+                line-height: 1.2;
+                margin-bottom: 2px;
+                padding-left: 8px;
+            }
+
+            .arch-layer::before {
+                width: 18px;
+                height: 18px;
+                font-size: 9px;
+                top: -6px;
+                left: -6px;
+            }
+
+            .layer-items span::before {
+                font-size: 12px;
+            }
+
+            .tech-footer {
+                padding: 15px 20px;
+                margin-top: 15px;
+            }
+
+            .tech-footer p {
+                font-size: 14px;
+            }
+            /* Built mobile styles */
+            .built-content {
+                padding: 0 20px;
+            }
+
+            .built-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(4, auto);
+                gap: 15px;
+            }
+
+            /* Keep 2-column layout on mobile */
+            .built-item:nth-child(1) { grid-column: 1; grid-row: 1; }
+            .built-item:nth-child(2) { grid-column: 2; grid-row: 1; }
+            .built-item:nth-child(3) { grid-column: 1; grid-row: 2; }
+            .built-item:nth-child(4) { grid-column: 2; grid-row: 2; }
+            .built-item:nth-child(5) { grid-column: 1; grid-row: 3; }
+            .built-item:nth-child(6) { grid-column: 2; grid-row: 3; }
+            .built-item:nth-child(7) { 
+                grid-column: 1 / 3; 
+                grid-row: 4;
+                justify-self: center;
+                max-width: 350px;
+            }
+
+            .built-item {
+                padding: 20px;
+                gap: 15px;
+                min-height: 120px;
+            }
+
+            .built-number {
+                font-size: 28px;
+            }
+
+            .built-title {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+
+            .built-description {
+                font-size: 13px;
+            }
+
+            /* Next mobile styles */
+            .next-content {
+                padding: 0 20px;
+            }
+
+            .next-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(4, auto);
+                gap: 15px;
+            }
+
+            /* Keep 2-column layout on mobile */
+            .next-item:nth-child(1) { grid-column: 1; grid-row: 1; }
+            .next-item:nth-child(2) { grid-column: 2; grid-row: 1; }
+            .next-item:nth-child(3) { grid-column: 1; grid-row: 2; }
+            .next-item:nth-child(4) { grid-column: 2; grid-row: 2; }
+            .next-item:nth-child(5) { grid-column: 1; grid-row: 3; }
+            .next-item:nth-child(6) { grid-column: 2; grid-row: 3; }
+            .next-item:nth-child(7) { 
+                grid-column: 1 / 3; 
+                grid-row: 4;
+                justify-self: center;
+                max-width: 350px;
+            }
+
+            .next-item {
+                padding: 20px;
+                gap: 15px;
+                min-height: 120px;
+            }
+
+            .next-number {
+                font-size: 28px;
+            }
+
+            .next-title {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+
+            .next-description {
+                font-size: 13px;
+            }
+        }
+
+        /* Extra small mobile - ensure architecture stays 3-column */
+        @media (max-width: 390px) {
+            .architecture-diagram {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 6px !important;
+            }
+
+            .arch-layer {
+                padding: 6px 8px !important;
+                height: 80px !important;
+                font-size: 10px !important;
+            }
+
+            .layer-title {
+                font-size: 10px !important;
+                margin-bottom: 4px !important;
+            }
+
+            .layer-items span {
+                font-size: 7px !important;
+                line-height: 1.1 !important;
+                margin-bottom: 1px !important;
+            }
+
+            .arch-layer::before {
+                width: 16px !important;
+                height: 16px !important;
+                font-size: 8px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav">
+        <div class="nav-dot active" onclick="goToSlide(0)">
+            <img src="Images/Tappy.png" alt="Slide 1">
+            <div class="tappy-speech">Oh...not me. Those guys up there</div>
+        </div>
+        <div class="nav-dot" onclick="goToSlide(1)"><img src="Images/Tappy.png" alt="Slide 2"></div>
+        <div class="nav-dot" onclick="goToSlide(2)"><img src="Images/Tappy.png" alt="Slide 3"></div>
+        <div class="nav-dot" onclick="goToSlide(3)"><img src="Images/Tappy.png" alt="Slide 4"></div>
+        <div class="nav-dot" onclick="goToSlide(4)"><img src="Images/Tappy.png" alt="Slide 5"></div>
+        <div class="nav-dot" onclick="goToSlide(5)"><img src="Images/Tappy.png" alt="Slide 6"></div>
+        <div class="nav-dot" onclick="goToSlide(6)"><img src="Images/Tappy.png" alt="Slide 7"></div>
+        <div class="nav-dot" onclick="goToSlide(7)"><img src="Images/Tappy.png" alt="Slide 8"></div>
+        <div class="nav-dot" onclick="goToSlide(8)"><img src="Images/Tappy.png" alt="Slide 9"></div>
+        <div class="nav-dot" onclick="goToSlide(9)"><img src="Images/Tappy.png" alt="Slide 10"></div>
+        <div class="nav-dot" onclick="goToSlide(10)"><img src="Images/Tappy.png" alt="Slide 11"></div>
+        <div class="nav-dot" onclick="goToSlide(11)"><img src="Images/Tappy.png" alt="Slide 12"></div>
+        <div class="nav-dot game-dot" onclick="startFlappyGame()" style="display: none;">
+            <div class="game-dot-text">Need a Break from the Ads?</div>
+        </div>
+    </div>
+    
+    <!-- Navigation arrows -->
+    <div class="nav-arrow left disabled" id="nav-arrow-left" onclick="previousSlide()">←</div>
+    <div class="nav-arrow right" id="nav-arrow-right" onclick="nextSlide()">→</div>
+
+    <!-- FlappyTappy Game -->
+    <div id="flappyGame" style="display: none;">
+        <canvas id="gameCanvas"></canvas>
+        <div class="game-ui">
+            <div class="game-score">Score: <span id="score">0</span></div>
+            <div class="game-high-score">High Score: <span id="highScore">0</span></div>
+        </div>
+    </div>
+
+    <!-- Slide 1: Team -->
+    <div class="slide active">
+        <h2 class="team-title">The Minds Behind TrueTap</h2>
+        <div class="team-container">
+            <div class="team-member left">
+                <div class="player-circle">
+                    <span class="player-role">UI/UX Lead</span>
+                </div>
+                <div class="sprite-container">
+                    <img src="Images/Emory.png" alt="Emory Pixel Sprite" class="pixel-sprite">
+                    <div class="rpg-tooltip">
+                        <div class="tooltip-title">UI/UX Lead</div>
+                        Architect of Tappy and the soul of TrueTap. Crafting intuitive design that makes crypto feel human.
+                    </div>
+                </div>
+                <h3 class="member-name">Emory</h3>
+            </div>
+            <div class="team-member right">
+                <div class="player-circle">
+                    <span class="player-role">Everything Else Lead</span>
+                </div>
+                <div class="sprite-container">
+                    <img src="Images/Micah.png" alt="Micah Pixel Sprite" class="pixel-sprite">
+                    <div class="rpg-tooltip">
+                        <div class="tooltip-title">Everything Else Lead</div>
+                        Builder, fixer, strategist. Micah makes the magic happen behind the scenes.
+                    </div>
+                </div>
+                <h3 class="member-name">Micah</h3>
+            </div>
+        </div>
+        <p class="team-hover-hint">Hover over our team to learn more!</p>
+    </div>
+
+    <!-- Slide 2: The Problem -->
+    <div class="slide">
+        <h2>The Problem?</h2>
+        <div class="problem-content">
+            <div class="problem-section">
+                <div class="problem-main">
+                    <h3 class="problem-number">Widespread Confusion</h3>
+                    <ul class="problem-list">
+                        <li>70% of Americans without crypto want more information before they'll consider using it; nearly 50% say they don't even understand how it works.</li>
+                        <li>Half of non‑crypto owners feel "overwhelmed" when researching digital assets.</li>
+                    </ul>
+                </div>
+                <div class="problem-sources">
+                    <a href="https://dig.watch/updates/half-of-americans-still-unsure-how-crypto-works" target="_blank">dig.watch</a> • 
+                    <a href="https://www.marketwatch.com/story/heres-whats-preventing-the-majority-of-americans-from-getting-into-crypto-433c07d7" target="_blank">MarketWatch</a>
+                </div>
+            </div>
+            
+            <div class="problem-section">
+                <div class="problem-main">
+                    <h3 class="problem-number">Trust Is Shattered</h3>
+                    <ul class="problem-list">
+                        <li>63% of U.S. adults have little to no confidence in crypto as a safe or reliable investment.</li>
+                        <li>Key friction points: Security fears (47%), mistrust in platforms (36%), and confusion over who backs crypto assets (41%).</li>
+                    </ul>
+                </div>
+                <div class="problem-sources">
+                    <a href="https://www.pewresearch.org/short-reads/2024/10/24/majority-of-americans-arent-confident-in-the-safety-and-reliability-of-cryptocurrency/" target="_blank">Pew Research</a> • 
+                    <a href="https://www.businesswire.com/news/home/20250722391613/en/New-Report-Reveals-Lack-of-Understanding-is-Holding-Back-Wider-U.S.-Crypto-Adoption" target="_blank">BusinessWire</a>
+                </div>
+            </div>
+            
+            <div class="problem-section">
+                <div class="problem-main">
+                    <h3 class="problem-number">FTX Scandal's Lingering Damage</h3>
+                    <ul class="problem-list">
+                        <li>The 2022 collapse of FTX exposed ~$8B in insolvency, resulting in massive losses and cementing crypto's reputation as risky and scam-prone.</li>
+                    </ul>
+                </div>
+                <div class="problem-sources">
+                    <a href="https://defi-planet.com/2025/07/crypto-has-a-trust-problem-and-its-not-just-about-scams" target="_blank">DeFi Planet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Our Solution -->
+    <div class="slide">
+        <h2>Our Solution?</h2>
+        <div class="solution-content">
+            <div class="solution-intro">
+                <h3 class="solution-tagline">TrueTap makes crypto payments feel like magic.</h3>
+                <p class="solution-description">We remove the friction, fear, and fatigue by building for people first — not protocols.</p>
+            </div>
+            
+            <div class="solution-features">
+                <div class="feature-item">
+                    <h4 class="feature-title">Simple Setup</h4>
+                    <p class="feature-description">No seed phrase stress. No technical onboarding.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h4 class="feature-title">Intuitive Design</h4>
+                    <p class="feature-description">Tap phones. Send money. Done.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h4 class="feature-title">Emotional UX</h4>
+                    <p class="feature-description">Friendly, familiar, and approachable — powered by Tappy, your payment companion.</p>
+                </div>
+                
+            </div>
+            
+            <div class="solution-quote">
+                <div class="quote-content">
+                    <img src="Images/Don.png" alt="Don Norman" class="don-image">
+                    <div class="quote-text">
+                        <blockquote>
+                            Attractive things make people feel good, which in turn makes them think more creatively. That's the essence of emotional design — it invites you in.
+                        </blockquote>
+                        <cite>— Don Norman, Emotional Design</cite>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Introducing TrueTap -->
+    <div class="slide">
+        <h2>Introducing</h2>
+        <div class="introducing-content">
+            <div class="tappy-hero">
+                <img src="Images/Tappy.png" alt="Tappy - Payment Companion" class="tappy-main">
+            </div>
+            <div class="truetap-branding">
+                <h3 class="truetap-title">TrueTap</h3>
+                <p class="truetap-tagline">Payments. Reimagined.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: User Experience -->
+    <div class="slide">
+        <h2>User Experience</h2>
+        <div class="ux-content">
+            <div class="ux-image-container">
+                <img id="uxImage" src="Images/1.png" alt="User Experience Flow" class="ux-image-display">
+                <button class="ux-nav-arrow prev" onclick="previousUXImage()">‹</button>
+                <button class="ux-nav-arrow next" onclick="nextUXImage()">›</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Why Seeker Changes Everything -->
+    <div class="slide">
+        <h2>Why Seeker Changes Everything</h2>
+        <div class="seeker-content">
+            <div class="seeker-highlight">
+                <div class="seeker-formula">
+                    <div class="formula-part">
+                        <img src="Images/skr.png" alt="Seeker" class="formula-icon">
+                        <span class="formula-text">Seeker's Seed Vault</span>
+                    </div>
+                    <div class="formula-plus">+</div>
+                    <div class="formula-part">
+                        <img src="Images/Tappy.png" alt="Tappy" class="formula-icon">
+                        <span class="formula-text">Our Payment App</span>
+                    </div>
+                    <div class="formula-equals">=</div>
+                    <div class="formula-result">
+                        <img src="Images/Bank.png" alt="Bank Security" class="formula-icon">
+                        <span class="result-text">Bank grade security with Venmo grade simplicity</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="seeker-tagline">
+                <p>The first payment app designed exclusively for the Solana Seeker.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Built Native for Uncompromising Performance -->
+    <div class="slide">
+        <h2>Built Native for Uncompromising Performance</h2>
+        <div class="performance-content">
+            <div class="performance-sections">
+                <div class="performance-section">
+                    <h3 class="section-title">Speed that feels like magic</h3>
+                    <ul class="performance-list">
+                        <li>.4 second end to end payments</li>
+                        <li>Instant biometric authorization</li>
+                        <li>Zero loading screens because it should be just that simple</li>
+                    </ul>
+                </div>
+                
+                <div class="performance-section">
+                    <h3 class="section-title">Security without sacrifice</h3>
+                    <ul class="performance-list">
+                        <li>Hardware backed Seed Vault keys</li>
+                        <li>Biometric transaction signing</li>
+                        <li>Keys never leave secure element</li>
+                    </ul>
+                </div>
+                
+                <div class="performance-section">
+                    <h3 class="section-title">Scalable Day One</h3>
+                    <ul class="performance-list">
+                        <li>65,000 TPS on Solana mainnet</li>
+                        <li>Transparent fee structure of .25% for Genesis Token holders now and forever</li>
+                        <li>15,000 lines of production Kotlin</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Technical Android Architecture -->
+    <div class="slide">
+        <h2>Technical Android Architecture</h2>
+        <div class="architecture-content">
+            <div class="architecture-diagram">
+                <div class="arch-layer" data-order="1">
+                    <div class="layer-title">App Entry Point</div>
+                    <div class="layer-items">
+                        <span>MainActivity.kt + Application Class</span>
+                        <span>NavHost (Jetpack Navigation)</span>
+                        <span>Deep Link Handling + Intent Filters</span>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" data-order="2">
+                    <div class="layer-title">UI Layer (Presentation)</div>
+                    <div class="layer-items">
+                        <span>Jetpack Compose + Material3</span>
+                        <span>TrueTap Design System (animations, theming, components)</span>
+                        <span>Custom Tappy UI Components + Haptic Feedback</span>
+                        <span>State Management via Compose State</span>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" data-order="3">
+                    <div class="layer-title">ViewModel Layer (MVVM)</div>
+                    <div class="layer-items">
+                        <span>Kotlin ViewModels + StateFlow</span>
+                        <span>Kotlin Coroutines + Flow for reactive streams</span>
+                        <span>UI State Management + Event Handling</span>
+                        <span>Screen-specific ViewModels (WalletVM, PaymentVM, etc.)</span>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" data-order="4">
+                    <div class="layer-title">Domain Layer</div>
+                    <div class="layer-items">
+                        <span>Clean Architecture UseCases</span>
+                        <span>Business Logic + Validation Rules</span>
+                        <span>SendPaymentUseCase, SwapTokenUseCase, AuthUseCase</span>
+                        <span>Transaction Processing + Crypto Logic</span>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" data-order="5">
+                    <div class="layer-title">Data Layer (Repository Pattern)</div>
+                    <div class="layer-items">
+                        <span>Repositories: Wallet, Contact, Transaction, Token</span>
+                        <span>Local: Room Database + DataStore Preferences</span>
+                        <span>Remote: Solana RPC + Seed Vault APIs</span>
+                        <span>DTO ↔ Domain Model Mappers + Caching</span>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" data-order="6">
+                    <div class="layer-title">Platform + External SDK Layer</div>
+                    <div class="layer-items">
+                        <span>Solana Mobile Stack (Seed Vault SDK)</span>
+                        <span>Solana RPC Client + Web3.js Integration</span>
+                        <span>Hardware: Bluetooth, NFC, Biometrics, Camera</span>
+                        <span>Jupiter Aggregator + Metaplex + Token Extensions</span>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" data-order="7">
+                    <div class="layer-title">Shared Core / Utilities</div>
+                    <div class="layer-items">
+                        <span>Hilt Dependency Injection</span>
+                        <span>Navigation Component + Deep Links</span>
+                        <span>Logging, Analytics, Crashlytics, Feature Flags</span>
+                        <span>Security Utils + Encryption + Key Management</span>
+                    </div>
+                </div>
+                
+                <div class="arch-layer" data-order="8">
+                    <div class="layer-title">Testing / Quality Assurance</div>
+                    <div class="layer-items">
+                        <span>Unit Tests + Integration Tests</span>
+                        <span>Compose UI Tests + Screenshot Testing</span>
+                        <span>Test Dispatchers + Mock Repositories</span>
+                        <span>Automated E2E Testing + Performance Monitoring</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tech-footer">
+                <p>Built with: Kotlin 2.0 • Jetpack Compose • Hilt DI • Solana Mobile Stack • Room DB • Coroutines • Material3 • Seed Vault SDK</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: What we built? -->
+    <div class="slide">
+        <h2>What we built?</h2>
+        <div class="built-content">
+            <div class="built-grid">
+                <div class="built-item">
+                    <h3 class="built-number">1.</h3>
+                    <div class="built-details">
+                        <h4 class="built-title">Core Foundation Set Up</h4>
+                        <p class="built-description">MWA framework + Solana Seed Vault SDK integrated and proven functional.</p>
+                    </div>
+                </div>
+                
+                <div class="built-item">
+                    <h3 class="built-number">2.</h3>
+                    <div class="built-details">
+                        <h4 class="built-title">Multi-Wallet Support</h4>
+                        <p class="built-description">Solflare, Phantom, and hardware wallets via Seed Vault.</p>
+                    </div>
+                </div>
+                
+                <div class="built-item">
+                    <h3 class="built-number">3.</h3>
+                    <div class="built-details">
+                        <h4 class="built-title">TrueTap Payment System Live</h4>
+                        <p class="built-description">Contact-based payments, recurring payments, token swaps via Jupiter.</p>
+                    </div>
+                </div>
+                
+                <div class="built-item">
+                    <h3 class="built-number">4.</h3>
+                    <div class="built-details">
+                        <h4 class="built-title">Proximity Payments Working</h4>
+                        <p class="built-description">Bluetooth discovery and NFC tap-to-pay tested.</p>
+                    </div>
+                </div>
+                
+                <div class="built-item">
+                    <h3 class="built-number">5.</h3>
+                    <div class="built-details">
+                        <h4 class="built-title">Genesis NFT Perks Integrated</h4>
+                        <p class="built-description">Tiered fee system with Genesis NFT detection.</p>
+                    </div>
+                </div>
+                
+                <div class="built-item">
+                    <h3 class="built-number">6.</h3>
+                    <div class="built-details">
+                        <h4 class="built-title">End-to-End Secure Flow</h4>
+                        <p class="built-description">Biometric auth, hardware signing, no private key storage.</p>
+                    </div>
+                </div>
+                
+                <div class="built-item">
+                    <h3 class="built-number">7.</h3>
+                    <div class="built-details">
+                        <h4 class="built-title">Modern UX With Accessibility in Mind</h4>
+                        <p class="built-description">Jetpack Compose UI, light/dark/contrast modes, smooth onboarding.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: What's Next -->
+    <div class="slide">
+        <h2>What's Next</h2>
+        <div class="next-content">
+            <div class="next-grid">
+                <div class="next-item">
+                    <h3 class="next-number">1.</h3>
+                    <div class="next-details">
+                        <h4 class="next-title">NFC-to-NFC Crypto Transfers</h4>
+                        <p class="next-description">Peer-to-peer payments, no internet required.</p>
+                    </div>
+                </div>
+                
+                <div class="next-item">
+                    <h3 class="next-number">2.</h3>
+                    <div class="next-details">
+                        <h4 class="next-title">Bluetooth-Based Payments</h4>
+                        <p class="next-description">Offline, secure payment flow for proximity transactions.</p>
+                    </div>
+                </div>
+                
+                <div class="next-item">
+                    <h3 class="next-number">3.</h3>
+                    <div class="next-details">
+                        <h4 class="next-title">Contact-Based Crypto Transfers</h4>
+                        <p class="next-description">Send to a person, not a wallet address.</p>
+                    </div>
+                </div>
+                
+                <div class="next-item">
+                    <h3 class="next-number">4.</h3>
+                    <div class="next-details">
+                        <h4 class="next-title">Merchant Onboarding</h4>
+                        <p class="next-description">Businesses can accept Solana payments in seconds.</p>
+                    </div>
+                </div>
+                
+                <div class="next-item">
+                    <h3 class="next-number">5.</h3>
+                    <div class="next-details">
+                        <h4 class="next-title">In-App Wallet Creation</h4>
+                        <p class="next-description">Fully guided, secure wallet setup for new users.</p>
+                    </div>
+                </div>
+                
+                <div class="next-item">
+                    <h3 class="next-number">6.</h3>
+                    <div class="next-details">
+                        <h4 class="next-title">AAA Accessibility Push</h4>
+                        <p class="next-description">Designed to be inclusive, removing all adoption friction.</p>
+                    </div>
+                </div>
+                
+                <div class="next-item">
+                    <h3 class="next-number">7.</h3>
+                    <div class="next-details">
+                        <h4 class="next-title">Community-Driven Iteration</h4>
+                        <p class="next-description">Built fast, adapted by feedback, focused on delighting users.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Why now? -->
+    <div class="slide">
+        <h2>150,000+ Seekers Are Just The Beginning</h2>
+        <div class="why-now-content">
+            <div class="why-now-section">
+                <h3 class="section-title">Immediate Market Opportunity</h3>
+                <ul class="section-list">
+                    <li>150K Solana Seeker pre-orders — 7.5× Saga's lifetime sales</li>
+                    <li>123M monthly active Solana wallets</li>
+                    <li>$0.00025 transaction fees — enables true micropayments</li>
+                </ul>
+            </div>
+
+            <div class="section-divider">⸻</div>
+
+            <div class="why-now-section">
+                <h3 class="section-title">Rapidly Expanding Ecosystem</h3>
+                <ul class="section-list">
+                    <li>659M global crypto users — 99% CAGR</li>
+                    <li>75% of U.S. retailers expected to adopt crypto by 2026</li>
+                    <li>$2.4B mobile crypto payments market projected by 2033</li>
+                </ul>
+            </div>
+
+            <div class="section-divider">⸻</div>
+
+            <div class="why-now-section">
+                <h3 class="section-title">Developer Goldmine</h3>
+                <ul class="section-list">
+                    <li>23,000+ active crypto developers</li>
+                    <li>400K+ developers use Stripe — crypto has no equivalent</li>
+                    <li>$5.4B payment gateway market by 2031</li>
+                </ul>
+            </div>
+
+            <div class="section-divider">⸻</div>
+
+            <div class="why-now-section">
+                <h3 class="section-title">Why Now (2025)?</h3>
+                <ul class="section-list">
+                    <li>Regulatory greenlights: MiCA (EU) + US frameworks</li>
+                    <li>Solana at 65,000 TPS with instant finality</li>
+                    <li>5.6B digital wallet users globally</li>
+                </ul>
+            </div>
+
+            <div class="section-divider">⸻</div>
+
+            <div class="why-now-section final-section">
+                <h3 class="section-title">The Play</h3>
+                <div class="play-content">
+                    <p class="play-main" style="color: black; font-weight: normal;">Be the Stripe + Venmo of Solana.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Closing Remarks -->
+    <div class="slide">
+        <h2>Closing Remarks</h2>
+        <div class="closing-content">
+            <div class="demo-section">
+                <h3 class="demo-title">GitHub</h3>
+                <div style="text-align: center;">
+                    <a href="https://github.com/True-Tap/solana-seeker-app" target="_blank" style="font-family: 'PixeloidSans', sans-serif; font-size: 18px; color: #FF6B35; text-decoration: none;">https://github.com/True-Tap/solana-seeker-app</a>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h3 class="demo-title">Questions?</h3>
+                <p style="font-family: 'PixeloidSans', sans-serif; font-size: 18px; color: black; margin: 15px 0; text-align: center;">Let's discuss how TrueTap can revolutionize payments on Solana.</p>
+                <p style="font-family: 'PixeloidSans', sans-serif; font-size: 16px; color: black; text-align: center;">Contact: <a href="mailto:TrueTap.Team@gmail.com" style="color: #FF6B35; text-decoration: none;">TrueTap.Team@gmail.com</a></p>
+            </div>
+
+            <div class="final-tagline">
+                <p>Now that's payments. Reimagined.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.nav-dot');
+        const totalSlides = slides.length;
+
+        // Initialize body class for tappy easter egg
+        document.body.classList.add('on-first-slide');
+
+        function goToSlide(slideIndex) {
+            const previousSlide = currentSlide;
+            
+            // Remove active from current slide and dot
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            // Set new current slide
+            currentSlide = slideIndex;
+            
+            // Add active to new slide and dot
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+            
+            // Update dot image based on navigation direction
+            updateDotImage(previousSlide, currentSlide);
+            
+            // Show/hide game dot based on current slide
+            updateGameDot();
+            
+            // Update body class for tappy easter egg
+            if (currentSlide === 0) {
+                document.body.classList.add('on-first-slide');
+            } else {
+                document.body.classList.remove('on-first-slide');
+            }
+            
+            updateNavigationArrows();
+        }
+
+        function updateDotImage(previousSlide, newSlide) {
+            const activeDot = dots[newSlide];
+            const dotImg = activeDot.querySelector('img');
+            
+            // First slide (0) or last slide (11) - use Tappy
+            if (newSlide === 0 || newSlide === totalSlides - 1) {
+                dotImg.src = 'Images/Tappy.png';
+            }
+            // Going forward (right) - use FlappyTappyR
+            else if (newSlide > previousSlide) {
+                dotImg.src = 'Images/FlappyTappyR.png';
+            }
+            // Going backward (left) - use FlappyTappyL
+            else if (newSlide < previousSlide) {
+                dotImg.src = 'Images/FlappyTappyL.png';
+            }
+        }
+
+        function updateGameDot() {
+            const gameDot = document.querySelector('.game-dot');
+            // Show game dot only on last slide (slide 11, index 11)
+            if (currentSlide === totalSlides - 1) {
+                gameDot.style.display = 'block';
+            } else {
+                gameDot.style.display = 'none';
+            }
+        }
+
+        function startFlappyGame() {
+            document.getElementById('flappyGame').style.display = 'block';
+            initFlappyGame();
+        }
+
+        function exitFlappyGame() {
+            document.getElementById('flappyGame').style.display = 'none';
+            
+            // Reset game state
+            gameRunning = false;
+            if (gameLoop) {
+                clearInterval(gameLoop);
+            }
+            // Remove event listeners
+            if (canvas) {
+                canvas.removeEventListener('click', flap);
+            }
+            // Remove game over buttons if they exist
+            const gameOverButtons = document.querySelector('.game-over-buttons');
+            if (gameOverButtons) {
+                gameOverButtons.remove();
+            }
+        }
+
+        function restartGame() {
+            // Reset game state
+            gameRunning = false;
+            if (gameLoop) {
+                clearInterval(gameLoop);
+            }
+            // Remove old event listeners
+            canvas.removeEventListener('click', flap);
+            // Remove game over buttons if they exist
+            const gameOverButtons = document.querySelector('.game-over-buttons');
+            if (gameOverButtons) {
+                gameOverButtons.remove();
+            }
+            // Start new game
+            initFlappyGame();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                goToSlide(currentSlide + 1);
+            } else if (currentSlide === totalSlides - 1) {
+                // On last slide, right arrow starts the game
+                startFlappyGame();
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+
+        function updateNavigationArrows() {
+            const leftArrow = document.getElementById('nav-arrow-left');
+            const rightArrow = document.getElementById('nav-arrow-right');
+            
+            // Disable left arrow on first slide
+            if (currentSlide === 0) {
+                leftArrow.classList.add('disabled');
+            } else {
+                leftArrow.classList.remove('disabled');
+            }
+            
+            // Right arrow is always enabled (on last slide it launches game)
+            rightArrow.classList.remove('disabled');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            // Don't interfere with game controls
+            if (gameRunning) return;
+            
+            if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+                nextSlide();
+            }
+            if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+                previousSlide();
+            }
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) previousSlide();
+        }
+
+        // FlappyTappy Game Logic
+        let gameRunning = false;
+        let canvas, ctx;
+        let player, pipes, coins, score, coinCount, highScore;
+        let gameLoop;
+
+        function initFlappyGame() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            
+            // Set canvas to full screen size
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            // Game state
+            gameRunning = true;
+            score = 0;
+            coinCount = 0;
+            
+            // Initialize high score from localStorage or default to 0
+            highScore = localStorage.getItem('flappyTappyHighScore') || 0;
+            
+            // Reset UI displays
+            document.getElementById('score').textContent = '0';
+            document.getElementById('highScore').textContent = highScore;
+            
+            // Player (FlappyTappyR)
+            player = {
+                x: 250,
+                y: canvas.height / 2,
+                width: 45,
+                height: 45,
+                velocity: 0,
+                gravity: 0.5,
+                jump: -8,
+                image: new Image()
+            };
+            player.image.src = 'Images/FlappyTappyR.png';
+            
+            // Pipes and coins arrays
+            pipes = [];
+            coins = [];
+            
+            // Load SOL coin image
+            const solImage = new Image();
+            solImage.src = 'Images/SOL.png';
+            
+            // Game controls
+            canvas.addEventListener('click', flap);
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' && gameRunning) {
+                    e.preventDefault();
+                    flap();
+                }
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (gameRunning) {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                }
+            });
+            
+            // Start game loop
+            gameLoop = setInterval(updateGame, 1000/60); // 60 FPS
+            
+            // Create first pipe
+            createPipe();
+        }
+
+        function flap() {
+            if (gameRunning) {
+                player.velocity = player.jump;
+            }
+        }
+
+        function createPipe() {
+            // Progressive difficulty: gap shrinks and positioning becomes more challenging
+            const baseGap = 200;
+            const gapReduction = Math.min(score * 3, 50); // Reduce gap by 3px per point, max 50px reduction
+            const gap = Math.max(baseGap - gapReduction, 120); // Minimum gap of 120px
+            
+            const minHeight = 80;
+            const maxHeight = canvas.height - gap - minHeight;
+            
+            // Progressive positioning: starts centered, becomes more extreme
+            const difficulty = Math.min(score / 10, 1); // 0 to 1 based on score
+            const centerBias = 1 - difficulty; // High center bias at start, low at high scores
+            
+            let topHeight;
+            if (Math.random() < centerBias) {
+                // Center-biased positioning (easier)
+                const center = canvas.height / 2 - gap / 2;
+                const variation = (maxHeight - minHeight) * 0.3; // Small variation around center
+                topHeight = center + (Math.random() - 0.5) * variation;
+            } else {
+                // Full random positioning (harder)
+                topHeight = Math.random() * (maxHeight - minHeight) + minHeight;
+            }
+            
+            // Ensure topHeight stays within bounds
+            topHeight = Math.max(minHeight, Math.min(topHeight, maxHeight));
+            
+            pipes.push({
+                x: canvas.width - 100,
+                topHeight: topHeight,
+                bottomY: topHeight + gap,
+                bottomHeight: canvas.height - (topHeight + gap),
+                width: 60,
+                passed: false
+            });
+            
+            // 20% chance to spawn a coin between pipes
+            if (Math.random() > 0.8) {
+                coins.push({
+                    x: canvas.width - 100 + 30 - 35, // Center coin in pipe (pipe x + pipe width/2 - coin width/2)
+                    y: topHeight + gap/2 - 35, // Dead center of gap, accounting for coin size
+                    width: 70,
+                    height: 70,
+                    collected: false,
+                    image: new Image()
+                });
+                coins[coins.length - 1].image.src = 'Images/SOL.png';
+            }
+        }
+
+        function updateGame() {
+            if (!gameRunning) return;
+            
+            // Clear canvas (background is handled by CSS)
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Update player
+            player.velocity += player.gravity;
+            player.y += player.velocity;
+            
+            // Draw player (FlappyTappyR)
+            if (player.image.complete) {
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
+            }
+            
+            // Update and draw pipes
+            for (let i = pipes.length - 1; i >= 0; i--) {
+                const pipe = pipes[i];
+                pipe.x -= 8;
+                
+                // Draw pipes with more pipe-like appearance
+                // Top pipe
+                ctx.fillStyle = '#2E7D32'; // Darker green
+                ctx.fillRect(pipe.x, 0, pipe.width, pipe.topHeight);
+                // Pipe cap (wider top)
+                ctx.fillStyle = '#388E3C';
+                ctx.fillRect(pipe.x - 5, pipe.topHeight - 20, pipe.width + 10, 20);
+                
+                // Bottom pipe
+                ctx.fillStyle = '#2E7D32';
+                ctx.fillRect(pipe.x, pipe.bottomY, pipe.width, pipe.bottomHeight);
+                // Pipe cap (wider bottom)
+                ctx.fillStyle = '#388E3C';
+                ctx.fillRect(pipe.x - 5, pipe.bottomY, pipe.width + 10, 20);
+                
+                // Pipe highlights for 3D effect
+                ctx.fillStyle = '#4CAF50';
+                ctx.fillRect(pipe.x + 2, 0, 3, pipe.topHeight);
+                ctx.fillRect(pipe.x + 2, pipe.bottomY, 3, pipe.bottomHeight);
+                
+                // Pipe borders for pixel effect
+                ctx.strokeStyle = '#006400';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(pipe.x, 0, pipe.width, pipe.topHeight);
+                ctx.strokeRect(pipe.x, pipe.bottomY, pipe.width, pipe.bottomHeight);
+                
+                // Check collision with pipes (more forgiving collision detection)
+                // Add 3px margin to make collision more pixel-accurate
+                if (player.x + 3 < pipe.x + pipe.width &&
+                    player.x + player.width - 3 > pipe.x &&
+                    (player.y + 3 < pipe.topHeight || player.y + player.height - 3 > pipe.bottomY)) {
+                    gameOver();
+                }
+                
+                // Score point when passing pipe
+                if (!pipe.passed && pipe.x + pipe.width < player.x) {
+                    pipe.passed = true;
+                    score++;
+                    document.getElementById('score').textContent = score;
+                }
+                
+                // Remove off-screen pipes
+                if (pipe.x + pipe.width < 0) {
+                    pipes.splice(i, 1);
+                }
+            }
+            
+            // Update and draw coins
+            for (let i = coins.length - 1; i >= 0; i--) {
+                const coin = coins[i];
+                if (!coin.collected) {
+                    coin.x -= 8;
+                    
+                    // Draw coin (SOL) only if game is running
+                    if (coin.image.complete && gameRunning) {
+                        ctx.imageSmoothingEnabled = false;
+                        ctx.drawImage(coin.image, coin.x, coin.y, coin.width, coin.height);
+                    }
+                    
+                    // Check collision with coin
+                    if (player.x < coin.x + coin.width &&
+                        player.x + player.width > coin.x &&
+                        player.y < coin.y + coin.height &&
+                        player.y + player.height > coin.y) {
+                        coin.collected = true;
+                        coinCount++;
+                        score += 5; // Bonus points for coins
+                        document.getElementById('score').textContent = score;
+                    }
+                    
+                    // Remove off-screen coins
+                    if (coin.x + coin.width < 0) {
+                        coins.splice(i, 1);
+                    }
+                } else {
+                    coins.splice(i, 1);
+                }
+            }
+            
+            // Create new pipes
+            if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 600) {
+                createPipe();
+            }
+            
+            // Check ground/ceiling collision
+            if (player.y + player.height > canvas.height || player.y < 0) {
+                gameOver();
+            }
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            clearInterval(gameLoop);
+            
+            // Update high score if current score is higher
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('flappyTappyHighScore', highScore);
+                document.getElementById('highScore').textContent = highScore;
+            }
+            
+            // Draw game over screen
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 48px PixeloidSans, monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('Game Over!', canvas.width/2, canvas.height/2 - 60);
+            
+            ctx.font = 'bold 32px PixeloidSans, monospace';
+            ctx.fillText(`Final Score: ${score}`, canvas.width/2, canvas.height/2 - 10);
+            
+            ctx.font = 'bold 24px PixeloidSans, monospace';
+            ctx.fillText(`SOL Collected: ${coinCount}`, canvas.width/2, canvas.height/2 + 30);
+            
+            // Show game over buttons centered below SOL collected text
+            if (!document.querySelector('.game-over-buttons')) {
+                const gameOverButtons = document.createElement('div');
+                gameOverButtons.className = 'game-over-buttons';
+                gameOverButtons.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, 60px);
+                    display: flex;
+                    gap: 20px;
+                    z-index: 1000;
+                    justify-content: center;
+                `;
+                gameOverButtons.innerHTML = `
+                    <button class="game-button" onclick="restartGame()">Play Again</button>
+                    <button class="game-button" onclick="exitFlappyGame()">Return to Slides</button>
+                `;
+                document.querySelector('.game-ui').appendChild(gameOverButtons);
+            }
+        }
+
+        // UX Carousel functionality
+        let currentUXSlide = 0;
+        const uxSlides = document.querySelectorAll('.ux-slide');
+        const carouselDots = document.querySelectorAll('.carousel-dot');
+        const totalUXSlides = uxSlides.length;
+
+        function goToUXSlide(slideIndex) {
+            // Remove active from current slide and dot
+            uxSlides[currentUXSlide].classList.remove('active');
+            carouselDots[currentUXSlide].classList.remove('active');
+            
+            // Set new current slide
+            currentUXSlide = slideIndex;
+            
+            // Add active to new slide and dot
+            uxSlides[currentUXSlide].classList.add('active');
+            carouselDots[currentUXSlide].classList.add('active');
+        }
+
+        function nextUXSlide() {
+            const nextIndex = (currentUXSlide + 1) % totalUXSlides;
+            goToUXSlide(nextIndex);
+        }
+
+        function previousUXSlide() {
+            const prevIndex = (currentUXSlide - 1 + totalUXSlides) % totalUXSlides;
+            goToUXSlide(prevIndex);
+        }
+
+        // Auto-advance carousel every 5 seconds when on UX slide
+        let uxCarouselInterval;
+        
+        function startUXCarouselAutoplay() {
+            uxCarouselInterval = setInterval(() => {
+                if (currentSlide === 4) { // UX slide is index 4
+                    nextUXSlide();
+                }
+            }, 5000);
+        }
+
+        function stopUXCarouselAutoplay() {
+            if (uxCarouselInterval) {
+                clearInterval(uxCarouselInterval);
+            }
+        }
+
+        // Start autoplay when page loads
+        startUXCarouselAutoplay();
+
+        // Initialize
+        updateNavigationArrows();
+        updateGameDot();
+        // Set initial dot image (first slide uses Tappy)
+        const initialDot = dots[0];
+        const initialImg = initialDot.querySelector('img');
+        initialImg.src = 'Images/Tappy.png';
+
+        // Simple UX Image Navigation
+        let currentUXImageIndex = 0;
+        const uxImages = ['Images/1.png', 'Images/2.png', 'Images/3.png', 'Images/4.png'];
+        let uxAutoRotateInterval;
+        
+        function nextUXImage() {
+            currentUXImageIndex = (currentUXImageIndex + 1) % uxImages.length;
+            document.getElementById('uxImage').src = uxImages[currentUXImageIndex];
+        }
+        
+        function previousUXImage() {
+            currentUXImageIndex = (currentUXImageIndex - 1 + uxImages.length) % uxImages.length;
+            document.getElementById('uxImage').src = uxImages[currentUXImageIndex];
+        }
+        
+        // Auto-rotate UX images every 3 seconds
+        function startUXAutoRotate() {
+            uxAutoRotateInterval = setInterval(nextUXImage, 3000);
+        }
+        
+        function stopUXAutoRotate() {
+            clearInterval(uxAutoRotateInterval);
+        }
+        
+        // Start auto-rotation when page loads
+        startUXAutoRotate();
+    </script>
+</body>
+</html>
